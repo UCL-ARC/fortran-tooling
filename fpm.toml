@@ -8,22 +8,11 @@ copyright = "Copyright 2025, UCL ARC"
 [fortran]
 source-form = "free"
 
-[profiles.gfortran.linux]
-flags = "-ffree-line-length-none"
-
-[build]
-auto-executables = true
-auto-tests = true
-auto-examples = true
-
-[install]
-library = false
-
 [dev-dependencies]
 test-drive.git = "https://github.com/fortran-lang/test-drive"
 test-drive.tag = "v0.5.0"
-garden.git = "https://gitlab.com/connoraird/garden"
-garden.tag = "8-dp-integer-assertions"
+garden.git = "https://gitlab.com/everythingfunctional/garden"
+garden.tag = "main"
 
 [[executable]]
 name = "poisson"
