@@ -1,6 +1,6 @@
 program garden_main
     use garden, only : test_item_t, test_that, run_tests
-    use garden_mesh_generator, only : test_assert_eq_double_mat
+    use garden_mesh_generator, only : test_calculate_mesh_parameters
     implicit none
 
     if (.not.run()) stop 1
@@ -12,7 +12,7 @@ contains
         type(test_item_t) :: tests
         type(test_item_t) :: individual_tests(1)
 
-        individual_tests(1) = test_assert_eq_double_mat()
+        individual_tests(1) = test_calculate_mesh_parameters()
         
         tests = test_that(individual_tests)
 
