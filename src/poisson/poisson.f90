@@ -103,22 +103,23 @@ contains
             implicit none
 
             integer, intent(in) :: file_io
-            character*120, intent(in) :: file_name
+            character(len=:), allocatable, intent(in) :: file_name
             character*3, intent(in) :: status
 
             integer :: iostat
 
-            print *, trim(file_name)
+            print *, file_name
             
             open (unit=file_io,             &
-                  file=trim(file_name),     &
+                  file=file_name,     &
                   status=status,            &
                   IOSTAT=iostat)
 
             if( iostat .ne. 0) then
-                  write(*,'(a)') ' *** Error when opening '//trim(file_name)
+                  write(*,'(a)') ' *** Error when opening '//file_name
+                  stop
             else
-                  write(*,'(/,a)') ' *** '//trim(file_name)//' opened'
+                  write(*,'(/,a)') ' *** '//file_name//' opened'
             end if
       end subroutine open_file
 

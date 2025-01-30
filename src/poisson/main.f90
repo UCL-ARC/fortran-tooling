@@ -9,23 +9,33 @@ program main
                      vb1(mxc), vb2(mxc), vb(3,mxc), element_stiffness(6,mxe),             &
                      pre_conditioning_matrix(mxp)
     integer       :: fname_io = 100, fname_out_io = 101
-    character*120 :: input_fname, output_fname
+
+    !! CLI inputs
+    integer                       :: argl
+    character(len=:), allocatable :: a, input_fname, output_fname
 
     !!
-    !! *** Asks for I/O file names
+    !! *** Check for input from user
     !!
-    write(*,'(10(/),7(a,/),//)')                    &
-        '        *********************************', &
-        '        ***                           ***', &
-        '        ***    *  P O I S S O N  *    ***', &
-        '        ***                           ***', &
-        '        ***  PCG-FEM HEAT CONDUCTION  ***', &
-        '        ***                           ***', &
-        '        *********************************' 
-    input_fname = textread(' Enter input file name : ')
-    output_fname = trim(input_fname)//'.out'
+    if (command_argument_count() == 1) then
+        call get_command_argument(1, length=argl)
+        allocate(character(argl) :: input_fname)
+        call get_command_argument(1, input_fname)
+        allocate(character(argl + 4) :: output_fname)
+        output_fname = input_fname//'.out'
+    else
+        write(*,'(A)') "Error: Invalid input"
+        call get_command_argument(0, length=argl)
+        allocate(character(argl) :: a)
+        call get_command_argument(0, a)
+        write(*,'(A,A,A)') "Usage: ", a, " <mesh_file_name>"
+        deallocate(a)
+        stop
+    end if
+
     call open_file(input_fname, 'old', fname_io)
     call open_file(output_fname, 'new', fname_out_io)
+    
 
     !!
     !! *** Reads the triangular mesh and problem constants: Kx,Ky,Q,fp,q
