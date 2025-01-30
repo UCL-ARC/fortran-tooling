@@ -146,6 +146,7 @@ contains
         
         if( iostat .ne. 0) then
             write(*,'(a)') ' *** Error when opening '//trim(file_name)
+            stop
         else
             write(*,'(/,a)') ' *** '//trim(file_name)//' opened'
         end if
