@@ -110,9 +110,9 @@ contains
 
             print *, file_name
             
-            open (unit=file_io,             &
-                  file=file_name,     &
-                  status=status,            &
+            open (unit=file_io,   &
+                  file=file_name, &
+                  status=status,  &
                   IOSTAT=iostat)
 
             if( iostat .ne. 0) then
