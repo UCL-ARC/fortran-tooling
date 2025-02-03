@@ -27,6 +27,7 @@ module garden_mesh_generator
     end interface
 
 contains
+    !> The test suite for the mesh_generator
     function test_mesh_generator() result(tests)
         implicit none 
         type(test_item_t) :: tests
@@ -46,7 +47,7 @@ contains
                 ])
     end function
 
-    !> A unit test template for the calculate_mesh_parameters subroutine with valid inputs.
+    !> A unit test for the calculate_mesh_parameters subroutine with valid inputs.
     !! 
     !! @param inputs - An instance of the valid_calculate_mesh_parameters_inout_t containing function
     !!                 inputs and expected outputs.
@@ -68,10 +69,10 @@ contains
                 actual_num_boundary_nodes, actual_num_elements)
 
             result_ = &
-                assert_equals(actual_num_edges_per_boundary, input%expected_num_edges_per_boundary).and.&
-                assert_equals(actual_num_nodes, input%expected_num_nodes).and.&
-                assert_equals(actual_num_boundary_nodes, input%expected_num_boundary_nodes).and.&
-                assert_equals(actual_num_elements, input%expected_num_elements)
+                assert_equals(input%expected_num_edges_per_boundary, actual_num_edges_per_boundary).and.&
+                assert_equals(input%expected_num_nodes, actual_num_nodes).and.&
+                assert_equals(input%expected_num_boundary_nodes, actual_num_boundary_nodes).and.&
+                assert_equals(input%expected_num_elements, actual_num_elements)
         class default
             result_ = fail("Didn't get mesh_parameters_inout_t")
         end select
