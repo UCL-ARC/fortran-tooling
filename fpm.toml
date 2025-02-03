@@ -11,8 +11,8 @@ source-form = "free"
 [dev-dependencies]
 test-drive.git = "https://github.com/fortran-lang/test-drive"
 test-drive.tag = "v0.5.0"
-garden.git = "https://gitlab.com/everythingfunctional/garden"
-garden.tag = "main"
+veggies.git = "https://gitlab.com/everythingfunctional/veggies"
+veggies.tag = "main"
 
 [[executable]]
 name = "poisson"
@@ -30,6 +30,6 @@ source-dir = "testing/test-drive"
 main = "main.f90"
 
 [[test]]
-name = "garden-mesh-generator"
-source-dir = "testing/garden"
+name = "veggies-mesh-generator"
+source-dir = "testing/veggies"
 main = "main.f90"

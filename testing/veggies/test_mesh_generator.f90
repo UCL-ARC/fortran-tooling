@@ -1,6 +1,6 @@
-module garden_mesh_generator
+module veggies_mesh_generator
     use, intrinsic :: iso_fortran_env
-    use garden, only: &
+    use veggies, only: &
             assert_equals, &
             describe, &
             example_t, &
@@ -132,4 +132,4 @@ contains
         valid_calculate_mesh_parameters_inout%expected_num_boundary_nodes = expected_num_boundary_nodes
         valid_calculate_mesh_parameters_inout%expected_num_elements = expected_num_elements
     end function
-end module garden_mesh_generator
+end module veggies_mesh_generator
