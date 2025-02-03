@@ -1,6 +1,6 @@
-module garden_poisson
+module veggies_poisson
     use poisson, only : open_file, inp, mxp, mxe, mxb, mxc
-    use garden, only: &
+    use veggies, only: &
             assert_equals, &
             describe, &
             example_t, &

@@ -1,7 +1,7 @@
-program garden_main
-    use garden, only : test_item_t, test_that, run_tests
-    use garden_mesh_generator, only : test_mesh_generator
-    use garden_poisson, only : test_poisson
+program veggies_main
+    use veggies, only : test_item_t, test_that, run_tests
+    use veggies_mesh_generator, only : test_mesh_generator
+    use veggies_poisson, only : test_poisson
     implicit none
 
     if (.not.run()) stop 1
@@ -20,4 +20,4 @@ contains
 
         passed = run_tests(tests)
     end function run
-end program garden_main
+end program veggies_main
