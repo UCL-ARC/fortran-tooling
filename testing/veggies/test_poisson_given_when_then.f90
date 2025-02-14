@@ -50,7 +50,7 @@ contains
                 "the data file square_mesh_10_5 exists", &
                 data_file_state_t(), &
                 [ when( &
-                        "the data file is loaded", &
+                        "the data file is loaded with poisson::inp", &
                         load_data_file, &
                         [ then__("the file will be open", check_file_is_open) &
                         , then__("element_to_node will be as expected", check_element_to_node) &
