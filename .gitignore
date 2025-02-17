@@ -2,3 +2,5 @@
 *.mod
 *.DS_Store
 build/
+build-cmake/
+*Temporary

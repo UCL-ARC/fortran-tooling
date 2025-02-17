@@ -35,6 +35,8 @@ There are two src codes within this repository [mesh_generator](./src/mesh_gener
 
 ## Building
 
+A bash script is provided for building ([build.sh](./build.sh)). However, there are some instructions below for building without this script.
+
 ### CMake
 We are utilising cmake (see [CMakeLists.txt](./CMakeLists.txt)) for our build system. Therefore, to build this repository, please run the following
 ```sh
@@ -42,8 +44,7 @@ cmake -B build
 ``` 
 This will create a [build](./build) directory from within which the project can be compiled...
 ```sh
-cd build
-make
+cmake --build build
 ```
 This will produce executables for the two src codes, `fortran-tooling-mesh-generator` and `fortran-tooling-poisson`.
 
@@ -78,7 +79,7 @@ fpm run poisson -- <path_to_mesh_file>
 ```
 
 ## Running the tests
-If you have built using CMake, you can run the tests by running the following from within the `build` directory.
+If you have built using CMake, you can run the tests by running the following from within the `build-cmake` directory.
 ```sh
 ctest
 ```

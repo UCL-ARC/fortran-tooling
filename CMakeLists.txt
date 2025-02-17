@@ -26,3 +26,8 @@ enable_testing()
 #             test-drive               #
 #--------------------------------------#
 add_subdirectory("testing/test-drive")
+
+#--------------------------------------#
+#               pFUnit                 #
+#--------------------------------------#
+add_subdirectory("testing/pFUnit")
