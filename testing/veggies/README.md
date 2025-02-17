@@ -7,6 +7,7 @@ will support parallel features implicitly, and any need for two separate package
 
 ## Running the tests
 
+The veggies tests will run with the rest of the fpm [tests](../README.md#running-the-tests) in the repo.
 
 ## Features matrix
 
