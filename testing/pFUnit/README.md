@@ -5,9 +5,16 @@ pFUnit uses several advanced Fortran features, especially object oriented capabi
 
 This framework was originally created by developers from NASA and NGC TASC.
 
+## Running the tests
+
+>Note: Before being able to run these tests you must have pFUnit cloned and built locally. To do this follow the instructions on the [pFUnit repo](https://github.com/Goddard-Fortran-Ecosystem/pFUnit)
+
+The pFUnit tests will run with the rest of the cmake [tests](../README.md#running-the-tests) in the repo.
+
 ## Pros
 
 ## Cons
+- pFUnit must be built locally before it can be used within this project
 - Due to the heavy use of F2003 object oriented features and a smattering of F2008 features, only relatively recent Fortran compilers are able to correctly build pFUnit. 
 
 ## Resources
