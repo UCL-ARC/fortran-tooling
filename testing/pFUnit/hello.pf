@@ -1,7 +1,0 @@
-@test 
-subroutine test_hello()
-    use funit
-    implicit none
-
-    @assertEqual("Hello", "Hello", "Greetings should match")
-end subroutine
