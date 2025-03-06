@@ -61,7 +61,7 @@ contains
         integer(kind=int64), dimension(3, num_elements), intent(inout) :: elements
         integer(kind=int64), dimension(3, num_boundary_nodes), intent(inout) :: boundary_edges
         real(kind=real64), dimension(2, num_nodes), intent(inout) :: nodes
-        
+
         integer :: num_nodes_per_boundary, bottom_left_node, counter, i, j
 
         num_nodes_per_boundary = num_edges_per_boundary + 1
@@ -89,13 +89,13 @@ contains
                 elements(3, counter + num_edges_per_boundary) = bottom_left_node + num_nodes_per_boundary
 
                 counter = counter + 1
-            end do 
+            end do
             counter = counter + num_edges_per_boundary
         end do
 
         ! If we are along the bottom boundary
         do i = 1, num_edges_per_boundary
-            ! bottom boundary 
+            ! bottom boundary
             boundary_edges(1, i) = i       ! left node
             boundary_edges(2, i) = i + 1   ! right node
             boundary_edges(3, i) = i       ! element
@@ -130,7 +130,7 @@ contains
         integer :: iostat
         integer :: i, num_sets, num_dirichlet_boundary_conditions, num_neumann_boundary_conditions
 
-        ! Baked in defaults 
+        ! Baked in defaults
         num_sets = 1
         num_dirichlet_boundary_conditions = 1
         num_neumann_boundary_conditions = 0
@@ -138,49 +138,49 @@ contains
         file_name = "square_mesh"
         file_io = 100
 
-        ! Write outpout 
+        ! Write outpout
         open (unit=file_io, &
         file=file_name,     &
         status="replace",   &
         IOSTAT=iostat)
-        
+
         if( iostat .ne. 0) then
             write(*,'(a)') ' *** Error when opening '//trim(file_name)
             stop
         else
             write(*,'(/,a)') ' *** '//trim(file_name)//' opened'
         end if
-        
+
         write(file_io,*) "! num_nodes, num_elements, num_boundary_points, num_sets, num_dirichlet_boundary_conditions, num_neumann_boundary_conditions"
         write(file_io,*) num_nodes, num_elements, num_boundary_nodes, num_sets, num_dirichlet_boundary_conditions, num_neumann_boundary_conditions
-        
+
         write(file_io,*) "! jb,vb(1,jb),vb(2,jb),vb(3,jb) - as many lines as num_sets"
         write(file_io,*) 1, 1, 1, 1
-        
+
         write(file_io,*) "! jb,vb1(jb) - as many lines as num_dirichlet_boundary_conditions"
         write(file_io,*) 1, 0
-        
+
         write(file_io,*) "! jb,vb2(jb) - as many lines as num_neumann_boundary_conditions"
-        
+
         write(file_io,*) "! jp,coordinates(1,jp),coordinates(2,jp) - as many lines as num_nodes"
         do i = 1, num_nodes
             write(file_io,*) i, nodes(1, i), nodes(2, i)
-        end do 
-        
+        end do
+
         write(file_io,*) "! je,element_to_node(1,je),element_to_node(2,je),element_to_node(3,je),vb_index(je) - as many lines as num_elements"
         do i = 1, num_elements
             write(file_io,*) i, elements(1, i), elements(2, i), elements(3, i), 1
-        end do 
-        
+        end do
+
         write(file_io,*) "! boundary_node_num(1,ib),boundary_node_num(2,ib) - as many lines as num_boundary_points"
         do i = 1, num_boundary_nodes
             write(file_io,*) i, 1
-        end do 
-        
+        end do
+
         write(file_io,*) "! num_side_nodes(1,ib),num_side_nodes(2,ib),num_side_nodes(3,ib),num_side_nodes(4,ib) - as many lines as num_boundary_points"
         do i = 1, num_boundary_nodes
             write(file_io,*) boundary_edges(1, i), boundary_edges(2, i), boundary_edges(3, i), 0
-        end do 
+        end do
     end subroutine write_mesh_to_file
-        
+
 end module mesh_generator

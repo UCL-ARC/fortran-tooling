@@ -90,8 +90,8 @@ module poisson
       implicit none
 
       integer, parameter :: mxp  = 10000
-      integer, parameter :: mxe  = 30000 
-      integer, parameter :: mxb  =  5000 
+      integer, parameter :: mxe  = 30000
+      integer, parameter :: mxb  =  5000
       integer, parameter :: mxc  =   100
 
 contains
@@ -104,6 +104,8 @@ contains
             character*3, intent(in) :: status
 
             integer :: iostat
+
+            print *, file_name
 
             open (unit=file_io,   &
                   file=file_name, &
@@ -155,22 +157,22 @@ contains
                   icheck = 1
             endif
             mx = max(num_sets,num_dirichlet_boundary_conditions,num_neumann_boundary_conditions)
-            if( mx .gt. mxc ) then  
+            if( mx .gt. mxc ) then
                   write(*,'(a,i6)') ' *** Increase mxc to: ',mx
                   icheck = 1
             endif
             if( icheck .eq. 1 ) STOP
 
             !!
-            !! *** Reads (Kx,Ky,Q) sets 
+            !! *** Reads (Kx,Ky,Q) sets
             !!
             read(file_io,'(a)') text
             do ib=1,num_sets
                   read(file_io,*) jb,vb(1,jb),vb(2,jb),vb(3,jb)
             end do
-            
+
             !!
-            !! *** Reads (fp) sets 
+            !! *** Reads (fp) sets
             !!
             read(file_io,'(a)') text
             do ib=1,num_dirichlet_boundary_conditions
@@ -178,15 +180,15 @@ contains
             end do
 
             !!
-            !! *** Reads (q) sets 
+            !! *** Reads (q) sets
             !!
             read(file_io,'(a)') text
             do ib=1,num_neumann_boundary_conditions
                   read(file_io,*) jb,vb2(jb)
             end do
-            
+
             !!
-            !! *** Reads coordinates 
+            !! *** Reads coordinates
             !!
             read(file_io,'(a)') text
             do ip=1,num_nodes
@@ -195,39 +197,39 @@ contains
 
             !!
             !! *** Reads element-to-node array + index to (Kx,Ky,Q) set
-            !! 
+            !!
             read(file_io,'(a)') text
             do ie=1,num_elements
                   read(file_io,*) je,element_to_node(1,je),element_to_node(2,je),element_to_node(3,je),vb_index(je)
-            end do 
-            
+            end do
+
             !!
             !! *** Boundary points: I1,I2 = boundary_node_num(1:2,1:num_boundary_points)
             !!
             !!     - I1 ......... Number of the boundary point
             !!     - I2 ......... I2 = 0 No Dirichlet BC is applied
-            !!                    I2 > 0 I2 points at the position in "vb1" containing 
+            !!                    I2 > 0 I2 points at the position in "vb1" containing
             !!                    the prescribed value of (fp).
-            !! 
+            !!
             read(file_io,'(a)') text
             do ib=1,num_boundary_points
                   read(file_io,*) boundary_node_num(1,ib),boundary_node_num(2,ib)
-            end do 
-            
+            end do
+
             !!
             !! *** Boundary sides: I1,I2,IE,IK = num_side_nodes(1:4,1:num_boundary_points)
             !!
             !!     - (I1,I2) .... Numbers of the nodes on the side
             !!     - IE ......... Element containing the side
-            !!     - IK ......... IK = 0 No Neumann BC is applied. 
-            !!                    IK > 0 IK Points at the position in "vb2" containing 
-            !!                    the prescribed value of (q). The values (Kx,Ky) are 
+            !!     - IK ......... IK = 0 No Neumann BC is applied.
+            !!                    IK > 0 IK Points at the position in "vb2" containing
+            !!                    the prescribed value of (q). The values (Kx,Ky) are
             !!                    those corresponding to element IE.
             !!
             read(file_io,'(a)') text
             do ib=1,num_boundary_points
                   read(file_io,*) num_side_nodes(1,ib),num_side_nodes(2,ib),num_side_nodes(3,ib),num_side_nodes(4,ib)
-            end do 
+            end do
 
       end subroutine read_input_file
 
@@ -255,7 +257,7 @@ contains
                             s2y, s3x, s3y, al, d1, d2, d3, f1, f2, f3, rh0, beta, energy_old, energy,     &
                             eta, res, ad
             logical :: is_converged
-            
+
             tol = eps*eps
             nit = 100*num_nodes
 
@@ -266,8 +268,8 @@ contains
             nodal_value_of_f(:num_nodes)=0.0
             f_increment(:num_nodes) = 0.0
             pre_conditioning_matrix(:num_nodes) = 0.0
-            rhs_vector(:num_nodes) = 0.0 
-            
+            rhs_vector(:num_nodes) = 0.0
+
             !!
             !! *** Dirichlet type b.c.
             !!
@@ -279,7 +281,7 @@ contains
                         nodal_value_of_f(ip) = va
                         boundary_index(ip) = 0
                   endif
-            end do 
+            end do
 
             do ie=1,num_elements
                   ip1      = element_to_node(1,ie)
@@ -306,7 +308,7 @@ contains
                   !!
                   !! *** Stiffness matrix
                   !!
-                  element_stiffness(1,ie) = a1*( akx*s1x*s1x + aky*s1y*s1y )     
+                  element_stiffness(1,ie) = a1*( akx*s1x*s1x + aky*s1y*s1y )
                   element_stiffness(2,ie) = a1*( akx*s2x*s2x + aky*s2y*s2y )
                   element_stiffness(3,ie) = a1*( akx*s3x*s3x + aky*s3y*s3y )
                   element_stiffness(4,ie) = a1*( akx*s1x*s2x + aky*s1y*s2y )
@@ -327,7 +329,7 @@ contains
                   pre_conditioning_matrix(ip1)  = pre_conditioning_matrix(ip1)+element_stiffness(1,ie)
                   pre_conditioning_matrix(ip2)  = pre_conditioning_matrix(ip2)+element_stiffness(2,ie)
                   pre_conditioning_matrix(ip3)  = pre_conditioning_matrix(ip3)+element_stiffness(3,ie)
-            end do 
+            end do
 
             !!
             !! *** Boundary contribution to the RHS.
@@ -345,7 +347,7 @@ contains
                         rhs_vector(ip1) = rhs_vector(ip1)-qb
                         rhs_vector(ip2) = rhs_vector(ip2)-qb
                   endif
-            end do 
+            end do
 
             !!
             !! *** Calculate first residual rhs_vector = rhs_vector-element_stiffness*nodal_value_of_f
@@ -368,7 +370,7 @@ contains
             rh0 = 0.0
             do ip=1,num_nodes
                   rh0 = rh0 + rhs_vector(ip)*rhs_vector(ip)
-            end do 
+            end do
 
             !!
             !! *** Solution of element_stiffness*nodal_value_of_f = rhs_vector  by PCG.
@@ -379,8 +381,8 @@ contains
                   pre_conditioning_matrix(ip) = 1./pre_conditioning_matrix(ip)
             end do
 
-            !! 
-            !! *** Iteration procedure 
+            !!
+            !! *** Iteration procedure
             !!
             nit_loop: do it=1,nit
                   !!
@@ -398,17 +400,17 @@ contains
 
                   !!
                   !! *** Updates d (i.e. f_increment=f_increment*beta+b) and evaluates a1=f_increment*rhs_vector.
-                  !!     As it will be needed to compute eta, it saves rhs_vector in b. 
+                  !!     As it will be needed to compute eta, it saves rhs_vector in b.
                   !!
                   a1 = 0.0
                   do ip=1,num_nodes
                         f_increment(ip) = beta*f_increment(ip)+b(ip)
                         b(ip)  = rhs_vector(ip)
                         a1     = a1+f_increment(ip)*rhs_vector(ip)
-                  end do 
+                  end do
 
                   !!
-                  !! *** Evaluates the new residuals using the formula rhs_vector=rhs_vector-element_stiffness*f_increment, in this 
+                  !! *** Evaluates the new residuals using the formula rhs_vector=rhs_vector-element_stiffness*f_increment, in this
                   !!     way we don't need to keep the RHS term of the linear equation.
                   !!
                   do ie=1,num_elements
@@ -434,7 +436,7 @@ contains
                   do ip=1,num_nodes
                         a2 = a2+f_increment(ip)*(rhs_vector(ip)-b(ip))
                   end do
-                  eta = -a1/a2 
+                  eta = -a1/a2
                   res = 0.0
                   do ip=1,num_nodes
                         ad     = eta*f_increment(ip)

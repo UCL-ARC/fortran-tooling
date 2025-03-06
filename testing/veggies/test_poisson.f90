@@ -39,7 +39,7 @@ module veggies_poisson
 contains
     !> The test suite for poisson
     function test_poisson() result(tests)
-        implicit none 
+        implicit none
         type(test_item_t) :: tests
         integer :: num_nodes_10_5,                         &
                    num_elements_10_5,                      &
@@ -55,7 +55,7 @@ contains
                    vb1_10_5(mxc),  &
                    vb2_10_5(mxc),  &
                    coordinates_10_5(2, mxp)
-        
+
         !> box_size = 10, edge_size = 5.0
         num_nodes_10_5 = 9
         num_elements_10_5 = 8
@@ -144,7 +144,7 @@ contains
                 actual_vb2,                 &
                 file_io                     &
             )
-            
+
             result_ = &
                 assert_equals(input%expected_element_to_node(:, 1:input%expected_num_elements), actual_element_to_node(:, 1:input%expected_num_elements)).and.&
                 assert_equals(input%expected_vb_index(1:input%expected_num_elements), actual_vb_index(1:input%expected_num_elements)).and.&
