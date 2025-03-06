@@ -45,7 +45,8 @@ program main
     !!
     !! *** Assembles and solves the system of equations
     !!
-    call pcg(element_to_node,vb_index,coordinates,nodal_value_of_f,boundary_node_num,num_side_nodes,vb,vb1,vb2,element_stiffness,rhs_vector,beta,f_increment,boundary_index,pre_conditioning_matrix)
+    call pcg(element_to_node,vb_index,coordinates,nodal_value_of_f,boundary_node_num,num_side_nodes,vb,vb1,vb2,element_stiffness, &
+             rhs_vector,beta,f_increment,boundary_index,pre_conditioning_matrix)
 
     !!
     !! *** Writes the computed solution

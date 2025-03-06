@@ -129,11 +129,13 @@ contains
 
         integer :: i, j
 
-        call calculate_mesh(inputs%num_edges_per_boundary, inputs%num_nodes, inputs%num_elements, inputs%num_boundary_nodes, actual_nodes, actual_elements, actual_boundary_edges)
+        call calculate_mesh(inputs%num_edges_per_boundary, inputs%num_nodes, inputs%num_elements, inputs%num_boundary_nodes, &
+                            actual_nodes, actual_elements, actual_boundary_edges)
 
         do i = 1, inputs%num_elements
             do j = 1, 3
-                write(failure_message,'(a,i1,a,i1,a,i2,a,i2)') "Unexpected value for elements(", j, ",", i, "), got ", actual_elements(j, i), " expected ", expected_outputs%elements(j, i)
+                write(failure_message,'(a,i1,a,i1,a,i2,a,i2)') "Unexpected value for elements(", j, ",", i, "), got ", &
+                      actual_elements(j, i), " expected ", expected_outputs%elements(j, i)
                 call check(error, expected_outputs%elements(j, i), actual_elements(j, i), failure_message)
                 if (allocated(error)) return
             end do
@@ -141,7 +143,8 @@ contains
 
         do i = 1, inputs%num_boundary_nodes
             do j = 1, 3
-                write(failure_message,'(a,i1,a,i1,a,i2,a,i2)') "Unexpected value for boundary_edges(", j, ",", i, "), got ", actual_boundary_edges(j, i), " expected ", expected_outputs%boundary_edges(j, i)
+                write(failure_message,'(a,i1,a,i1,a,i2,a,i2)') "Unexpected value for boundary_edges(", j, ",", i, "), got ", &
+                      actual_boundary_edges(j, i), " expected ", expected_outputs%boundary_edges(j, i)
                 call check(error, expected_outputs%boundary_edges(j, i), actual_boundary_edges(j, i), failure_message)
                 if (allocated(error)) return
             end do
@@ -149,7 +152,8 @@ contains
 
         do i = 1, inputs%num_nodes
             do j = 1, 2
-                write(failure_message,'(a,i1,a,i1,a,f3.1,a,f3.1)') "Unexpected value for nodes(", j, ",", i, "), got ", actual_nodes(j, i), " expected ", expected_outputs%nodes(j, i)
+                write(failure_message,'(a,i1,a,i1,a,f3.1,a,f3.1)') "Unexpected value for nodes(", j, ",", i, "), got ", &
+                      actual_nodes(j, i), " expected ", expected_outputs%nodes(j, i)
                 call check(error, expected_outputs%nodes(j, i), actual_nodes(j, i), failure_message, thr=threshold)
                 if (allocated(error)) return
             end do

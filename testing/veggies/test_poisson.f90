@@ -142,14 +142,21 @@ contains
             )
 
             result_ = &
-                assert_equals(input%expected_element_to_node(:, 1:input%num_elements), actual_element_to_node(:, 1:input%num_elements)).and.&
-                assert_equals(input%expected_vb_index(1:input%num_elements), actual_vb_index(1:input%num_elements)).and.&
-                assert_equals(input%expected_coordinates(:, 1:input%num_nodes), actual_coordinates(:, 1:input%num_nodes)).and.&
-                assert_equals(input%expected_boundary_node_num(:, 1:input%num_boundary_points), actual_boundary_node_num(:, 1:input%num_boundary_points)).and.&
-                assert_equals(input%expected_num_side_nodes(:, 1:input%num_boundary_points), actual_num_side_nodes(:, 1:input%num_boundary_points)).and.&
-                assert_equals(input%expected_vb(:, 1:input%num_sets), actual_vb(:, 1:input%num_sets)).and.&
-                assert_equals(input%expected_vb1(1:input%num_dirichlet_boundary_conditions), actual_vb1(1:input%num_dirichlet_boundary_conditions)).and.&
-                assert_equals(input%expected_vb2(1:input%num_neumann_boundary_conditions), actual_vb2(1:input%num_neumann_boundary_conditions))
+                assert_equals(input%expected_element_to_node(:, 1:input%num_elements),                     &
+                              actual_element_to_node(:, 1:input%num_elements)).and.                        &
+                assert_equals(input%expected_vb_index(1:input%num_elements),                               &
+                              actual_vb_index(1:input%num_elements)).and.                                  &
+                assert_equals(input%expected_coordinates(:, 1:input%num_nodes),                            &
+                              actual_coordinates(:, 1:input%num_nodes)).and.                               &
+                assert_equals(input%expected_boundary_node_num(:, 1:input%num_boundary_points),            &
+                              actual_boundary_node_num(:, 1:input%num_boundary_points)).and.               &
+                assert_equals(input%expected_num_side_nodes(:, 1:input%num_boundary_points),               &
+                              actual_num_side_nodes(:, 1:input%num_boundary_points)).and.                  &
+                assert_equals(input%expected_vb(:, 1:input%num_sets), actual_vb(:, 1:input%num_sets)).and. &
+                assert_equals(input%expected_vb1(1:input%num_dirichlet_boundary_conditions),               &
+                              actual_vb1(1:input%num_dirichlet_boundary_conditions)).and.                  &
+                assert_equals(input%expected_vb2(1:input%num_neumann_boundary_conditions),                 &
+                              actual_vb2(1:input%num_neumann_boundary_conditions))
         class default
             result_ = fail("Didn't get inp_test_data_t")
         end select

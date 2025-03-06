@@ -113,7 +113,8 @@ contains
             ! left boundary
             boundary_edges(1, i + num_edges_per_boundary * 3) = (num_nodes_per_boundary - i) * num_nodes_per_boundary + 1
             boundary_edges(2, i + num_edges_per_boundary * 3) = (num_nodes_per_boundary - 1 - i) * num_nodes_per_boundary + 1
-            boundary_edges(3, i + num_edges_per_boundary * 3) = num_elements - (num_edges_per_boundary - 1) - (2 * (i - 1) * num_edges_per_boundary)
+            boundary_edges(3, i + num_edges_per_boundary * 3) = num_elements - (num_edges_per_boundary - 1) - (2 * (i - 1) &
+                                                                * num_edges_per_boundary)
         end do
 
     end subroutine calculate_mesh
@@ -151,8 +152,10 @@ contains
             write(*,'(/,a)') ' *** '//trim(file_name)//' opened'
         end if
 
-        write(file_io,*) "! num_nodes, num_elements, num_boundary_points, num_sets, num_dirichlet_boundary_conditions, num_neumann_boundary_conditions"
-        write(file_io,*) num_nodes, num_elements, num_boundary_nodes, num_sets, num_dirichlet_boundary_conditions, num_neumann_boundary_conditions
+        write(file_io,*) "! num_nodes, num_elements, num_boundary_points, num_sets, num_dirichlet_boundary_conditions, &
+                          num_neumann_boundary_conditions"
+        write(file_io,*) num_nodes, num_elements, num_boundary_nodes, num_sets, num_dirichlet_boundary_conditions, &
+                          num_neumann_boundary_conditions
 
         write(file_io,*) "! jb,vb(1,jb),vb(2,jb),vb(3,jb) - as many lines as num_sets"
         write(file_io,*) 1, 1, 1, 1
