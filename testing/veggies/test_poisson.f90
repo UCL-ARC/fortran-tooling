@@ -192,12 +192,12 @@ contains
         implicit none
 
         character(len=100), intent(in) :: data_filename
-        integer :: num_nodes,                         &
-                   num_elements,                      &
-                   num_boundary_points,               &
-                   num_sets,                          &
-                   num_dirichlet_boundary_conditions, &
-                   num_neumann_boundary_conditions
+        integer, intent(in) :: num_nodes,                         &
+                               num_elements,                      &
+                               num_boundary_points,               &
+                               num_sets,                          &
+                               num_dirichlet_boundary_conditions, &
+                               num_neumann_boundary_conditions
         integer, intent(in) ::        &
             element_to_node(3,mxp),   &
             vb_index(mxe),            &
