@@ -1,5 +1,5 @@
 module veggies_poisson
-    use poisson, only : open_file, inp, mxp, mxe, mxb, mxc
+    use poisson, only : open_file, read_input, mxp, mxe, mxb, mxc
     use veggies, only: &
             assert_equals, &
             describe, &
@@ -14,7 +14,7 @@ module veggies_poisson
 
     !! @class inp_test_t
     !!
-    !! @brief A class to store the inputs and expected outputs of the inp function
+    !! @brief A class to store the inputs and expected outputs of the read_input function
     type, extends(input_t) :: inp_test_data_t
         character(len=:), allocatable :: data_filename
         integer :: num_nodes,                         &
@@ -81,7 +81,7 @@ contains
         tests = describe( &
                 "poisson", &
                 [ it( &
-                    "inp passes with valid inputs",                                     &
+                    "read_input passes with valid inputs",                              &
                     [ example_t(inp_test_data_t("testing/data/square_mesh_10_5",        &
                                                 num_nodes_10_5,                         &
                                                 num_elements_10_5,                      &
@@ -102,7 +102,7 @@ contains
                 ])
     end function
 
-    !> A unit test for the inp subroutine with valid inputs.
+    !> A unit test for the read_input subroutine with valid inputs.
     !!
     !! @param inputs - An instance of the inp_test_t containing function
     !!                 inputs and expected outputs.
@@ -129,7 +129,7 @@ contains
             ! Open the file ready to be read
             call open_file(input%data_filename, 'old', file_io)
 
-            call inp(                     &
+            call read_input(              &
                 actual_element_to_node,   &
                 actual_vb_index,          &
                 actual_coordinates,       &

@@ -1,5 +1,5 @@
 program main
-    use poisson
+    use poisson, only : read_input, write_output, pcg, open_file, mxp, mxe, mxb, mxc
 
     implicit none
 
@@ -40,7 +40,7 @@ program main
     !!
     !! *** Reads the triangular mesh and problem constants: Kx,Ky,Q,fp,q
     !!
-    call inp(element_to_node,vb_index,coordinates,boundary_node_num,num_side_nodes,vb,vb1,vb2,fname_io)
+    call read_input(element_to_node,vb_index,coordinates,boundary_node_num,num_side_nodes,vb,vb1,vb2,fname_io)
 
     !!
     !! *** Assembles and solves the system of equations
@@ -51,5 +51,5 @@ program main
     !!
     !! *** Writes the computed solution
     !!
-    call out(element_to_node,coordinates,nodal_value_of_f,fname_out_io)
+    call write_output(element_to_node,coordinates,nodal_value_of_f,fname_out_io)
 end program main

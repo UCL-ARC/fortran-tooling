@@ -125,10 +125,10 @@ contains
 
       !!-----------------------------------------------------------------------------*
       !!                                                                             *
-      !!    "inp" reads the input data: triangular mesh and problem parameters.      *
+      !! "read_input" reads the input data: triangular mesh and problem parameters.  *
       !!                                                                             *
       !!-----------------------------------------------------------------------------*
-      subroutine inp(element_to_node,vb_index,coordinates,boundary_node_num,num_side_nodes,vb,vb1,vb2,file_io)
+      subroutine read_input(element_to_node,vb_index,coordinates,boundary_node_num,num_side_nodes,vb,vb1,vb2,file_io)
             implicit none
 
             integer, intent(out) :: element_to_node(3,mxp), vb_index(mxe), boundary_node_num(2,mxb), &
@@ -234,7 +234,7 @@ contains
                   read(file_io,*) num_side_nodes(1,ib),num_side_nodes(2,ib),num_side_nodes(3,ib),num_side_nodes(4,ib)
             end do
 
-      end subroutine inp
+      end subroutine read_input
 
       !!-----------------------------------------------------------------------------*
       !!                                                                             *
@@ -468,7 +468,7 @@ contains
       !!-----------------------------------------------------------------------------*
       !!    "out" writes output results.                                             *
       !!-----------------------------------------------------------------------------*
-      subroutine out(element_to_node,coordinates,nodal_value_of_f,file_io)
+      subroutine write_output(element_to_node,coordinates,nodal_value_of_f,file_io)
             implicit none
 
             integer, intent(in) :: element_to_node(3,mxp), file_io
@@ -488,7 +488,7 @@ contains
             end do
 
             return
-      end subroutine out
+      end subroutine write_output
 
       !!------------------------------------------------------------*
       !!                                                            *

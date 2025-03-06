@@ -10,7 +10,7 @@ module veggies_poisson_given_when_then
             transformation_failure_t, &
             transformed_t, &
             when
-    use poisson, only : inp, mxp, mxe, mxb, mxc
+    use poisson, only : read_input, mxp, mxe, mxb, mxc
     implicit none
 
     integer :: expected_num_nodes = 9,                         &
@@ -50,7 +50,7 @@ contains
                 "the data file square_mesh_10_5 exists", &
                 data_file_state_t(), &
                 [ when( &
-                        "the data file is loaded with poisson::inp", &
+                        "the data file is loaded with poisson::read_input", &
                         load_data_file, &
                         [ then__("the file will be open", check_file_is_open) &
                         , then__("element_to_node will be as expected", check_element_to_node) &
@@ -77,7 +77,7 @@ contains
         select type (input)
         type is (data_file_state_t)
             ! declare local variables needed to perform transformation
-            call inp(                            &
+            call read_input(                                    &
                 load_data_file_result%actual_element_to_node,   &
                 load_data_file_result%actual_vb_index,          &
                 load_data_file_result%actual_coordinates,       &
@@ -86,7 +86,7 @@ contains
                 load_data_file_result%actual_vb,                &
                 load_data_file_result%actual_vb1,               &
                 load_data_file_result%actual_vb2,               &
-                input%file_io                    &
+                input%file_io                                   &
             )
             load_data_file_result%iostat = input%iostat
 

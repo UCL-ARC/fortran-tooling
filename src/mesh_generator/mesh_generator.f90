@@ -32,7 +32,7 @@
 !!                                                                            *
 !!----------------------------------------------------------------------------*
 module mesh_generator
-    use, intrinsic :: iso_fortran_env
+    use, intrinsic :: iso_fortran_env, only : int64, real64
     implicit none
 
 contains
