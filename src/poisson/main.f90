@@ -32,7 +32,7 @@ program main
 
     call open_file(input_fname, 'old', fname_io)
     call open_file(output_fname, 'new', fname_out_io)
-    
+
 
     !!
     !! *** Reads the triangular mesh and problem constants: Kx,Ky,Q,fp,q
