@@ -25,7 +25,7 @@ Total Test time (real) =   0.69 sec
 
 ## Features matrix
 
-Compilers tested: gfortran (homebrew) 
+Compilers tested: GNU Fortran (Homebrew GCC 14.2.0_1)
 
 | Feature | Implemented natively | Implemented manually |
 |---------|----------------------|----------------------|
