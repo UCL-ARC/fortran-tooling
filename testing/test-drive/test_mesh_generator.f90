@@ -1,8 +1,8 @@
 module test_drive_mesh_generator
-    use, intrinsic :: iso_fortran_env
+    use, intrinsic :: iso_fortran_env, only : int64, real64
     use testdrive, only : new_unittest, unittest_type, error_type, check, skip_test
 
-    use mesh_generator
+    use mesh_generator, only : calculate_mesh_parameters, calculate_mesh
 
     implicit none
 

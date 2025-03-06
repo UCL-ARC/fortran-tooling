@@ -130,7 +130,7 @@ contains
             ! Open the file ready to be read
             call open_file(input%data_filename, 'old', file_io)
 
-            call read_input_file(                       &
+            call read_input_file(           &
                 actual_num_nodes,           &
                 actual_num_elements,        &
                 actual_num_boundary_points, &
