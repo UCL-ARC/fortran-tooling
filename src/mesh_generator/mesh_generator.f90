@@ -145,7 +145,7 @@ contains
         status="replace",   &
         IOSTAT=iostat)
 
-        if( iostat .ne. 0) then
+        if( iostat /= 0) then
             write(*,'(a)') ' *** Error when opening '//trim(file_name)
             stop
         else

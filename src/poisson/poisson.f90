@@ -112,7 +112,7 @@ contains
                   status=status,  &
                   IOSTAT=iostat)
 
-            if( iostat .ne. 0) then
+            if( iostat /= 0) then
                   write(*,'(a)') ' *** Error when opening '//file_name
                   error stop 1
             end if
@@ -145,24 +145,24 @@ contains
             !! *** Check dimensions
             !!
             icheck = 0
-            if( num_nodes .gt. mxp ) then
+            if( num_nodes > mxp ) then
                   write(*,'(a,i6)') ' *** Increase mxp to: ',num_nodes
                   icheck = 1
             endif
-            if( num_elements .gt. mxe ) then
+            if( num_elements > mxe ) then
                   write(*,'(a,i6)') ' *** Increase mxe to: ',num_elements
                   icheck = 1
             endif
-            if( num_boundary_points .gt. mxb ) then
+            if( num_boundary_points > mxb ) then
                   write(*,'(a,i6)') ' *** Increase mxb to: ',num_boundary_points
                   icheck = 1
             endif
             mx = max(num_sets,num_dirichlet_boundary_conditions,num_neumann_boundary_conditions)
-            if( mx .gt. mxc ) then
+            if( mx > mxc ) then
                   write(*,'(a,i6)') ' *** Increase mxc to: ',mx
                   icheck = 1
             endif
-            if( icheck .eq. 1 ) STOP
+            if( icheck == 1 ) STOP
 
             !!
             !! *** Reads (Kx,Ky,Q) sets
@@ -276,7 +276,7 @@ contains
             !!
             do ib=1,num_boundary_points
                   in = boundary_node_num(2,ib)
-                  if(in .gt. 0) then
+                  if(in > 0) then
                         ip     = boundary_node_num(1,ib)
                         va     = vb1(in)
                         nodal_value_of_f(ip) = va
@@ -337,7 +337,7 @@ contains
             !!
             do ib=1,num_boundary_points
                   in = num_side_nodes(4,ib)
-                  if(in .gt. 0) then
+                  if(in > 0) then
                         ip1     = num_side_nodes(1,ib)
                         ip2     = num_side_nodes(2,ib)
                         qb      = vb2(in)
@@ -449,7 +449,7 @@ contains
                         rhs_vector(ip) = eta*rhs_vector(ip)+(1.-eta)*b(ip)
                   end do
 
-                  is_converged = res.le.rh0*tol
+                  is_converged = res<=rh0*tol
                   if(is_converged) then
                         ! write(*,'(a,i4)') ' *** PCG converged: iterations = ',it
                         exit
