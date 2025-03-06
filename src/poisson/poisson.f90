@@ -138,7 +138,8 @@ contains
             character*80 :: text
 
             read(file_io,'(a)') text
-            read(file_io,*) num_nodes,num_elements,num_boundary_points,num_sets,num_dirichlet_boundary_conditions,num_neumann_boundary_conditions
+            read(file_io,*) num_nodes,num_elements,num_boundary_points,num_sets,num_dirichlet_boundary_conditions, &
+                            num_neumann_boundary_conditions
 
             !!
             !! *** Check dimensions
@@ -248,10 +249,10 @@ contains
                                    element_to_node(3,mxp), vb_index(mxe), boundary_node_num(2,mxb), num_side_nodes(4,mxb)
             real, intent(in)    :: coordinates(2, mxp), vb(3,mxc), vb1(mxc), vb2(mxc)
             real, intent(out)   :: nodal_value_of_f(mxp)
-            
+
             integer :: boundary_index(mxp)
             real    :: element_stiffness(6,mxe), rhs_vector(mxp), b(mxp), f_increment(mxp), pre_conditioning_matrix(mxp)
-            
+
             integer      :: ib, ip, ie, nit, in, ip1, ip2, ip3, ix, it
             real         :: tol, va, akx, aky, qq, ar, a1, a2, qa, qb, x21, y21, x31, y31, s1x, s1y, s2x, &
                             s2y, s3x, s3y, al, d1, d2, d3, f1, f2, f3, rh0, beta, energy_old, energy,     &
@@ -420,9 +421,12 @@ contains
                         d1      = f_increment(ip1)
                         d2      = f_increment(ip2)
                         d3      = f_increment(ip3)
-                        f1      = element_stiffness(1,ie)*f_increment(ip1)+element_stiffness(4,ie)*f_increment(ip2)+element_stiffness(6,ie)*f_increment(ip3)
-                        f2      = element_stiffness(4,ie)*f_increment(ip1)+element_stiffness(2,ie)*f_increment(ip2)+element_stiffness(5,ie)*f_increment(ip3)
-                        f3      = element_stiffness(6,ie)*f_increment(ip1)+element_stiffness(5,ie)*f_increment(ip2)+element_stiffness(3,ie)*f_increment(ip3)
+                        f1      = element_stiffness(1,ie)*f_increment(ip1)+element_stiffness(4,ie)*f_increment(ip2) &
+                                  +element_stiffness(6,ie)*f_increment(ip3)
+                        f2      = element_stiffness(4,ie)*f_increment(ip1)+element_stiffness(2,ie)*f_increment(ip2) &
+                                  +element_stiffness(5,ie)*f_increment(ip3)
+                        f3      = element_stiffness(6,ie)*f_increment(ip1)+element_stiffness(5,ie)*f_increment(ip2) &
+                                  +element_stiffness(3,ie)*f_increment(ip3)
                         rhs_vector(ip1) = rhs_vector(ip1)-f1
                         rhs_vector(ip2) = rhs_vector(ip2)-f2
                         rhs_vector(ip3) = rhs_vector(ip3)-f3
