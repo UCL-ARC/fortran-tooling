@@ -453,7 +453,7 @@ contains
                   is_converged = res<=rh0*tol
                   if(is_converged) then
                         write(*,'(a,i4)') ' *** PCG converged: iterations = ',it
-                        exit
+                        exit nit_loop
                   endif
             end do nit_loop
 
