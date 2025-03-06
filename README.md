@@ -38,9 +38,11 @@ There are two src codes within this repository [mesh_generator](./src/mesh_gener
 A bash script is provided for building ([build.sh](./build.sh)). However, there are some instructions below for building without this script.
 
 ### CMake
-We are utilising cmake (see [CMakeLists.txt](./CMakeLists.txt)) for our build system. Therefore, to build this repository, please run the following
+>Note: we have some [PFunit tests](./testing/pFUnit/) which require a local version of PFunit to be pre-built on your device. Once built, the path to the PFunit `installed` dir will need to be passed via `-DCMAKE_PREFIX_PATH`.
+
+One build system we are utilising cmake (see [CMakeLists.txt](./CMakeLists.txt)). Therefore, to build this repository, please run the following
 ```sh
-cmake -B build 
+cmake -DCMAKE_PREFIX_PATH=/path/to/pfunit/installed/dir -B build 
 ``` 
 This will create a [build](./build) directory from within which the project can be compiled...
 ```sh
