@@ -499,10 +499,10 @@ contains
       character*120 function textread(prompt) result(text_read_in)
             implicit none
 
-            character*(*), intent(in) :: prompt
+            character(len=*), intent(in) :: prompt
 
 
-            integer :: l = 120
+            integer :: l
 
             text_read_in = ' '
             do

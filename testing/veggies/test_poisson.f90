@@ -35,10 +35,10 @@ module veggies_poisson
                    expected_vb2(mxc),  &
                    expected_coordinates(2, mxp)
 
-    end type
+    end type inp_test_data_t
     interface inp_test_data_t
         module procedure inp_test_data_constructor
-    end interface
+    end interface inp_test_data_t
 contains
     !> The test suite for poisson
     function test_poisson() result(tests)
@@ -103,7 +103,7 @@ contains
                     ],                                                                  &
                     check_inp_valid_inputs)                                             &
                 ])
-    end function
+    end function test_poisson
 
     !> A unit test for the read_input subroutine with valid inputs.
     !!
@@ -125,7 +125,7 @@ contains
                    actual_vb1(mxc),  &
                    actual_vb2(mxc),  &
                    actual_coordinates(2, mxp)
-        integer :: file_io = 100
+        integer, parameter :: file_io = 100
 
         select type (input)
         type is (inp_test_data_t)
@@ -164,7 +164,7 @@ contains
             result_ = fail("Didn't get inp_test_data_t")
         end select
 
-    end function
+    end function check_inp_valid_inputs
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !! Constructors

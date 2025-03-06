@@ -21,10 +21,10 @@ module veggies_mesh_generator
         real(kind=real64) :: edge_size
         integer(kind=int64) :: box_size, expected_num_edges_per_boundary, &
                 expected_num_nodes, expected_num_boundary_nodes, expected_num_elements
-    end type
+    end type valid_calculate_mesh_parameters_inout_t
     interface valid_calculate_mesh_parameters_inout_t
         module procedure valid_calc_params_constructor
-    end interface
+    end interface valid_calculate_mesh_parameters_inout_t
 
 contains
     !> The test suite for the mesh_generator
@@ -48,7 +48,7 @@ contains
                     "calculate_mesh passes with valid inputs", &
                     check_calculate_mesh_valid_inputs_10_5) &
                 ])
-    end function
+    end function test_mesh_generator
 
     !> A unit test for the calculate_mesh_parameters subroutine with valid inputs.
     !!
@@ -80,7 +80,7 @@ contains
             result_ = fail("Didn't get mesh_parameters_inout_t")
         end select
 
-    end function
+    end function check_calculate_mesh_parameters_valid_inputs
 
     !> A unit test template for the calculate_mesh subroutine for a simple case where box_size = 10 and edge_size = 5.
     function check_calculate_mesh_valid_inputs_10_5() result(result_)
@@ -117,7 +117,7 @@ contains
             assert_equals(actual_boundary_edges, expected_boundary_edges).and.&
             assert_equals(actual_nodes, expected_nodes)
 
-    end function
+    end function check_calculate_mesh_valid_inputs_10_5
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !! Constructors
@@ -135,5 +135,5 @@ contains
         valid_calculate_mesh_parameters_inout%expected_num_nodes = expected_num_nodes
         valid_calculate_mesh_parameters_inout%expected_num_boundary_nodes = expected_num_boundary_nodes
         valid_calculate_mesh_parameters_inout%expected_num_elements = expected_num_elements
-    end function
+    end function valid_calc_params_constructor
 end module veggies_mesh_generator
