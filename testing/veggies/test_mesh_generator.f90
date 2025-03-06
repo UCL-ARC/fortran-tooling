@@ -29,7 +29,7 @@ module veggies_mesh_generator
 contains
     !> The test suite for the mesh_generator
     function test_mesh_generator() result(tests)
-        implicit none 
+        implicit none
         type(test_item_t) :: tests
 
         tests = describe( &
@@ -48,7 +48,7 @@ contains
     end function
 
     !> A unit test for the calculate_mesh_parameters subroutine with valid inputs.
-    !! 
+    !!
     !! @param inputs - An instance of the valid_calculate_mesh_parameters_inout_t containing function
     !!                 inputs and expected outputs.
     !!
