@@ -6,6 +6,8 @@ module test_drive_mesh_generator
 
     implicit none
 
+    public
+
     real(kind=real64) :: test_threshold = 1e-06
 
     !> test_calculate_mesh_parameters inputs and outputs

@@ -13,6 +13,7 @@ module veggies_poisson_given_when_then
     use poisson, only : read_input, mxp, mxe, mxb, mxc
     implicit none
 
+    public
     integer :: expected_num_nodes = 9,                         &
                expected_num_elements = 8,                      &
                expected_num_boundary_points = 8,               &
