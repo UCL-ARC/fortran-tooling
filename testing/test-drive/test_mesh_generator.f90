@@ -179,33 +179,33 @@ contains
 
         ! Setup expected outputs
         allocate(expected_outputs%boundary_edges(3, inputs%num_nodes))
-        expected_outputs%boundary_edges(:,1) = (/1,2,1/)
-        expected_outputs%boundary_edges(:,2) = (/2,3,2/)
-        expected_outputs%boundary_edges(:,3) = (/3,6,2/)
-        expected_outputs%boundary_edges(:,4) = (/6,9,6/)
-        expected_outputs%boundary_edges(:,5) = (/9,8,8/)
-        expected_outputs%boundary_edges(:,6) = (/8,7,7/)
-        expected_outputs%boundary_edges(:,7) = (/7,4,7/)
-        expected_outputs%boundary_edges(:,8) = (/4,1,3/)
+        expected_outputs%boundary_edges(:,1) = [1,2,1]
+        expected_outputs%boundary_edges(:,2) = [2,3,2]
+        expected_outputs%boundary_edges(:,3) = [3,6,2]
+        expected_outputs%boundary_edges(:,4) = [6,9,6]
+        expected_outputs%boundary_edges(:,5) = [9,8,8]
+        expected_outputs%boundary_edges(:,6) = [8,7,7]
+        expected_outputs%boundary_edges(:,7) = [7,4,7]
+        expected_outputs%boundary_edges(:,8) = [4,1,3]
         allocate(expected_outputs%elements(3, inputs%num_elements))
-        expected_outputs%elements(:,1) = (/1,2,5/)
-        expected_outputs%elements(:,2) = (/2,3,6/)
-        expected_outputs%elements(:,3) = (/1,5,4/)
-        expected_outputs%elements(:,4) = (/2,6,5/)
-        expected_outputs%elements(:,5) = (/4,5,8/)
-        expected_outputs%elements(:,6) = (/5,6,9/)
-        expected_outputs%elements(:,7) = (/4,8,7/)
-        expected_outputs%elements(:,8) = (/5,9,8/)
+        expected_outputs%elements(:,1) = [1,2,5]
+        expected_outputs%elements(:,2) = [2,3,6]
+        expected_outputs%elements(:,3) = [1,5,4]
+        expected_outputs%elements(:,4) = [2,6,5]
+        expected_outputs%elements(:,5) = [4,5,8]
+        expected_outputs%elements(:,6) = [5,6,9]
+        expected_outputs%elements(:,7) = [4,8,7]
+        expected_outputs%elements(:,8) = [5,9,8]
         allocate(expected_outputs%nodes(2, inputs%num_nodes))
-        expected_outputs%nodes(:,1) = (/1.0,1.0/)
-        expected_outputs%nodes(:,2) = (/1.0,2.0/)
-        expected_outputs%nodes(:,3) = (/1.0,3.0/)
-        expected_outputs%nodes(:,4) = (/2.0,1.0/)
-        expected_outputs%nodes(:,5) = (/2.0,2.0/)
-        expected_outputs%nodes(:,6) = (/2.0,3.0/)
-        expected_outputs%nodes(:,7) = (/3.0,1.0/)
-        expected_outputs%nodes(:,8) = (/3.0,2.0/)
-        expected_outputs%nodes(:,9) = (/3.0,3.0/)
+        expected_outputs%nodes(:,1) = [1.0,1.0]
+        expected_outputs%nodes(:,2) = [1.0,2.0]
+        expected_outputs%nodes(:,3) = [1.0,3.0]
+        expected_outputs%nodes(:,4) = [2.0,1.0]
+        expected_outputs%nodes(:,5) = [2.0,2.0]
+        expected_outputs%nodes(:,6) = [2.0,3.0]
+        expected_outputs%nodes(:,7) = [3.0,1.0]
+        expected_outputs%nodes(:,8) = [3.0,2.0]
+        expected_outputs%nodes(:,9) = [3.0,3.0]
 
         ! Call parent test
         call verify_calculate_mesh(error, inputs, expected_outputs)
