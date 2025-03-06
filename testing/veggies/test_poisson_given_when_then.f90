@@ -22,10 +22,10 @@ module veggies_poisson_given_when_then
 
     type, extends(input_t) :: data_file_state_t
         integer :: file_io, iostat
-    end type
+    end type data_file_state_t
     interface data_file_state_t
         module procedure data_file_state_constructor
-    end interface
+    end interface data_file_state_t
 
     type, extends(input_t) :: load_data_file_result_t
         integer :: actual_num_nodes,                &
@@ -40,7 +40,7 @@ module veggies_poisson_given_when_then
                 actual_vb2(mxc),  &
                 actual_coordinates(2, mxp)
         integer :: iostat
-    end type
+    end type load_data_file_result_t
 contains
 
     function test_poisson_given_when_then() result(test)
@@ -70,7 +70,7 @@ contains
                         , then__("coordinates will be as expected", check_coordinates) &
                         ]) &
                 ])
-    end function
+    end function test_poisson_given_when_then
 
     function load_data_file(input) result(output)
         implicit none
@@ -106,7 +106,7 @@ contains
             output = transformed_t(transformation_failure_t(fail( &
                 "Didn't get data_file_state_t")))
         end select
-    end function
+    end function load_data_file
 
     function check_file_is_open(input) result(result_)
         implicit none
@@ -119,7 +119,7 @@ contains
         class default
             result_ = fail("Didn't get load_data_file_result_t")
         end select
-    end function
+    end function check_file_is_open
 
     function check_num_nodes(input) result(result_)
         implicit none
@@ -177,7 +177,7 @@ contains
         class default
             result_ = fail("Didn't get load_data_file_result_t")
         end select
-    end function
+    end function check_element_to_node
 
     function check_vb_index(input) result(result_)
         implicit none
@@ -190,7 +190,7 @@ contains
         class default
             result_ = fail("Didn't get load_data_file_result_t")
         end select
-    end function
+    end function check_vb_index
 
     function check_boundary_node_num(input) result(result_)
         implicit none
@@ -205,7 +205,7 @@ contains
         class default
             result_ = fail("Didn't get load_data_file_result_t")
         end select
-    end function
+    end function check_boundary_node_num
 
     function check_num_side_nodes(input) result(result_)
         implicit none
@@ -222,7 +222,7 @@ contains
         class default
             result_ = fail("Didn't get load_data_file_result_t")
         end select
-    end function
+    end function check_num_side_nodes
 
     function check_vb(input) result(result_)
         implicit none
@@ -238,7 +238,7 @@ contains
         class default
             result_ = fail("Didn't get load_data_file_result_t")
         end select
-    end function
+    end function check_vb
 
     function check_vb1(input) result(result_)
         implicit none
@@ -251,7 +251,7 @@ contains
         class default
             result_ = fail("Didn't get load_data_file_result_t")
         end select
-    end function
+    end function check_vb1
 
     function check_coordinates(input) result(result_)
         implicit none
@@ -268,7 +268,7 @@ contains
         class default
             result_ = fail("Didn't get load_data_file_result_t")
         end select
-    end function
+    end function check_coordinates
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !! Constructors
@@ -286,5 +286,5 @@ contains
 
         data_file_state%file_io = file_io
         data_file_state%iostat = iostat
-    end function
-end module
+    end function data_file_state_constructor
+end module veggies_poisson_given_when_then
