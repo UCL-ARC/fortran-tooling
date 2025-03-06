@@ -226,7 +226,8 @@ contains
         implicit none
         type(data_file_state_t) :: data_file_state
 
-        integer :: iostat, file_io = 200
+        integer, parameter :: file_io = 200
+        integer :: iostat
 
         open(unit=file_io,   &
              file="testing/data/square_mesh_10_5", &
