@@ -83,7 +83,7 @@ contains
         select type (input)
         type is (data_file_state_t)
             ! declare local variables needed to perform transformation
-            call read_input_file(                                             &
+            call read_input_file(                                 &
                 load_data_file_result%actual_num_nodes,           &
                 load_data_file_result%actual_num_elements,        &
                 load_data_file_result%actual_num_boundary_points, &

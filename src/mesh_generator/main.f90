@@ -1,6 +1,6 @@
 program main
-    use, intrinsic :: iso_fortran_env
-    use mesh_generator
+    use, intrinsic :: iso_fortran_env, only : int64, real64
+    use mesh_generator, only : calculate_mesh_parameters, calculate_mesh, write_mesh_to_file
 
     implicit none
 

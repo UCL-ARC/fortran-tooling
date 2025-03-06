@@ -1,5 +1,5 @@
 program main
-    use poisson
+    use poisson, only : read_input, write_output, pcg, open_file, mxp, mxe, mxb, mxc
 
     implicit none
 
