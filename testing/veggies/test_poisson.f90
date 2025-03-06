@@ -10,6 +10,9 @@ module veggies_poisson
             result_t, &
             test_item_t
     implicit none
+
+    public
+
     public :: inp_test_data_t, test_poisson, check_inp_valid_inputs
 
     !! @class inp_test_t

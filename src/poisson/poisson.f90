@@ -89,10 +89,14 @@
 module poisson
       implicit none
 
-      integer, parameter :: mxp  = 10000
-      integer, parameter :: mxe  = 30000
-      integer, parameter :: mxb  =  5000
-      integer, parameter :: mxc  =   100
+      integer, private :: num_nodes, num_elements, num_boundary_points, num_sets, num_dirichlet_boundary_conditions, &
+                          num_neumann_boundary_conditions
+
+      public
+      integer, parameter :: mxp  = 10000, &
+                            mxe  = 30000, &
+                            mxb  =  5000, &
+                            mxc  =   100
 
 contains
 
