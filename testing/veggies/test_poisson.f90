@@ -223,5 +223,5 @@ contains
         inp_test_data%expected_vb1 = vb1
         inp_test_data%expected_vb2 = vb2
         inp_test_data%expected_coordinates = coordinates
-    end function
-end module
+    end function inp_test_data_constructor
+end module veggies_poisson
