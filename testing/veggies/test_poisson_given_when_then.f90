@@ -260,8 +260,10 @@ contains
         select type (input)
         type is (load_data_file_result_t)
             result_ = &
-                assert_equals([1.0, 1.0, 1.0, 2.0, 2.0, 2.0, 3.0, 3.0, 3.0], input%actual_coordinates(1, 1:expected_num_nodes)).and.&
-                assert_equals([1.0, 2.0, 3.0, 1.0, 2.0, 3.0, 1.0, 2.0, 3.0], input%actual_coordinates(2, 1:expected_num_nodes))
+                assert_equals([1.0, 1.0, 1.0, 2.0, 2.0, 2.0, 3.0, 3.0, 3.0],          &
+                              input%actual_coordinates(1, 1:expected_num_nodes)).and. &
+                assert_equals([1.0, 2.0, 3.0, 1.0, 2.0, 3.0, 1.0, 2.0, 3.0],          &
+                              input%actual_coordinates(2, 1:expected_num_nodes))
         class default
             result_ = fail("Didn't get load_data_file_result_t")
         end select

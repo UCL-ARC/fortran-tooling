@@ -36,9 +36,12 @@ contains
                 "mesh_generator", &
                 [ it( &
                     "calculate_mesh_parameters passes with valid inputs", &
-                    [ example_t(valid_calculate_mesh_parameters_inout_t(1.0_real64, 10_int64, 10_int64, 121_int64, 40_int64, 200_int64)) &
-                    , example_t(valid_calculate_mesh_parameters_inout_t(0.2_real64, 5_int64, 25_int64, 676_int64, 100_int64, 1250_int64))  &
-                    , example_t(valid_calculate_mesh_parameters_inout_t(3.0_real64, 100_int64, 33_int64, 1156_int64, 132_int64, 2178_int64))  &
+                    [ example_t(valid_calculate_mesh_parameters_inout_t(1.0_real64, 10_int64, 10_int64, 121_int64, 40_int64,    &
+                                                                        200_int64))                                             &
+                    , example_t(valid_calculate_mesh_parameters_inout_t(0.2_real64, 5_int64, 25_int64, 676_int64, 100_int64,    &
+                                                                        1250_int64))                                            &
+                    , example_t(valid_calculate_mesh_parameters_inout_t(3.0_real64, 100_int64, 33_int64, 1156_int64, 132_int64, &
+                                                                        2178_int64))                                            &
                     ], &
                     check_calculate_mesh_parameters_valid_inputs) &
                 , it( &
@@ -106,7 +109,8 @@ contains
         expected_nodes(2,:) = [1, 2, 3, 1, 2, 3, 1, 2, 3]
 
 
-        call calculate_mesh(num_edges_per_boundary, num_nodes, num_elements, num_boundary_nodes, actual_nodes, actual_elements, actual_boundary_edges)
+        call calculate_mesh(num_edges_per_boundary, num_nodes, num_elements, num_boundary_nodes, actual_nodes, actual_elements, &
+                            actual_boundary_edges)
 
         result_ = &
             assert_equals(actual_elements, expected_elements).and.&
