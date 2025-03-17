@@ -1,0 +1,15 @@
+---
+repos:
+  - repo: local
+    hooks:
+    - id: fortran-tooling-hooks
+      name: Fortran Tooling hooks
+      description: Default pre-commit hooks for the ARC Fortran Tooling project
+      entry: fortitude
+      language: system
+      types_or: [file, fortran]
+      files: \.(f90)$
+      args: ['--config-file', 'fortitude.toml', 'check']
+      require_serial: true
+      additional_dependencies: []
+      minimum_pre_commit_version: "2.9.2"
