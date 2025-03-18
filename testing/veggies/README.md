@@ -5,9 +5,6 @@ It has a sister project called [Garden](https://gitlab.com/everythingfunctional/
 testing framework but for codes which use coarray. *"The hope is that at some point in the future all compilers
 will support parallel features implicitly, and any need for two separate packages will disappear."*
 
-## Running the tests
-
-
 ## Features matrix
 
 Compilers tested: *A list of compilers we have tried with these tests*
