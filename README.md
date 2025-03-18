@@ -32,7 +32,7 @@ This repository aims to improve Fortran best practices within UCL and the wider 
 There are two src codes within this repository [mesh_generator](./src/mesh_generator/) and [poisson](./src/poisson/). These are designed to work together.
 
 - `mesh_generator` generates a basic square 2D triangular mesh (see [mesh_generator.f90](./src/mesh_generator/mesh_generator.f90) for more details).
-- `poisson` is a solver which finds the solution of the steady-state heat conduction equation represented by the Poisson equation over a 2D traingular mesh (see [poisson.f90](./src/poisson/poisson.f90) for more details).
+- `poisson` is a solver which finds the solution of the steady-state heat conduction equation represented by the Poisson equation over a 2D triangular mesh (see [poisson.f90](./src/poisson/poisson.f90) for more details).
 
 ## Building
 
@@ -40,9 +40,9 @@ A bash script is provided for building ([build.sh](./build.sh)). However, there 
 
 ### CMake
 
->Note: we have some [PFunit tests](./testing/pFUnit/) which require a local version of PFunit to be pre-built on your device. Once built, the path to the PFunit `installed` dir will need to be passed via `-DCMAKE_PREFIX_PATH`.
+>Note: we have some [pFUnit tests](./testing/pFUnit/) which require a local version of pFUnit to be pre-built on your device. Once built, the path to the pFUnit `installed` dir will need to be passed via `-DCMAKE_PREFIX_PATH`.
 
-One build system we are utilising cmake (see [CMakeLists.txt](./CMakeLists.txt)). Therefore, to build this repository, please run the following
+One build system we are utilising CMake (see [CMakeLists.txt](./CMakeLists.txt)). Therefore, to build this repository, please run the following
 
 ```sh
 cmake -DCMAKE_PREFIX_PATH=/path/to/pfunit/installed/dir -B build 
@@ -102,7 +102,7 @@ If you have built using CMake, you can run the tests by running the following fr
 ctest
 ```
 
-If you have built using fpm, you can run the tests by running the following from the root of the repo
+If you have built using FPM, you can run the tests by running the following from the root of the repo
 
 ```sh
 fpm test
@@ -114,7 +114,7 @@ fpm test
 pre-commit works by running a provided set of checks every time a `git commit` is attempted.
 
 To utilise pre-commit, it must be installed locally. This can be done in several ways. As stated above to minimise non-Fortran build systems, pre-commit can
-be installed globaly on MacOS using home brew
+be installed globally on macOS using home brew
 
 ```sh
 brew install pre-commit
