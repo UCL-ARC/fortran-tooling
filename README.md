@@ -9,7 +9,7 @@ This repository aims to improve Fortran best practices within UCL and the wider 
 - compiling
 - [debugging](./debugging)
 - documentation
-- formatting
+- [formatting](./formatting)
 - interfaces
 - libraries
 - package management
@@ -89,4 +89,23 @@ ctest
 If you have built using fpm, you can run the tests by running the following from the root of the repo
 ```sh
 fpm test
+```
+
+## pre-commit
+
+[pre-commit](https://pre-commit.com/) is utilised within this repo. pre-commit is a tool to help enforce formatting standards as early as possible.
+pre-commit works by running a provided set of checks every time a `git commit` is attempted.
+
+To utilise pre-commit, it must be installed locally. This can be done in several ways. As stated above to minimise non-Fortran build systems, pre-commit can 
+be installed globaly on MacOS using home brew
+```sh
+brew install pre-commit
+``` 
+or with pip via
+```sh
+/path/to/python3 -m pip install pre-commit
+```
+Then, from the root of the repo, you start using pre-commit by running
+```sh
+pre-commit install
 ```
