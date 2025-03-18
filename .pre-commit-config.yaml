@@ -9,7 +9,7 @@ repos:
       language: system
       types_or: [file, fortran]
       files: \.(f90)$
-      args: ['--config-file', 'fortitude.toml', 'check']
+      args: ['--config-file', 'formatting/fortitude.toml', 'check']
       require_serial: true
       additional_dependencies: []
       minimum_pre_commit_version: "2.9.2"
