@@ -19,23 +19,8 @@ The config file, [fortitude.toml](./fortitude.toml), we have provided in the abo
 
 ### pre-commit
 
-We have also integrated Fortitude with [pre-commit](https://pre-commit.com/). pre-commit is a tool to help enforce formatting standards as early as possible.
-pre-commit works by running a provided set of checks every time a `git commit` is attempted.
-
-To utilise pre-commit, it must be installed locally. This can be done in several ways. As stated above to minimise non-Fortran build systems, pre-commit can 
-be installed globaly on MacOS using home brew
-```sh
-brew install pre-commit
-``` 
-or with pip via
-```sh
-/path/to/python3 -m pip install pre-commit
-```
-Then, from the root of the repo, you start using pre-commit by running
-```sh
-pre-commit install
-```
-If you then try and commit a poorly formatted Fortran file...
+We have also integrated Fortitude with pre-commit. To set this up, follow the [instructions on the main README.md](../README.md#pre-commit).
+Once this is setup, if you then try and commit a poorly formatted Fortran file...
 ```sh
 $ git commit -m "Adding a bad commit"       
 Fortran Tooling hooks....................................................Failed
