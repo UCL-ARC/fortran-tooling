@@ -4,4 +4,4 @@
 
 | tool | description | Known issues |
 | ---- | ----------- | ------------ |
-| [Fortitude](https://fortitude.readthedocs.io/en/stable/) | A [Ruff](https://docs.astral.sh/ruff/) style linter for Fortran. | <ul></ul>  |
+| [Fortitude](https://fortitude.readthedocs.io/en/stable/) | A [Ruff](https://docs.astral.sh/ruff/) style linter for Fortran. | |
