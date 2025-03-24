@@ -2,7 +2,7 @@
 
 ## Prerequisite
 
-A tool for installing - `pip` or `homebrew`
+A tool for installing, i.e. `pip` or `homebrew`
 
 ## Installation
 
