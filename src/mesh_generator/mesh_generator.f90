@@ -1,36 +1,4 @@
-!!----------------------------------------------------------------------------*
-!!                        *** Program MESH_GENERATOR ***                      *
-!!                                                                            *
-!!       This module generates a basic square 2D traingular mesh. The         *
-!!       geometry of this mesh is kept simple by placing nodes in a           *
-!!       regular pattern, as demonstrated below (note the arrangment          *
-!!       of the node and element IDs).                                        *
-!!                                                                            *
-!!                   21._____22._____23._____24._____25.                      *
-!!                     |     / |     / |     / |     / |                      *
-!!                     | 29/ 25| 30/ 26| 31/ 27| 32/ 28|                      *
-!!                     | /     | /     | /     | /     |                      *
-!!                   16._____17._____18._____19._____20.                      *
-!!                     |     / |     / |     / |     / |                      *
-!!                     | 21/ 17| 22/ 18| 23/ 19| 24/ 20|                      *
-!!                     | /     | /     | /     | /     |                      *
-!!                   11._____12._____13._____14._____15.                      *
-!!                     |     / |     / |     / |     / |                      *
-!!                     | 13/  9| 14/ 10| 15/ 11| 16/ 12|                      *
-!!                     | /     | /     | /     | /     |                      *
-!!                    6.______7.______8.______9._____10.                      *
-!!                     |     / |     / |     / |     / |                      *
-!!                     |  5/  1|  6/  2|  7/  3|  8/  4|                      *
-!!                     | /     | /     | /     | /     |                      *
-!!                    1.______2.______3.______4.______5.                      *
-!!                                                                            *
-!!       The size of the output square and its elements is determined         *
-!!       by two inputs, box_size (the length of each side of the              *
-!!       square) and edge_size (the length of a single elements               *
-!!       boundary edge). Therefore, the above mesh would be generated         *
-!!       by inputs that satisfy - box_size / edge_size = 4.                   *
-!!                                                                            *
-!!----------------------------------------------------------------------------*
+!> This module contians proceducers for the generation of a regular, square triangular-mesh
 module mesh_generator
     use, intrinsic :: iso_fortran_env, only : int64, real64
     implicit none
@@ -38,29 +6,47 @@ module mesh_generator
 
 contains
 
+    !> This subroutine calculates the parameters which define the mesh but does not actually
+    !> populate the mesh arrays
     subroutine calculate_mesh_parameters(box_size, edge_size, num_edges_per_boundary, num_nodes, num_boundary_nodes, num_elements)
         implicit none
+        ! Arguments
+        !> The total length of one side of the box mesh, made up of multiple edges
         integer(kind=int64), intent(in)  :: box_size
+        !> The length of one edge within the box mesh
         real(kind=real64), intent(in)    :: edge_size
-        integer(kind=int64), intent(out) :: num_edges_per_boundary, num_nodes, num_boundary_nodes, num_elements
+        !> The number of edges along one side of the box
+        integer(kind=int64), intent(out) :: num_edges_per_boundary
+        !> The total number of nodes in the mesh
+        integer(kind=int64), intent(out) :: num_nodes
+        !> The total number of nodes on the boundary of the mesh    
+        integer(kind=int64), intent(out) :: num_boundary_nodes
+        !> The total number of elements in the mesh
+        integer(kind=int64), intent(out) :: num_elements
 
         num_edges_per_boundary = floor(box_size / edge_size)
         num_nodes = (num_edges_per_boundary + 1)**2
         num_boundary_nodes = (num_edges_per_boundary) * 4
         num_elements = 2 * (num_edges_per_boundary)**2
-
-        ! write(*,*) "** Mesh Parameters **"
-        ! write(*,*) "   num_edges_per_boundary:", num_edges_per_boundary
-        ! write(*,*) "   num_nodes:", num_nodes
-        ! write(*,*) "   num_boundary_nodes:", num_boundary_nodes
-        ! write(*,*) "   num_elements:", num_elements
     end subroutine calculate_mesh_parameters
 
+    !> This subroutine takes the generated mesh parameters and populates the mesh arrays with the
+    !> elements, boundary edges and nodes of the mesh
     subroutine calculate_mesh(num_edges_per_boundary, num_nodes, num_elements, num_boundary_nodes, nodes, elements, boundary_edges)
         implicit none
-        integer(kind=int64), intent(in) :: num_edges_per_boundary, num_nodes, num_boundary_nodes, num_elements
-        integer(kind=int64), dimension(3, num_elements), intent(inout) :: elements
+        !> The number of edges along one side of the box
+        integer(kind=int64), intent(in) :: num_edges_per_boundary
+        !> The total number of nodes in the mesh
+        integer(kind=int64), intent(in) :: num_nodes
+        !> The total number of nodes on the boundary of the mesh
+        integer(kind=int64), intent(in) :: num_boundary_nodes
+        !> The total number of elements in the mesh
+        integer(kind=int64), intent(in) :: num_elements
+        !> The array of boundary edges in the mesh
         integer(kind=int64), dimension(3, num_boundary_nodes), intent(inout) :: boundary_edges
+        !> The array of elements in the mesh
+        integer(kind=int64), dimension(3, num_elements), intent(inout) :: elements
+        !> The array of nodes in the mesh
         real(kind=real64), dimension(2, num_nodes), intent(inout) :: nodes
 
         integer :: num_nodes_per_boundary, bottom_left_node, counter, i, j
@@ -120,11 +106,21 @@ contains
 
     end subroutine calculate_mesh
 
+    !> This subroutine writes the generated mesh parameters and arrays to a file in the format
+    !> expected by the Poisson solver
     subroutine write_mesh_to_file(num_nodes, num_elements, num_boundary_nodes, nodes, elements, boundary_edges)
         implicit none
-        integer(kind=int64), intent(in) :: num_nodes, num_elements, num_boundary_nodes
-        integer(kind=int64), dimension(3, num_elements), intent(inout) :: elements
+        !> The total number of nodes in the mesh
+        integer(kind=int64), intent(in) :: num_nodes
+        !> The total number of elements in the mesh
+        integer(kind=int64), intent(in) :: num_elements
+        !> The total number of nodes on the boundary of the mesh
+        integer(kind=int64), intent(in) :: num_boundary_nodes
+        !> The array of boundary edges in the mesh
         integer(kind=int64), dimension(3, num_boundary_nodes), intent(inout) :: boundary_edges
+        !> The array of elements in the mesh
+        integer(kind=int64), dimension(3, num_elements), intent(inout) :: elements
+        !> The array of nodes in the mesh
         real(kind=real64), dimension(2, num_nodes), intent(inout) :: nodes
 
         character(len=11) :: file_name
