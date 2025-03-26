@@ -1,4 +1,4 @@
-!> This program generates a basic square 2D triangular-mesh. 
+!> This program generates a basic square 2D triangular-mesh.
 !>
 !> |mesh_geometry_description|
 program generate_mesh

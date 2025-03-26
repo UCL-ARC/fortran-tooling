@@ -1,4 +1,4 @@
-!> This module contians proceducers for generating a basic square 2D triangular-mesh. 
+!> This module contians proceducers for generating a basic square 2D triangular-mesh.
 !> |mesh_geometry_description|
 module mesh_generator
     use, intrinsic :: iso_fortran_env, only : int64, real64
@@ -20,7 +20,7 @@ contains
         integer(kind=int64), intent(out) :: num_edges_per_boundary
         !> The total number of nodes in the mesh
         integer(kind=int64), intent(out) :: num_nodes
-        !> The total number of nodes on the boundary of the mesh    
+        !> The total number of nodes on the boundary of the mesh
         integer(kind=int64), intent(out) :: num_boundary_nodes
         !> The total number of elements in the mesh
         integer(kind=int64), intent(out) :: num_elements

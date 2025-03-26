@@ -45,7 +45,7 @@ contains
 
       !> Reads the input data, triangular mesh and problem parameters, from the input file. This
       !> file must contain the following information:
-      !> 
+      !>
       !> **num_elements** -  No of triangular elements in the mesh.<br>
       !> **num_nodes** -  No of nodes (or points) in the mesh.<br>
       !> **num_boundary_points** -  No of boundary points (same as boundary sides)<br>
@@ -75,7 +75,7 @@ contains
       !>   ...
       !> ! jp,coordinates(1,jp),coordinates(2,jp) - as many lines as num_nodes
       !>   int  real  real
-      !>   ...   
+      !>   ...
       !> ! je,element_to_node(1,je),element_to_node(2,je),element_to_node(3,je),vb_index(je) - as many lines as num_elements
       !>   int  int  int  int  int
       !>   ...
