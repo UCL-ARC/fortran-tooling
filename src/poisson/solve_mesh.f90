@@ -1,20 +1,28 @@
-program main
+!> This program reads in a mesh file, evloves the system and writes the result to an output file
+!>
+!> |poisson_description|
+!>
+!> |poisson_version_and_author|
+program solve_mesh
     use poisson, only : read_input_file, write_output_file, pcg, open_file, mxp, mxe, mxb, mxc
 
     implicit none
 
-    integer       :: num_nodes, num_elements, num_boundary_points, element_to_node(3,mxe), vb_index(mxe), &
-                     boundary_node_num(2,mxb), num_side_nodes(4,mxb)
-    real          :: coordinates(2, mxp), nodal_value_of_f(mxp), vb1(mxc), vb2(mxc), vb(3,mxc)
+    integer       :: num_nodes, num_elements, num_boundary_points, element_to_node(3,mxe),    &
+                     vb_index(mxe), boundary_node_num(2,mxb), num_side_nodes(4,mxb)
+    real          :: coordinates(2, mxp), nodal_value_of_f(mxp), &
+                     vb1(mxc), vb2(mxc), vb(3,mxc)
     integer       :: fname_io = 100, fname_out_io = 101
 
-    !! CLI inputs
+    ! CLI inputs
+    !> The path to the input mesh file. Results are written to {input_fname}.out
+    character(len=:), allocatable :: input_fname
+    character(len=:), allocatable :: a, output_fname
     integer                       :: argl
-    character(len=:), allocatable :: a, input_fname, output_fname
 
-    !!
-    !! *** Check for input from user
-    !!
+    !
+    ! *** Check for input from user
+    !
     if (command_argument_count() == 1) then
         call get_command_argument(1, length=argl)
         allocate(character(argl) :: input_fname)
@@ -35,20 +43,20 @@ program main
     call open_file(output_fname, 'new', fname_out_io)
 
 
-    !!
-    !! *** Reads the triangular mesh and problem constants: Kx,Ky,Q,fp,q
-    !!
-    call read_input_file(num_nodes,num_elements,num_boundary_points,element_to_node,vb_index,coordinates,boundary_node_num, &
+    !
+    ! *** Reads the triangular mesh and problem constants: Kx,Ky,Q,fp,q
+    !
+    call read_input_file(num_nodes,num_elements,num_boundary_points,element_to_node,vb_index,coordinates,boundary_node_num, $
                          num_side_nodes,vb,vb1,vb2,fname_io)
 
-    !!
-    !! *** Assembles and solves the system of equations
-    !!
+    !
+    ! *** Assembles and solves the system of equations
+    !
     call pcg(num_nodes,num_elements,num_boundary_points,element_to_node,vb_index,coordinates,boundary_node_num,num_side_nodes,vb, &
              vb1,vb2,nodal_value_of_f)
 
-    !!
-    !! *** Writes the computed solution
-    !!
+    !
+    ! *** Writes the computed solution
+    !
     call write_output_file(num_nodes,num_elements,element_to_node,coordinates,nodal_value_of_f,fname_out_io)
-end program main
+end program solve_mesh

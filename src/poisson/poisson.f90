@@ -1,91 +1,8 @@
-!!----------------------------------------------------------------------------------------------------*
-!!                                                                                                    *
-!!                                   *** Program POISSON ***                                          *
-!!                                                                                                    *
-!!                This is a program for the solution of the steady-state heat conduction              *
-!!                equation represented by the Poisson equation:                                       *
-!!                                                                                                    *
-!!                             (Kx f,x),x + (Ky f,y),y + Q = 0     in D                               *
-!!                                                                                                    *
-!!                 + b.c.       f = fp               (1)                                           *
-!!                                 Kx f,x + Ky f,y = q  (2)                                           *
-!!                                                                                                    *
-!!                 It uses a finite element Galerkin discretization on a triangular mesh.             *
-!!                 The solution is assumed to vary linearly within an element. The values             *
-!!                 of the unknown (f) are stored at the nodes. The resulting system of                *
-!!                 equations is solved by means of a Preconditioned Conjugate Gradient                *
-!!                 -PCG- with diagonal preconditioning.                                               *
-!!                                                                                                    *
-!!                 Version:   February 95                                                             *
-!!                 Author:    Joaquim Peiro                                                           *
-!!                            Department of Aeronautics                                               *
-!!                            Imperial College of Science, Technology and Medicine                    *
-!!                            Prince Consort Road                                                     *
-!!                            LONDON SW7 2BY   (U.K.)                                                 *
-!!                            e-mail: j.peiro@ic.ac.uk                                                *
-!!                                                                                                    *
-!!----------------------------------------------------------------------------------------------------*
-!!                                                                                                    *
-!!    INPUT DATA:                                                                                     *
-!!                                                                                                    *
-!!    num_elements ................................. No of triangular elements in the mesh.           *
-!!    num_nodes .................................... No of nodes (or points) in the mesh.             *
-!!    num_boundary_points .......................... No of boundary points (same as boundary sides)   *
-!!    num_sets ..................................... No of sets (Kx,Ky,Q) used. The parameters        *
-!!                                                   (Kx,Ky,Q) are assumed to be constant for an      *
-!!                                                   element, but can change from element to element. *
-!!                                                   The values (Kx,Ky,Q) are stored in "vb".         *
-!!    num_dirichlet_boundary_conditions ............ No of Dirichlet type boundary conditions:        *
-!!                                                          f = fp               (1)                  *
-!!                                                   The prescribed values (fp) are stored in "vb1".  *
-!!    num_neumann_boundary_conditions .............. No of Neumann type boundary conditions:          *
-!!                                                          Kx f,x + Ky f,y = q  (2)                  *
-!!                                                   (Kx,Ky) are obtained from the element adjacent   *
-!!                                                   to a boundary side. The values of the prescribed *
-!!                                                   heat flux (q) are stored in "vb2".               *
-!!    coordinates(1:2,1:num_nodes) ................. (x,y) coordinates of the nodes.                  *
-!!    element_to_node(1:3,1:num_elements) .......... (I1,I2,I3) Element to node connectivity array.   *
-!!                                                   I1,I2,I3 are the numbers of the nodes forming    *
-!!                                                   the triangular element. Using the right-hand     *
-!!                                                   rule, the circulation I1->I2->I3 is in the       *
-!!                                                   z-direction:                                     *
-!!                                                                                                    *
-!!                                                                  I3             y                  *
-!!                                                                 *              ^                   *
-!!                                                                / \             |                   *
-!!                                                               /   \            +--> x              *
-!!                                                           I1 *-----* I2                            *
-!!                                                                -->                                 *
-!!                                                                                                    *
-!!    vb_index(1:num_elements) .................... Points to the index in "vb2" where the element   *
-!!                                                   values of thez parameters Kx,Ky,Q are stored     *
-!!    boundary_node_num(1:2,1:num_boundary_points) . (I1,I2) I1 is the boundary node number. I2 is    *
-!!                                                   either 0 (no Dirichlet BC) or a pointer (I2>0)   *
-!!                                                   to the position in "vb1" containing prescribed   *
-!!                                                   value of (fp).                                   *
-!!    num_side_nodes(1:4,1:num_boundary_points) .... (I1,I2,IE,IK) I1,I2 are the numbers of the nodes *
-!!                                                   on the side. IE is the element containing the    *
-!!                                                   side. IK is either 0 (no Neumann BC) or a        *
-!!                                                   pointer (IK > 0) at the position in "vb2" that   *
-!!                                                   contains the prescribed value of (q). The values *
-!!                                                   (Kx,Ky) are those corresponding to element IE.   *
-!!                                                                                                    *
-!!    FEM VARIABLES:                                                                                  *
-!!                                                                                                    *
-!!    nodal_value_of_f(1:num_nodes) ................ Nodal values of f.                               *
-!!    element_stiffness(1:6,1:num_elements) ........ Stores the entries of the element stiffness      *
-!!                                                   matrix (k11,k12,k13,k22,k23,k33).                *
-!!                                                                                                    *
-!!    PCG VARIABLES:                                                                                  *
-!!                                                                                                    *
-!!    pre_conditioning_matrix(1:num_nodes) ......... Diagonal preconditioning matrix.                 *
-!!    rhs_vector(1:num_nodes) ...................... Right-hand side (RHS) vector.                    *
-!!    f_increment(1:num_nodes) ..................... Computed increment of f.                         *
-!!    boundary_index(1:num_nodes) .................. Index to set f_increment(ip) = 0 for Dirichlet   *
-!!                                                   boundary conditions.                             *
-!!    b(1:num_nodes) ............................... Stores beta as in Hestenes-Stiefel relation.     *
-!!                                                                                                    *
-!!----------------------------------------------------------------------------------------------------*
+!> Module containing the procedures for solving the poisson equations over the provided mesh
+!>
+!> |poisson_description|
+!>
+!> |poisson_version_and_author|
 module poisson
       implicit none
 
@@ -100,12 +17,16 @@ module poisson
 
 contains
 
+      !> Convenience function for consistent opening of a file
       subroutine open_file(file_name, status, file_io)
             implicit none
 
-            integer, intent(in) :: file_io
+            !> The name of the file to open
             character(len=:), allocatable, intent(in) :: file_name
+            !> The status of the file to open
             character(len=3), intent(in) :: status
+            !> The identifier of the file to be opened
+            integer, intent(in) :: file_io
 
             integer :: iostat
 
@@ -122,19 +43,71 @@ contains
             end if
       end subroutine open_file
 
-      !!---------------------------------------------------------------------------------*
-      !!                                                                                 *
-      !! "read_input_file" reads the input data: triangular mesh and problem parameters. *
-      !!                                                                                 *
-      !!---------------------------------------------------------------------------------*
+      !> Reads the input data, triangular mesh and problem parameters, from the input file. This
+      !> file must contain the following information:
+      !> 
+      !> **num_elements** -  No of triangular elements in the mesh.<br>
+      !> **num_nodes** -  No of nodes (or points) in the mesh.<br>
+      !> **num_boundary_points** -  No of boundary points (same as boundary sides)<br>
+      !> **num_sets** -  No of sets (Kx,Ky,Q) used. The parameters
+      !> (Kx,Ky,Q) are assumed to be constant for an
+      !> element, but can change from element to element.
+      !> The values (Kx,Ky,Q) are stored in "vb".<br>
+      !> **num_dirichlet_boundary_conditions** -  No of Dirichlet type boundary conditions:
+      !> $$f = fp \quad (1)$$
+      !> The prescribed values (fp) are stored in "vb1".<br>
+      !> **num_neumann_boundary_conditions** - No of Neumann type boundary conditions:
+      !> $$Kx f,x + Ky f,y = q \quad (2)$$
+      !> (Kx,Ky) are obtained from the element adjacent
+      !> to a boundary side. The values of the prescribed
+      !> heat flux (q) are stored in "vb2".
+      !>```
+      !> ! num_nodes, num_elements, num_boundary_points, num_sets, num_dirichlet_boundary_conditions, num_neumann_boundary_conditions
+      !>   int  int  int  int  int  int
+      !> ! jb,vb(1,jb),vb(2,jb),vb(3,jb) - as many lines as num_sets
+      !>   int  real  real  real
+      !>   ...
+      !> ! jb,vb1(jb) - as many lines as num_dirichlet_boundary_conditions
+      !>   int  real
+      !>   ...
+      !> ! jb,vb2(jb) - as many lines as num_neumann_boundary_conditions
+      !>   int  real
+      !>   ...
+      !> ! jp,coordinates(1,jp),coordinates(2,jp) - as many lines as num_nodes
+      !>   int  real  real
+      !>   ...   
+      !> ! je,element_to_node(1,je),element_to_node(2,je),element_to_node(3,je),vb_index(je) - as many lines as num_elements
+      !>   int  int  int  int  int
+      !>   ...
+      !> ! boundary_node_num(1,ib),boundary_node_num(2,ib) - as many lines as num_boundary_points
+      !>   int  int
+      !>   ...
+      !> ! num_side_nodes(1,ib),num_side_nodes(2,ib),num_side_nodes(3,ib),num_side_nodes(4,ib) - as many lines as num_boundary_points
+      !>   int  int  int  int
+      !>   ...
+      !>```
       subroutine read_input_file(num_nodes,num_elements,num_boundary_points,element_to_node,vb_index,coordinates, &
                      boundary_node_num,num_side_nodes,vb,vb1,vb2,file_io)
             implicit none
 
-            integer, intent(out) :: num_nodes, num_elements, num_boundary_points, &
-                                    element_to_node(3,mxp), vb_index(mxe), boundary_node_num(2,mxb), &
-                                    num_side_nodes(4,mxb)
-            real, intent(out)    :: vb(3,mxc), vb1(mxc), vb2(mxc), coordinates(2, mxp)
+            integer, intent(out) :: num_nodes, num_elements, num_boundary_points
+            !> |element_to_node_docstring|
+            integer, intent(out) :: element_to_node(3,mxp)
+            !> |vb_index_docstring|
+            integer, intent(out) :: vb_index(mxe)
+            !> |boundary_node_num_docstring|
+            integer, intent(out) :: boundary_node_num(2,mxb)
+            !> |num_side_nodes_docstring|
+            integer, intent(out) :: num_side_nodes(4,mxb)
+            !> |vb_docstring|
+            real, intent(out)    :: vb(3,mxc)
+            !> |vb1_docstring|
+            real, intent(out)    :: vb1(mxc)
+            !> |vb2_docstring|
+            real, intent(out)    :: vb2(mxc)
+            !> |coordinates_docstring|
+            real, intent(out)    :: coordinates(2, mxp)
+            !> The identifier of the file to be read
             integer, intent(in)  :: file_io
 
             integer      :: mx, ib, ip, ie, jb, jp, je, icheck, num_sets, num_dirichlet_boundary_conditions, &
@@ -145,9 +118,9 @@ contains
             read(file_io,*) num_nodes,num_elements,num_boundary_points,num_sets,num_dirichlet_boundary_conditions, &
                             num_neumann_boundary_conditions
 
-            !!
-            !! *** Check dimensions
-            !!
+            !
+            ! *** Check dimensions
+            !
             icheck = 0
             if( num_nodes > mxp ) then
                   write(*,'(a,i6)') ' *** Increase mxp to: ',num_nodes
@@ -168,69 +141,69 @@ contains
             endif
             if( icheck == 1 ) STOP
 
-            !!
-            !! *** Reads (Kx,Ky,Q) sets
-            !!
+            !
+            ! *** Reads (Kx,Ky,Q) sets
+            !
             read(file_io,'(a)') text
             do ib=1,num_sets
                   read(file_io,*) jb,vb(1,jb),vb(2,jb),vb(3,jb)
             end do
 
-            !!
-            !! *** Reads (fp) sets
-            !!
+            !
+            ! *** Reads (fp) sets
+            !
             read(file_io,'(a)') text
             do ib=1,num_dirichlet_boundary_conditions
                   read(file_io,*) jb,vb1(jb)
             end do
 
-            !!
-            !! *** Reads (q) sets
-            !!
+            !
+            ! *** Reads (q) sets
+            !
             read(file_io,'(a)') text
             do ib=1,num_neumann_boundary_conditions
                   read(file_io,*) jb,vb2(jb)
             end do
 
-            !!
-            !! *** Reads coordinates
-            !!
+            !
+            ! *** Reads coordinates
+            !
             read(file_io,'(a)') text
             do ip=1,num_nodes
                   read(file_io,*) jp,coordinates(1,jp),coordinates(2,jp)
             end do
 
-            !!
-            !! *** Reads element-to-node array + index to (Kx,Ky,Q) set
-            !!
+            !
+            ! *** Reads element-to-node array + index to (Kx,Ky,Q) set
+            !
             read(file_io,'(a)') text
             do ie=1,num_elements
                   read(file_io,*) je,element_to_node(1,je),element_to_node(2,je),element_to_node(3,je),vb_index(je)
             end do
 
-            !!
-            !! *** Boundary points: I1,I2 = boundary_node_num(1:2,1:num_boundary_points)
-            !!
-            !!     - I1 ......... Number of the boundary point
-            !!     - I2 ......... I2 = 0 No Dirichlet BC is applied
-            !!                    I2 > 0 I2 points at the position in "vb1" containing
-            !!                    the prescribed value of (fp).
-            !!
+            !
+            ! *** Boundary points: I1,I2 = boundary_node_num(1:2,1:num_boundary_points)
+            !
+            !     - I1 ......... Number of the boundary point
+            !     - I2 ......... I2 = 0 No Dirichlet BC is applied
+            !                    I2 > 0 I2 points at the position in "vb1" containing
+            !                    the prescribed value of (fp).
+            !
             read(file_io,'(a)') text
             do ib=1,num_boundary_points
                   read(file_io,*) boundary_node_num(1,ib),boundary_node_num(2,ib)
             end do
 
-            !!
-            !! *** Boundary sides: I1,I2,IE,IK = num_side_nodes(1:4,1:num_boundary_points)
-            !!
-            !!     - (I1,I2) .... Numbers of the nodes on the side
-            !!     - IE ......... Element containing the side
-            !!     - IK ......... IK = 0 No Neumann BC is applied.
-            !!                    IK > 0 IK Points at the position in "vb2" containing
-            !!                    the prescribed value of (q). The values (Kx,Ky) are
-            !!                    those corresponding to element IE.
-            !!
+            !
+            ! *** Boundary sides: I1,I2,IE,IK = num_side_nodes(1:4,1:num_boundary_points)
+            !
+            !     - (I1,I2) .... Numbers of the nodes on the side
+            !     - IE ......... Element containing the side
+            !     - IK ......... IK = 0 No Neumann BC is applied.
+            !                    IK > 0 IK Points at the position in "vb2" containing
+            !                    the prescribed value of (q). The values (Kx,Ky) are
+            !                    those corresponding to element IE.
+            !
             read(file_io,'(a)') text
             do ib=1,num_boundary_points
                   read(file_io,*) num_side_nodes(1,ib),num_side_nodes(2,ib),num_side_nodes(3,ib),num_side_nodes(4,ib)
@@ -238,25 +211,46 @@ contains
 
       end subroutine read_input_file
 
-      !!-----------------------------------------------------------------------------*
-      !!                                                                             *
-      !!    "pcg" solves the system "K x = y" by a preconditioned conjugate gradient *
-      !!    method.                                                                  *
-      !!                                                                             *
-      !!-----------------------------------------------------------------------------*
+      !> Solves the system $$K x = y$$ by a preconditioned conjugate gradient method.
       subroutine pcg(num_nodes,num_elements,num_boundary_points,element_to_node,vb_index,coordinates,boundary_node_num, &
                      num_side_nodes,vb,vb1,vb2,nodal_value_of_f)
             implicit none
 
             real, parameter :: eps = 1.e-04
 
-            integer, intent(in) :: num_nodes, num_elements, num_boundary_points, &
-                                   element_to_node(3,mxp), vb_index(mxe), boundary_node_num(2,mxb), num_side_nodes(4,mxb)
-            real, intent(in)    :: coordinates(2, mxp), vb(3,mxc), vb1(mxc), vb2(mxc)
-            real, intent(out)   :: nodal_value_of_f(mxp)
+            integer, intent(in) :: num_nodes, num_elements, num_boundary_points
+            !> |element_to_node_docstring|
+            integer, intent(inout) :: element_to_node(3,mxp)
+            !> |vb_index_docstring|
+            integer, intent(inout) :: vb_index(mxe)
+            !> |boundary_node_num_docstring|
+            integer, intent(inout) :: boundary_node_num(2,mxb)
+            !> |num_side_nodes_docstring|
+            integer, intent(inout) :: num_side_nodes(4,mxb)
+            !> |coordinates_docstring|
+            real, intent(inout)    :: coordinates(2, mxp)
+            !> |nodal_value_of_f_docstring|
+            real, intent(inout)    :: nodal_value_of_f(mxp)
+            !> |vb_docstring|
+            real, intent(inout)    :: vb(3,mxc)
+            !> |vb1_docstring|
+            real, intent(inout)    :: vb1(mxc)
+            !> |vb2_docstring|
+            real, intent(inout)    :: vb2(mxc)
 
+            ! Variables not for Ford
+            ! Index to set f_increment(ip) = 0 for Dirichlet boundary conditions.
             integer :: boundary_index(mxp)
-            real    :: element_stiffness(6,mxe), rhs_vector(mxp), b(mxp), f_increment(mxp), pre_conditioning_matrix(mxp)
+            ! Stores the entries of the element stiffness matrix (k11,k12,k13,k22,k23,k33).
+            integer :: element_stiffness(6,mxe)
+            ! Stores beta as in Hestenes-Stiefel relation.
+            integer :: b(mxp)
+            ! Computed increment of f.
+            integer :: f_increment(mxp)
+            ! Diagonal preconditioning matrix.
+            integer :: pre_conditioning_matrix(mxp)
+            ! Right-hand side (RHS) vector.
+            integer :: rhs_vector(mxp)
 
             integer      :: ib, ip, ie, nit, in, ip1, ip2, ip3, ix, it
             real         :: tol, va, akx, aky, qq, ar, a1, a2, qa, qb, x21, y21, x31, y31, s1x, s1y, s2x, &
@@ -267,18 +261,18 @@ contains
             tol = eps*eps
             nit = 100*num_nodes
 
-            !!
-            !! *** Initial guess for the solution vector nodal_value_of_f
-            !!
+            !
+            ! *** Initial guess for the solution vector nodal_value_of_f
+            !
             boundary_index(:num_nodes)=1
             nodal_value_of_f(:num_nodes)=0.0
             f_increment(:num_nodes) = 0.0
             pre_conditioning_matrix(:num_nodes) = 0.0
             rhs_vector(:num_nodes) = 0.0
 
-            !!
-            !! *** Dirichlet type b.c.
-            !!
+            !
+            ! *** Dirichlet type b.c.
+            !
             do ib=1,num_boundary_points
                   in = boundary_node_num(2,ib)
                   if(in > 0) then
@@ -311,9 +305,9 @@ contains
                   s3x      = -y21
                   s3y      =  x21
 
-                  !!
-                  !! *** Stiffness matrix
-                  !!
+                  !
+                  ! *** Stiffness matrix
+                  !
                   element_stiffness(1,ie) = a1*( akx*s1x*s1x + aky*s1y*s1y )
                   element_stiffness(2,ie) = a1*( akx*s2x*s2x + aky*s2y*s2y )
                   element_stiffness(3,ie) = a1*( akx*s3x*s3x + aky*s3y*s3y )
@@ -322,24 +316,24 @@ contains
                   element_stiffness(6,ie) = a1*( akx*s1x*s3x + aky*s1y*s3y )
                   qa       = (1.0/3.0)*qq*ar
 
-                  !!
-                  !! *** RHS
-                  !!
+                  !
+                  ! *** RHS
+                  !
                   rhs_vector(ip1)  = rhs_vector(ip1)+qa
                   rhs_vector(ip2)  = rhs_vector(ip2)+qa
                   rhs_vector(ip3)  = rhs_vector(ip3)+qa
 
-                  !!
-                  !! *** Diagonal preconditioner (Mass lumping)
-                  !!
+                  !
+                  ! *** Diagonal preconditioner (Mass lumping)
+                  !
                   pre_conditioning_matrix(ip1)  = pre_conditioning_matrix(ip1)+element_stiffness(1,ie)
                   pre_conditioning_matrix(ip2)  = pre_conditioning_matrix(ip2)+element_stiffness(2,ie)
                   pre_conditioning_matrix(ip3)  = pre_conditioning_matrix(ip3)+element_stiffness(3,ie)
             end do
 
-            !!
-            !! *** Boundary contribution to the RHS.
-            !!
+            !
+            ! *** Boundary contribution to the RHS.
+            !
             do ib=1,num_boundary_points
                   in = num_side_nodes(4,ib)
                   if(in > 0) then
@@ -355,9 +349,9 @@ contains
                   endif
             end do
 
-            !!
-            !! *** Calculate first residual rhs_vector = rhs_vector-element_stiffness*nodal_value_of_f
-            !!
+            !
+            ! *** Calculate first residual rhs_vector = rhs_vector-element_stiffness*nodal_value_of_f
+            !
             do ie=1,num_elements
                   ip1     = element_to_node(1,ie)
                   ip2     = element_to_node(2,ie)
@@ -378,23 +372,23 @@ contains
                   rh0 = rh0 + rhs_vector(ip)*rhs_vector(ip)
             end do
 
-            !!
-            !! *** Solution of element_stiffness*nodal_value_of_f = rhs_vector  by PCG.
-            !!
+            !
+            ! *** Solution of element_stiffness*nodal_value_of_f = rhs_vector  by PCG.
+            !
             beta = 0.0
             energy_old = 1.0
             do ip=1,num_nodes
                   pre_conditioning_matrix(ip) = 1./pre_conditioning_matrix(ip)
             end do
 
-            !!
-            !! *** Iteration procedure
-            !!
+            !
+            ! *** Iteration procedure
+            !
             nit_loop: do it=1,nit
-                  !!
-                  !! *** Solves p*b=rhs_vector and obtains beta using Hestenes-Stiefel relation.
-                  !!     Note: boundary_index(ip)=0 takes care of the Dirichlet boundary conditions.
-                  !!
+                  !
+                  ! *** Solves p*b=rhs_vector and obtains beta using Hestenes-Stiefel relation.
+                  !     Note: boundary_index(ip)=0 takes care of the Dirichlet boundary conditions.
+                  !
                   energy = 0.0
                   do ip=1,num_nodes
                         b(ip)  = rhs_vector(ip)*pre_conditioning_matrix(ip)*boundary_index(ip)
@@ -404,10 +398,10 @@ contains
                   ! write(*,*) "energy: ", energy, "energy_old: ", energy_old
                   energy_old = energy
 
-                  !!
-                  !! *** Updates d (i.e. f_increment=f_increment*beta+b) and evaluates a1=f_increment*rhs_vector.
-                  !!     As it will be needed to compute eta, it saves rhs_vector in b.
-                  !!
+                  !
+                  ! *** Updates d (i.e. f_increment=f_increment*beta+b) and evaluates a1=f_increment*rhs_vector.
+                  !     As it will be needed to compute eta, it saves rhs_vector in b.
+                  !
                   a1 = 0.0
                   do ip=1,num_nodes
                         f_increment(ip) = beta*f_increment(ip)+b(ip)
@@ -415,10 +409,10 @@ contains
                         a1     = a1+f_increment(ip)*rhs_vector(ip)
                   end do
 
-                  !!
-                  !! *** Evaluates the new residuals using the formula rhs_vector=rhs_vector-element_stiffness*f_increment, in this
-                  !!     way we don't need to keep the RHS term of the linear equation.
-                  !!
+                  !
+                  ! *** Evaluates the new residuals using the formula rhs_vector=rhs_vector-element_stiffness*f_increment, in this
+                  !     way we don't need to keep the RHS term of the linear equation.
+                  !
                   do ie=1,num_elements
                         ip1     = element_to_node(1,ie)
                         ip2     = element_to_node(2,ie)
@@ -437,10 +431,10 @@ contains
                         rhs_vector(ip3) = rhs_vector(ip3)-f3
                   end do
 
-                  !!
-                  !! *** Finally, evaluates the eta parameter of the line search
-                  !!     method and updates f_increment and rhs_vector accordingly.
-                  !!
+                  !
+                  ! *** Finally, evaluates the eta parameter of the line search
+                  !     method and updates f_increment and rhs_vector accordingly.
+                  !
                   a2 = 0.0
                   do ip=1,num_nodes
                         a2 = a2+f_increment(ip)*(rhs_vector(ip)-b(ip))
@@ -461,23 +455,28 @@ contains
                   endif
             end do nit_loop
 
-            !!
-            !! *** Number of iterations exceeded -> This Should NOT Happen !!
-            !!
+            !
+            ! *** Number of iterations exceeded -> This Should NOT Happen !
+            !
             if(.not. is_converged) then
                   write(*,'(a)') ' *** Warning: PCG iterations exceeded'
             endif
 
       end subroutine pcg
 
-      !!-----------------------------------------------------------------------------*
-      !!    "write_output_file" writes output results.                               *
-      !!-----------------------------------------------------------------------------*
+      !> Writes output results.
       subroutine write_output_file(num_nodes,num_elements,element_to_node,coordinates,nodal_value_of_f,file_io)
             implicit none
 
-            integer, intent(in) :: num_nodes,num_elements,element_to_node(3,mxp),file_io
-            real, intent(in)    :: nodal_value_of_f(mxp), coordinates(2, mxp)
+            integer, intent(in) :: num_nodes,num_elements
+            !> |element_to_node_docstring|
+            integer, intent(in) :: element_to_node(3,mxp)
+            !> The identifier of the file to be written to
+            integer, intent(in) :: file_io
+            !> |nodal_value_of_f_docstring|
+            real, intent(in)    :: nodal_value_of_f(mxp)
+            !> |coordinates_docstring|
+            real, intent(in)    :: coordinates(2, mxp)
 
             integer :: ip, ie
             real    :: z

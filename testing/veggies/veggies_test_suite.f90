@@ -1,4 +1,4 @@
-program veggies_main
+program veggies_test_suite
     use veggies, only : test_item_t, test_that, run_tests
     use veggies_mesh_generator, only : test_mesh_generator
     use veggies_poisson, only : test_poisson
@@ -22,4 +22,4 @@ contains
 
         passed = run_tests(tests)
     end function run
-end program veggies_main
+end program veggies_test_suite

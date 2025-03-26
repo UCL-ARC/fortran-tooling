@@ -1,5 +1,5 @@
 !> Driver for unit testing
-program tester
+program test_drive_test_suite
     use, intrinsic :: iso_fortran_env, only : error_unit
     use testdrive, only : run_testsuite, new_testsuite, testsuite_type, &
         & select_suite, run_selected, get_argument
@@ -57,4 +57,4 @@ program tester
         error stop 1
     end if
 
-end program tester
+end program test_drive_test_suite
