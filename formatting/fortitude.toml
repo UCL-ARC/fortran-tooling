@@ -1,5 +1,11 @@
 [check]
+file-extensions = ["F90"]
 ignore = [
-    "C003", # 'implicit none' missing 'external'
+    "C003", # 'implicit none' missing 'external'.
+    "S091", # file extension should be '.f90' or '.F90'. Disabled to allow formatting of pFUnit files.
 ]
 line-length = 132
+respect-gitignore = false
+
+[check.per-file-ignores]
+"**.pf" = ["E001"] # Ignore syntax errors in .pf files as annotations cause false positives

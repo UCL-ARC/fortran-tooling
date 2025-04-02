@@ -27,7 +27,7 @@ main = "generate_mesh.f90"
 [[test]]
 name = "test-drive-tests"
 source-dir = "testing/test-drive"
-main = "test_drive_test_suite.f90"
+main = "main.f90"
 
 [[test]]
 name = "veggies-tests"
