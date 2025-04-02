@@ -34,8 +34,9 @@ list(FILTER PROJ_MESH_GENERATOR_SOURCES_EXC_MAIN EXCLUDE REGEX ".*generate_mesh.
 # Unit testing
 set(
   tests
-  "mesh_generator"
-  "poisson"
+  "calculate_mesh_parameters"
+  "calculate_mesh"
+  "skip_test"
 )
 set(
   test-srcs

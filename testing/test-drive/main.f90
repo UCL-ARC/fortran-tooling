@@ -1,24 +1,28 @@
-!> Driver for unit testing
+!> Driver for test-drive unit testing
 program test_drive_test_suite
     use, intrinsic :: iso_fortran_env, only : error_unit
     use testdrive, only : run_testsuite, new_testsuite, testsuite_type, &
         & select_suite, run_selected, get_argument
 
-    use test_drive_mesh_generator, only : collect_mesh_generator_testsuite
-    use test_drive_poisson, only : collect_poisson_testsuite
+    use test_drive_calculate_mesh_parameters, only : collect_calculate_mesh_parameters_testsuite
+    use test_drive_calculate_mesh, only : collect_calculate_mesh_testsuite
+    use test_drive_skip_test, only: collect_skip_test_testsuite
 
     implicit none
 
+    !> Allocatable array of testsuites which will be ran by ctest
+    type(testsuite_type), allocatable :: testsuites(:)
+
     integer :: stat, is
     character(len=:), allocatable :: suite_name, test_name
-    type(testsuite_type), allocatable :: testsuites(:)
     character(len=*), parameter :: fmt = '("#", *(1x, a))'
 
     stat = 0
 
     testsuites = [ &
-        new_testsuite("mesh_generator", collect_mesh_generator_testsuite), &
-        new_testsuite("poisson", collect_poisson_testsuite) &
+        new_testsuite("calculate_mesh_parameters", collect_calculate_mesh_parameters_testsuite), &
+        new_testsuite("calculate_mesh", collect_calculate_mesh_testsuite), &
+        new_testsuite("skip_test", collect_skip_test_testsuite) &
         ]
 
     call get_argument(1, suite_name)
