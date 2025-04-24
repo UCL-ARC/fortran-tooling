@@ -46,21 +46,13 @@ shift $((OPTIND -1))
 
 if [ "$clean_build" == "true" ]
 then
-    if [ "$build_cmake" == "true" ]
-    then
-        echo "Cleaning cmake build"
-        rm -rf build-cmake
-    fi
-
-    if [ "$build_fpm" == "true" ]
-    then
+    if [ -d "build" ]; then
         echo "Cleaning fpm build"
         rm -rf build
     fi
-
-    if [ "$build_cmake" == "false" ] && [ "$build_fpm" == "false" ]
-    then
-        echo "No build type specified"
+    if [ -d "build-cmake" ]; then
+        echo "Cleaning cmake build"
+        rm -rf build-cmake
     fi
 fi
 
@@ -82,11 +74,6 @@ fi
 # Build fpm version
 if [ "$build_fpm" == "true" ]
 then
-    if [ "$clean_build" == "true" ]
-    then
-        echo "Cleaning fpm build"
-        rm -rf build
-    fi
     echo "Building using fpm"
     fpm build
 fi

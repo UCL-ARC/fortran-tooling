@@ -475,7 +475,7 @@ contains
       subroutine write_output_file(num_nodes,num_elements,element_to_node,coordinates,nodal_value_of_f,file_io)
             implicit none
 
-            integer, intent(in) :: num_nodes,num_elements,element_to_node(3,mxp), file_io
+            integer, intent(in) :: num_nodes,num_elements,element_to_node(3,mxp),file_io
             real, intent(in)    :: nodal_value_of_f(mxp), coordinates(2, mxp)
 
             integer :: ip, ie
