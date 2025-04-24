@@ -5,9 +5,13 @@ It has a sister project called [Garden](https://gitlab.com/everythingfunctional/
 testing framework but for codes which use coarray. *"The hope is that at some point in the future all compilers
 will support parallel features implicitly, and any need for two separate packages will disappear."*
 
+## Running the tests
+
+The veggies tests will run with the rest of the FPM [tests](../README.md#running-the-tests) in the repo.
+
 ## Features matrix
 
-Compilers tested: *A list of compilers we have tried with these tests*
+Compilers tested: GNU Fortran (Homebrew GCC 14.2.0_1)
 
 | Feature | Implemented natively | Implemented manually |
 |---------|----------------------|----------------------|
