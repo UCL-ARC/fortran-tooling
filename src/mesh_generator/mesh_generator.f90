@@ -149,8 +149,6 @@ contains
         if( iostat /= 0) then
             write(*,'(a)') ' *** Error when opening '//trim(file_name)
             stop
-        else
-            write(*,'(/,a)') ' *** '//trim(file_name)//' opened'
         end if
 
         write(file_io,*) "! num_nodes, num_elements, num_boundary_points, num_sets, num_dirichlet_boundary_conditions, &
@@ -185,6 +183,15 @@ contains
         do i = 1, num_boundary_nodes
             write(file_io,*) boundary_edges(1, i), boundary_edges(2, i), boundary_edges(3, i), 0
         end do
+
+        close (unit=file_io, &
+        IOSTAT=iostat)
+
+        if( iostat /= 0) then
+            write(*,'(a)') ' *** Error when closing '//trim(file_name)
+            stop
+        end if
+
     end subroutine write_mesh_to_file
 
 end module mesh_generator

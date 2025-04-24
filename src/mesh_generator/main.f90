@@ -40,8 +40,8 @@ program main
 
     ! Output start message
     write(*,'(A)') "Generating mesh using:"
-    write(*,'(A,1I16)') "box size: ", box_size
-    write(*,*) " edge_size: ", edge_size
+    write(*,'(A,1I16)') " box size: ", box_size
+    write(*,'(A,1F16.3)') " edge_size: ", edge_size
 
     call calculate_mesh_parameters(box_size, edge_size, num_edges_per_boundary, num_nodes, num_boundary_nodes, num_elements)
 
