@@ -132,7 +132,7 @@ contains
       subroutine read_input(element_to_node,vb_index,coordinates,boundary_node_num,num_side_nodes,vb,vb1,vb2,file_io)
             implicit none
 
-            integer, intent(out) :: element_to_node(3,mxp), vb_index(mxe), boundary_node_num(2,mxb), &
+            integer, intent(out) :: element_to_node(3,mxe), vb_index(mxe), boundary_node_num(2,mxb), &
                                     num_side_nodes(4,mxb)
             real, intent(out)    :: vb(3,mxc), vb1(mxc), vb2(mxc), coordinates(2, mxp)
             integer, intent(in)  :: file_io
@@ -249,7 +249,7 @@ contains
 
             real, parameter :: eps = 1.e-04
 
-            integer, intent(inout) :: element_to_node(3,mxp), vb_index(mxe), boundary_node_num(2,mxb), num_side_nodes(4,mxb), &
+            integer, intent(inout) :: element_to_node(3,mxe), vb_index(mxe), boundary_node_num(2,mxb), num_side_nodes(4,mxb), &
                                       boundary_index(mxp)
             real, intent(inout)    :: coordinates(2, mxp), nodal_value_of_f(mxp), rhs_vector(mxp), b(mxp), f_increment(mxp), &
                                       vb(3,mxc), vb1(mxc), vb2(mxc), element_stiffness(6,mxe), pre_conditioning_matrix(mxp)
@@ -472,7 +472,7 @@ contains
       subroutine write_output(element_to_node,coordinates,nodal_value_of_f,file_io)
             implicit none
 
-            integer, intent(in) :: element_to_node(3,mxp), file_io
+            integer, intent(in) :: element_to_node(3,mxe), file_io
             real, intent(in)    :: nodal_value_of_f(mxp), coordinates(2, mxp)
 
             integer :: ip, ie
