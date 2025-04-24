@@ -26,7 +26,7 @@ module veggies_poisson
                    num_sets,                          &
                    num_dirichlet_boundary_conditions, &
                    num_neumann_boundary_conditions
-        integer :: expected_element_to_node(3,mxp),   &
+        integer :: expected_element_to_node(3,mxe),   &
                    expected_vb_index(mxe),            &
                    expected_boundary_node_num(2,mxb), &
                    expected_num_side_nodes(4,mxb)
@@ -50,7 +50,7 @@ contains
                    num_sets_10_5,                          &
                    num_dirichlet_boundary_conditions_10_5, &
                    num_neumann_boundary_conditions_10_5,   &
-                   element_to_node_10_5(3,mxp),            &
+                   element_to_node_10_5(3,mxe),            &
                    vb_index_10_5(mxe),                     &
                    boundary_node_num_10_5(2,mxb),          &
                    num_side_nodes_10_5(4,mxb)
@@ -117,7 +117,7 @@ contains
         class(input_t), intent(in) :: input
         type(result_t) :: result_
 
-        integer :: actual_element_to_node(3,mxp),   &
+        integer :: actual_element_to_node(3,mxe),   &
                    actual_vb_index(mxe),            &
                    actual_boundary_node_num(2,mxb), &
                    actual_num_side_nodes(4,mxb)
@@ -194,7 +194,7 @@ contains
                                num_dirichlet_boundary_conditions, &
                                num_neumann_boundary_conditions
         integer, intent(in) ::        &
-            element_to_node(3,mxp),   &
+            element_to_node(3,mxe),   &
             vb_index(mxe),            &
             boundary_node_num(2,mxb), &
             num_side_nodes(4,mxb)

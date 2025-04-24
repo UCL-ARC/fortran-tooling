@@ -118,7 +118,7 @@ contains
 
             if( iostat /= 0) then
                   write(*,'(a)') ' *** Error when opening '//file_name
-                  stop
+                  stop 1
             else
                   write(*,'(/,a)') ' *** '//file_name//' opened'
             end if
@@ -165,7 +165,7 @@ contains
                   write(*,'(a,i6)') ' *** Increase mxc to: ',mx
                   icheck = 1
             endif
-            if( icheck == 1 ) STOP
+            if( icheck == 1 ) STOP 1
 
             !!
             !! *** Reads (Kx,Ky,Q) sets

@@ -28,14 +28,14 @@ module veggies_poisson_given_when_then
     end interface data_file_state_t
 
     type, extends(input_t) :: load_data_file_result_t
-        integer :: actual_element_to_node(3,mxp),   &
+        integer :: actual_element_to_node(3,mxe),   &
                    actual_vb_index(mxe),            &
                    actual_boundary_node_num(2,mxb), &
                    actual_num_side_nodes(4,mxb)
         real :: actual_vb(3,mxc), &
                 actual_vb1(mxc),  &
                 actual_vb2(mxc),  &
-                actual_coordinates(2, mxp)
+                actual_coordinates(2, mxe)
         integer :: iostat
     end type load_data_file_result_t
 contains

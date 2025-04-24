@@ -22,7 +22,7 @@ help() {
 # check for no input arguments and show help
 if [ $# -eq 0 ];
 then
-    ./build.sh -h
+    $0 -h
     exit 0
 fi
 
