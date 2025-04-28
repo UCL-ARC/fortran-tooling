@@ -127,7 +127,7 @@ contains
         integer(kind=int64), dimension(3, num_boundary_nodes), intent(inout) :: boundary_edges
         real(kind=real64), dimension(2, num_nodes), intent(inout) :: nodes
 
-        character*11 :: file_name
+        character(len=11) :: file_name
         integer :: file_io
         integer :: iostat
         integer :: i, num_sets, num_dirichlet_boundary_conditions, num_neumann_boundary_conditions
