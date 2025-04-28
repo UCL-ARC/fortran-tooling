@@ -105,7 +105,7 @@ contains
 
             integer, intent(in) :: file_io
             character(len=:), allocatable, intent(in) :: file_name
-            character*3, intent(in) :: status
+            character(len=3), intent(in) :: status
 
             integer :: iostat
 

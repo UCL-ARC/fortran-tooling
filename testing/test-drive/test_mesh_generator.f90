@@ -127,7 +127,7 @@ contains
         integer(kind=int64), dimension(3, inputs%num_boundary_nodes) :: actual_boundary_edges
         real(kind=real64), dimension(2, inputs%num_nodes) :: actual_nodes
         real(kind=real64), parameter :: threshold = 1e-06
-        character*80 :: failure_message
+        character(len=80) :: failure_message
 
         integer :: i, j
 
