@@ -32,46 +32,18 @@ contains
             ]
     end subroutine collect_poisson_testsuite
 
-    !> A test for the inp subroutine with box_size = 10 and edge_size = 5
-    subroutine test_inp_10_05(error)
+    !> Verification code for the inp subroutine
+    subroutine verify_inp(error, inputs, expected_outputs)
         implicit none
         type(error_type), allocatable, intent(out) :: error
-
-        type(inp_inputs) :: inputs
-        type(inp_expected_outputs) :: expected_outputs
+        type(inp_inputs), intent(in)  :: inputs
+        type(inp_expected_outputs), intent(in)  :: expected_outputs
 
         integer :: actual_element_to_node(3,mxp), actual_vb_index(mxe), actual_boundary_node_num(2,mxb), &
                    actual_num_side_nodes(4,mxb), file_io = 123, i, j
         real    :: actual_vb(3,mxc), actual_vb1(mxc), actual_vb2(mxc), actual_coordinates(2, mxp)
-        character(len=100) :: data_filename = "testing/data/square_mesh_10_5"
         character(len=200) :: failure_message
         real :: threshold = 1e-06
-
-        !> box_size = 10, edge_size = 5.0
-        inputs%num_nodes = 9
-        inputs%num_elements = 8
-        inputs%num_boundary_points = 8
-        inputs%num_sets = 1
-        inputs%num_dirichlet_boundary_conditions = 1
-        inputs%num_neumann_boundary_conditions = 0
-
-        allocate(character(len(trim(data_filename))) :: inputs%data_filename)
-        inputs%data_filename = trim(data_filename)
-
-        expected_outputs%element_to_node(1,1:inputs%num_elements) = [1, 2, 1, 2, 4, 5, 4, 5]
-        expected_outputs%element_to_node(2,1:inputs%num_elements) = [2, 3, 5, 6, 5, 6, 8, 9]
-        expected_outputs%element_to_node(3,1:inputs%num_elements) = [5, 6, 4, 5, 8, 9, 7, 8]
-        expected_outputs%vb_index(1:inputs%num_elements) = [1, 1, 1, 1, 1, 1, 1, 1]
-        expected_outputs%boundary_node_num(1,1:inputs%num_boundary_points) = [1, 2, 3, 4, 5, 6, 7, 8]
-        expected_outputs%boundary_node_num(2,1:inputs%num_boundary_points) = [1, 1, 1, 1, 1, 1, 1, 1]
-        expected_outputs%num_side_nodes(1,1:inputs%num_boundary_points) = [1, 2, 3, 6, 9, 8, 7, 4]
-        expected_outputs%num_side_nodes(2,1:inputs%num_boundary_points) = [2, 3, 6, 9, 8, 7, 4, 1]
-        expected_outputs%num_side_nodes(3,1:inputs%num_boundary_points) = [1, 2, 2, 6, 8, 7, 7, 3]
-        expected_outputs%num_side_nodes(4,1:inputs%num_boundary_points) = [0, 0, 0, 0, 0, 0, 0, 0]
-        expected_outputs%vb(1:3,inputs%num_sets) = [1, 1, 1]
-        expected_outputs%vb1(inputs%num_dirichlet_boundary_conditions) = 0
-        expected_outputs%coordinates(1,1:inputs%num_nodes) = [1.0, 1.0, 1.0, 2.0, 2.0, 2.0, 3.0, 3.0, 3.0]
-        expected_outputs%coordinates(2,1:inputs%num_nodes) = [1.0, 2.0, 3.0, 1.0, 2.0, 3.0, 1.0, 2.0, 3.0]
 
         ! Open the file ready to be read
         call open_file(inputs%data_filename, 'old', file_io)
@@ -89,7 +61,6 @@ contains
         )
 
         close(file_io)
-        deallocate(inputs%data_filename)
 
         do i = 1, inputs%num_elements
             do j = 1, 3
@@ -144,5 +115,45 @@ contains
             call check(error, expected_outputs%vb2(i), actual_vb2(i), failure_message, thr=threshold)
             if (allocated(error)) return
         end do
+    end subroutine verify_inp
+    !> A test for the inp subroutine with box_size = 10 and edge_size = 5
+    subroutine test_inp_10_05(error)
+        implicit none
+        type(error_type), allocatable, intent(out) :: error
+
+        type(inp_inputs) :: inputs
+        type(inp_expected_outputs) :: expected_outputs
+
+        character(len=100) :: data_filename = "testing/data/square_mesh_10_5"
+
+        !> box_size = 10, edge_size = 5.0
+        inputs%num_nodes = 9
+        inputs%num_elements = 8
+        inputs%num_boundary_points = 8
+        inputs%num_sets = 1
+        inputs%num_dirichlet_boundary_conditions = 1
+        inputs%num_neumann_boundary_conditions = 0
+
+        allocate(character(len(trim(data_filename))) :: inputs%data_filename)
+        inputs%data_filename = trim(data_filename)
+
+        expected_outputs%element_to_node(1,1:inputs%num_elements) = [1, 2, 1, 2, 4, 5, 4, 5]
+        expected_outputs%element_to_node(2,1:inputs%num_elements) = [2, 3, 5, 6, 5, 6, 8, 9]
+        expected_outputs%element_to_node(3,1:inputs%num_elements) = [5, 6, 4, 5, 8, 9, 7, 8]
+        expected_outputs%vb_index(1:inputs%num_elements) = [1, 1, 1, 1, 1, 1, 1, 1]
+        expected_outputs%boundary_node_num(1,1:inputs%num_boundary_points) = [1, 2, 3, 4, 5, 6, 7, 8]
+        expected_outputs%boundary_node_num(2,1:inputs%num_boundary_points) = [1, 1, 1, 1, 1, 1, 1, 1]
+        expected_outputs%num_side_nodes(1,1:inputs%num_boundary_points) = [1, 2, 3, 6, 9, 8, 7, 4]
+        expected_outputs%num_side_nodes(2,1:inputs%num_boundary_points) = [2, 3, 6, 9, 8, 7, 4, 1]
+        expected_outputs%num_side_nodes(3,1:inputs%num_boundary_points) = [1, 2, 2, 6, 8, 7, 7, 3]
+        expected_outputs%num_side_nodes(4,1:inputs%num_boundary_points) = [0, 0, 0, 0, 0, 0, 0, 0]
+        expected_outputs%vb(1:3,inputs%num_sets) = [1, 1, 1]
+        expected_outputs%vb1(inputs%num_dirichlet_boundary_conditions) = 0
+        expected_outputs%coordinates(1,1:inputs%num_nodes) = [1.0, 1.0, 1.0, 2.0, 2.0, 2.0, 3.0, 3.0, 3.0]
+        expected_outputs%coordinates(2,1:inputs%num_nodes) = [1.0, 2.0, 3.0, 1.0, 2.0, 3.0, 1.0, 2.0, 3.0]
+
+        call verify_inp(error, inputs, expected_outputs)
+
+        deallocate(inputs%data_filename)
     end subroutine test_inp_10_05
 end module

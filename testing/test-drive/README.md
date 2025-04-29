@@ -51,3 +51,7 @@ Compilers tested: GNU Fortran (Homebrew GCC 14.2.0_1)
 
 ## Resources
 - Repository: https://github.com/fortran-lang/test-drive
+
+## Notes
+
+- Be aware of which unit you are writing to, as using the same IO int value as the test-drive io will prevent test results from being logged.

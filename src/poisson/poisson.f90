@@ -115,7 +115,7 @@ contains
 
             if( iostat .ne. 0) then
                   write(*,'(a)') ' *** Error when opening '//file_name
-                  stop
+                  error stop 1
             end if
       end subroutine open_file
 
