@@ -35,6 +35,7 @@ list(FILTER PROJ_MESH_GENERATOR_SOURCES_EXC_MAIN EXCLUDE REGEX ".*main.f90")
 set(
   tests
   "mesh_generator"
+  "poisson"
 )
 set(
   test-srcs

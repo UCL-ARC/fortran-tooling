@@ -25,11 +25,11 @@ source-dir = "src/mesh_generator"
 main = "main.f90"
 
 [[test]]
-name = "test-drive-mesh-generator"
+name = "test-drive-tests"
 source-dir = "testing/test-drive"
 main = "main.f90"
 
 [[test]]
-name = "veggies-mesh-generator"
+name = "veggies-tests"
 source-dir = "testing/veggies"
 main = "main.f90"

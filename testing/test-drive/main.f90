@@ -5,6 +5,7 @@ program tester
         & select_suite, run_selected, get_argument
 
     use test_drive_mesh_generator, only : collect_mesh_generator_testsuite
+    use test_drive_poisson, only : collect_poisson_testsuite
 
     implicit none
 
@@ -16,7 +17,8 @@ program tester
     stat = 0
 
     testsuites = [ &
-        new_testsuite("mesh_generator", collect_mesh_generator_testsuite) &
+        new_testsuite("mesh_generator", collect_mesh_generator_testsuite), &
+        new_testsuite("poisson", collect_poisson_testsuite) &
         ]
 
     call get_argument(1, suite_name)

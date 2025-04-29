@@ -108,8 +108,6 @@ contains
 
             integer :: iostat
 
-            print *, file_name
-            
             open (unit=file_io,   &
                   file=file_name, &
                   status=status,  &
@@ -118,8 +116,6 @@ contains
             if( iostat .ne. 0) then
                   write(*,'(a)') ' *** Error when opening '//file_name
                   stop
-            else
-                  write(*,'(/,a)') ' *** '//file_name//' opened'
             end if
       end subroutine open_file
 
@@ -484,26 +480,4 @@ contains
 
             return
       end subroutine out
-
-      !!------------------------------------------------------------*
-      !!                                                            *
-      !!             ***    UTILITY  ROUTINES    ***                *
-      !!                                                            *
-      !!------------------------------------------------------------*
-      character*120 function textread(prompt) result(text_read_in)
-            implicit none
-            
-            character*(*), intent(in) :: prompt
-            
-
-            integer :: l = 120
-
-            text_read_in = ' '
-            do 
-                  write(*,'(/,a,$)') prompt
-                  read(*,'(a)') text_read_in
-                  l = len(trim(text_read_in))
-                  if(l.gt.0) exit
-            end do
-      end function textread
 end module poisson
