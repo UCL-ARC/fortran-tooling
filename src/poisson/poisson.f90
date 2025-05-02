@@ -237,15 +237,17 @@ contains
       !!    method.                                                                  *
       !!                                                                             *
       !!-----------------------------------------------------------------------------*
-      subroutine pcg(element_to_node,vb_index,coordinates,nodal_value_of_f,boundary_node_num,num_side_nodes,vb,vb1,vb2,element_stiffness,rhs_vector,b,f_increment,boundary_index,pre_conditioning_matrix)
+      subroutine pcg(element_to_node,vb_index,coordinates,boundary_node_num,num_side_nodes,vb,vb1,vb2,nodal_value_of_f)
             implicit none
 
             real, parameter :: eps = 1.e-04
 
-            integer, intent(inout) :: element_to_node(3,mxp), vb_index(mxe), boundary_node_num(2,mxb),    &
-                                    num_side_nodes(4,mxb), boundary_index(mxp)
-            real, intent(inout)    :: coordinates(2, mxp), nodal_value_of_f(mxp), rhs_vector(mxp), b(mxp), f_increment(mxp), vb(3,mxc), vb1(mxc), &
-                                    vb2(mxc), element_stiffness(6,mxe), pre_conditioning_matrix(mxp)
+            integer, intent(in) :: element_to_node(3,mxp), vb_index(mxe), boundary_node_num(2,mxb), num_side_nodes(4,mxb)
+            real, intent(in)    :: coordinates(2, mxp), vb(3,mxc), vb1(mxc), vb2(mxc)
+            real, intent(out)   :: nodal_value_of_f(mxp)
+            
+            integer :: boundary_index(mxp)
+            real    :: element_stiffness(6,mxe), rhs_vector(mxp), b(mxp), f_increment(mxp), pre_conditioning_matrix(mxp)
             
             integer      :: ib, ip, ie, nit, in, ip1, ip2, ip3, ix, it
             real         :: tol, va, akx, aky, qq, ar, a1, a2, qa, qb, x21, y21, x31, y31, s1x, s1y, s2x, &
@@ -390,7 +392,7 @@ contains
                         energy = energy+b(ip)*rhs_vector(ip)
                   end do
                   beta       = energy/energy_old
-                  write(*,*) "energy: ", energy, "energy_old: ", energy_old
+                  ! write(*,*) "energy: ", energy, "energy_old: ", energy_old
                   energy_old = energy
 
                   !!

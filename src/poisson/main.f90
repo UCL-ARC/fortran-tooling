@@ -3,11 +3,8 @@ program main
 
     implicit none
 
-    integer       :: boundary_index(mxp), element_to_node(3,mxe),    &
-                     vb_index(mxe), boundary_node_num(2,mxb), num_side_nodes(4,mxb)
-    real          :: coordinates(2, mxp), nodal_value_of_f(mxp), rhs_vector(mxp), beta(mxp), f_increment(mxp), &
-                     vb1(mxc), vb2(mxc), vb(3,mxc), element_stiffness(6,mxe),             &
-                     pre_conditioning_matrix(mxp)
+    integer       :: element_to_node(3,mxe), vb_index(mxe), boundary_node_num(2,mxb), num_side_nodes(4,mxb)
+    real          :: coordinates(2, mxp), nodal_value_of_f(mxp), vb1(mxc), vb2(mxc), vb(3,mxc)
     integer       :: fname_io = 100, fname_out_io = 101
 
     !! CLI inputs
@@ -45,7 +42,7 @@ program main
     !!
     !! *** Assembles and solves the system of equations
     !!
-    call pcg(element_to_node,vb_index,coordinates,nodal_value_of_f,boundary_node_num,num_side_nodes,vb,vb1,vb2,element_stiffness,rhs_vector,beta,f_increment,boundary_index,pre_conditioning_matrix)
+    call pcg(element_to_node,vb_index,coordinates,boundary_node_num,num_side_nodes,vb,vb1,vb2,nodal_value_of_f)
 
     !!
     !! *** Writes the computed solution
