@@ -1,0 +1,69 @@
+ ! num_nodes, num_elements, num_boundary_points, num_sets, num_dirichlet_boundary_conditions, num_neumann_boundary_conditions
+                   16                   18                   12           1           1           0
+ ! jb,vb(1,jb),vb(2,jb),vb(3,jb) - as many lines as num_sets
+           1           1           1           1
+ ! jb,vb1(jb) - as many lines as num_dirichlet_boundary_conditions
+           1           0
+ ! jb,vb2(jb) - as many lines as num_neumann_boundary_conditions
+ ! jp,coordinates(1,jp),coordinates(2,jp) - as many lines as num_nodes
+           1   1.0000000000000000        1.0000000000000000     
+           2   1.0000000000000000        2.0000000000000000     
+           3   1.0000000000000000        3.0000000000000000     
+           4   1.0000000000000000        4.0000000000000000     
+           5   2.0000000000000000        1.0000000000000000     
+           6   2.0000000000000000        2.0000000000000000     
+           7   2.0000000000000000        3.0000000000000000     
+           8   2.0000000000000000        4.0000000000000000     
+           9   3.0000000000000000        1.0000000000000000     
+          10   3.0000000000000000        2.0000000000000000     
+          11   3.0000000000000000        3.0000000000000000     
+          12   3.0000000000000000        4.0000000000000000     
+          13   4.0000000000000000        1.0000000000000000     
+          14   4.0000000000000000        2.0000000000000000     
+          15   4.0000000000000000        3.0000000000000000     
+          16   4.0000000000000000        4.0000000000000000     
+ ! je,element_to_node(1,je),element_to_node(2,je),element_to_node(3,je),vb_index(je) - as many lines as num_elements
+           1                    1                    2                    6           1
+           2                    2                    3                    7           1
+           3                    3                    4                    8           1
+           4                    1                    6                    5           1
+           5                    2                    7                    6           1
+           6                    3                    8                    7           1
+           7                    5                    6                   10           1
+           8                    6                    7                   11           1
+           9                    7                    8                   12           1
+          10                    5                   10                    9           1
+          11                    6                   11                   10           1
+          12                    7                   12                   11           1
+          13                    9                   10                   14           1
+          14                   10                   11                   15           1
+          15                   11                   12                   16           1
+          16                    9                   14                   13           1
+          17                   10                   15                   14           1
+          18                   11                   16                   15           1
+ ! boundary_node_num(1,ib),boundary_node_num(2,ib) - as many lines as num_boundary_points
+           1           1
+           2           1
+           3           1
+           4           1
+           5           1
+           6           1
+           7           1
+           8           1
+           9           1
+          10           1
+          11           1
+          12           1
+ ! num_side_nodes(1,ib),num_side_nodes(2,ib),num_side_nodes(3,ib),num_side_nodes(4,ib) - as many lines as num_boundary_points
+                    1                    2                    1           0
+                    2                    3                    2           0
+                    3                    4                    3           0
+                    4                    8                    3           0
+                    8                   12                    9           0
+                   12                   16                   15           0
+                   16                   15                   18           0
+                   15                   14                   17           0
+                   14                   13                   16           0
+                   13                    9                   16           0
+                    9                    5                   10           0
+                    5                    1                    4           0
