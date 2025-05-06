@@ -1,7 +1,7 @@
 module test_drive_poisson
     use testdrive, only : new_unittest, unittest_type, error_type, check, skip_test
     use mesh_generator, only : calculate_mesh
-    use poisson, only : open_file, inp, mxp, mxe, mxb, mxc, pcg
+    use poisson, only : open_file, read_input_file, mxp, mxe, mxb, mxc, pcg, write_output_file
 
     implicit none
 
@@ -17,12 +17,12 @@ module test_drive_poisson
         real    :: vb(3,mxc), vb1(mxc), vb2(mxc), coordinates(2, mxp)
     end type mesh_vectors_t
 
-    !> inp test inputs
+    !> read_input_file test inputs
     type :: inp_inputs_t
         character(len=:), allocatable :: data_filename
     end type inp_inputs_t
 
-    !> inp test expected outputs
+    !> read_input_file test expected outputs
     type :: inp_expected_outputs_t
         type(mesh_scalars_t) :: mesh_scalars
         type(mesh_vectors_t) :: mesh_vectors
@@ -40,12 +40,12 @@ module test_drive_poisson
         real :: nodal_value_of_f(mxp)
     end type pcg_expected_outputs_t
 
-    !> out test inputs
-    type :: out_inputs_t
+    !> write_output_file test inputs
+    type :: write_output_file_inputs_t
         type(mesh_scalars_t) :: mesh_scalars
         type(mesh_vectors_t) :: mesh_vectors
         real :: nodal_value_of_f(mxp)
-    end type out_inputs_t
+    end type write_output_file_inputs_t
 
 contains
 
@@ -98,7 +98,7 @@ contains
         mesh_vectors%coordinates(2,1:mesh_scalars%num_nodes) = [1.0, 2.0, 3.0, 4.0, 1.0, 2.0, 3.0, 4.0, 1.0, 2.0, 3.0, 4.0, 1.0, 2.0, 3.0, 4.0]
     end subroutine get_15_05_mesh_values
 
-    !> Verification code for the inp subroutine
+    !> Verification code for the read_input_file subroutine
     subroutine verify_inp(error, inputs, expected_outputs)
         implicit none
         type(error_type), allocatable, intent(out) :: error
@@ -115,7 +115,7 @@ contains
         ! Open the file ready to be read
         call open_file(inputs%data_filename, 'old', file_io)
 
-        call inp(                       &
+        call read_input_file(                       &
             actual_num_nodes,           &
             actual_num_elements,        &
             actual_num_boundary_points, &
@@ -193,7 +193,7 @@ contains
             if (allocated(error)) return
         end do
     end subroutine verify_inp
-    !> A test for the inp subroutine with box_size = 10 and edge_size = 5
+    !> A test for the read_input_file subroutine with box_size = 10 and edge_size = 5
     subroutine test_inp_15_05(error)
         implicit none
         type(error_type), allocatable, intent(out) :: error
@@ -258,15 +258,4 @@ contains
 
         deallocate(inputs%data_filename)
     end subroutine test_pcg_15_05
-
-    subroutine verify_out(error, inputs, expected_outputs)
-        implicit none
-        type(error_type), allocatable, intent(out) :: error
-
-        type(inp_inputs_t), intent(in) :: inputs
-        type(inp_expected_outputs_t), intent(in) :: expected_outputs
-
-        ! Verification code for the out subroutine
-        ! This is a placeholder for the actual verification code
-    end subroutine verify_out
 end module

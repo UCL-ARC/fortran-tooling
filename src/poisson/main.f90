@@ -37,7 +37,7 @@ program main
     !!
     !! *** Reads the triangular mesh and problem constants: Kx,Ky,Q,fp,q
     !!
-    call inp(num_nodes,num_elements,num_boundary_points,element_to_node,vb_index,coordinates,boundary_node_num,num_side_nodes,vb,vb1,vb2,fname_io)
+    call read_input_file(num_nodes,num_elements,num_boundary_points,element_to_node,vb_index,coordinates,boundary_node_num,num_side_nodes,vb,vb1,vb2,fname_io)
 
     !!
     !! *** Assembles and solves the system of equations
@@ -47,5 +47,5 @@ program main
     !!
     !! *** Writes the computed solution
     !!
-    call out(num_nodes,num_elements,element_to_node,coordinates,nodal_value_of_f,fname_out_io)
+    call write_output_file(num_nodes,num_elements,element_to_node,coordinates,nodal_value_of_f,fname_out_io)
 end program main

@@ -116,12 +116,12 @@ contains
             end if
       end subroutine open_file
 
-      !!-----------------------------------------------------------------------------*
-      !!                                                                             *
-      !!    "inp" reads the input data: triangular mesh and problem parameters.      *
-      !!                                                                             *
-      !!-----------------------------------------------------------------------------*
-      subroutine inp(num_nodes,num_elements,num_boundary_points,element_to_node,vb_index,coordinates, &
+      !!---------------------------------------------------------------------------------*
+      !!                                                                                 *
+      !! "read_input_file" reads the input data: triangular mesh and problem parameters. *
+      !!                                                                                 *
+      !!---------------------------------------------------------------------------------*
+      subroutine read_input_file(num_nodes,num_elements,num_boundary_points,element_to_node,vb_index,coordinates, &
                      boundary_node_num,num_side_nodes,vb,vb1,vb2,file_io)
             implicit none
 
@@ -229,7 +229,7 @@ contains
                   read(file_io,*) num_side_nodes(1,ib),num_side_nodes(2,ib),num_side_nodes(3,ib),num_side_nodes(4,ib)
             end do 
 
-      end subroutine inp
+      end subroutine read_input_file
 
       !!-----------------------------------------------------------------------------*
       !!                                                                             *
@@ -460,9 +460,9 @@ contains
       end subroutine pcg
 
       !!-----------------------------------------------------------------------------*
-      !!    "out" writes output results.                                             *
+      !!    "write_output_file" writes output results.                               *
       !!-----------------------------------------------------------------------------*
-      subroutine out(num_nodes,num_elements,element_to_node,coordinates,nodal_value_of_f,file_io)
+      subroutine write_output_file(num_nodes,num_elements,element_to_node,coordinates,nodal_value_of_f,file_io)
             implicit none
 
             integer, intent(in) :: num_nodes,num_elements,element_to_node(3,mxp), file_io
@@ -482,5 +482,5 @@ contains
             end do
 
             return
-      end subroutine out
+      end subroutine write_output_file
 end module poisson
