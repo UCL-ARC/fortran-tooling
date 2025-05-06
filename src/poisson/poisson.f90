@@ -244,7 +244,8 @@ contains
       !!    method.                                                                  *
       !!                                                                             *
       !!-----------------------------------------------------------------------------*
-      subroutine pcg(num_nodes,num_elements,num_boundary_points,element_to_node,vb_index,coordinates,boundary_node_num,num_side_nodes,vb,vb1,vb2,nodal_value_of_f)
+      subroutine pcg(num_nodes,num_elements,num_boundary_points,element_to_node,vb_index,coordinates,boundary_node_num, &
+                     num_side_nodes,vb,vb1,vb2,nodal_value_of_f)
             implicit none
 
             real, parameter :: eps = 1.e-04
@@ -456,7 +457,7 @@ contains
                   is_converged = res<=rh0*tol
                   if(is_converged) then
                         ! write(*,'(a,i4)') ' *** PCG converged: iterations = ',it
-                        exit
+                        exit nit_loop
                   endif
             end do nit_loop
 

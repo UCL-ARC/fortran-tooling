@@ -133,7 +133,7 @@ contains
         class default
             result_ = fail("Didn't get load_data_file_result_t")
         end select
-    end function
+    end function check_num_nodes
 
     function check_num_elements(input) result(result_)
         implicit none
@@ -147,7 +147,7 @@ contains
         class default
             result_ = fail("Didn't get load_data_file_result_t")
         end select
-    end function
+    end function check_num_elements
 
     function check_num_boundary_points(input) result(result_)
         implicit none
@@ -161,7 +161,7 @@ contains
         class default
             result_ = fail("Didn't get load_data_file_result_t")
         end select
-    end function
+    end function check_num_boundary_points
 
     function check_element_to_node(input) result(result_)
         implicit none
