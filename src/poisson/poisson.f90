@@ -94,9 +94,6 @@ module poisson
       integer, parameter :: mxb  =  5000 
       integer, parameter :: mxc  =   100
 
-      integer :: num_nodes, num_elements, num_boundary_points, num_sets, num_dirichlet_boundary_conditions, &
-                 num_neumann_boundary_conditions
-
 contains
 
       subroutine open_file(file_name, status, file_io)
@@ -124,15 +121,18 @@ contains
       !!    "inp" reads the input data: triangular mesh and problem parameters.      *
       !!                                                                             *
       !!-----------------------------------------------------------------------------*
-      subroutine inp(element_to_node,vb_index,coordinates,boundary_node_num,num_side_nodes,vb,vb1,vb2,file_io)
+      subroutine inp(num_nodes,num_elements,num_boundary_points,element_to_node,vb_index,coordinates, &
+                     boundary_node_num,num_side_nodes,vb,vb1,vb2,file_io)
             implicit none
 
-            integer, intent(out) :: element_to_node(3,mxp), vb_index(mxe), boundary_node_num(2,mxb), &
+            integer, intent(out) :: num_nodes, num_elements, num_boundary_points, &
+                                    element_to_node(3,mxp), vb_index(mxe), boundary_node_num(2,mxb), &
                                     num_side_nodes(4,mxb)
             real, intent(out)    :: vb(3,mxc), vb1(mxc), vb2(mxc), coordinates(2, mxp)
             integer, intent(in)  :: file_io
 
-            integer      :: mx, ib, ip, ie, jb, jp, je, icheck
+            integer      :: mx, ib, ip, ie, jb, jp, je, icheck, num_sets, num_dirichlet_boundary_conditions, &
+                            num_neumann_boundary_conditions
             character*80 :: text
 
             read(file_io,'(a)') text
@@ -237,12 +237,13 @@ contains
       !!    method.                                                                  *
       !!                                                                             *
       !!-----------------------------------------------------------------------------*
-      subroutine pcg(element_to_node,vb_index,coordinates,boundary_node_num,num_side_nodes,vb,vb1,vb2,nodal_value_of_f)
+      subroutine pcg(num_nodes,num_elements,num_boundary_points,element_to_node,vb_index,coordinates,boundary_node_num,num_side_nodes,vb,vb1,vb2,nodal_value_of_f)
             implicit none
 
             real, parameter :: eps = 1.e-04
 
-            integer, intent(in) :: element_to_node(3,mxp), vb_index(mxe), boundary_node_num(2,mxb), num_side_nodes(4,mxb)
+            integer, intent(in) :: num_nodes, num_elements, num_boundary_points, &
+                                   element_to_node(3,mxp), vb_index(mxe), boundary_node_num(2,mxb), num_side_nodes(4,mxb)
             real, intent(in)    :: coordinates(2, mxp), vb(3,mxc), vb1(mxc), vb2(mxc)
             real, intent(out)   :: nodal_value_of_f(mxp)
             
@@ -444,7 +445,7 @@ contains
 
                   is_converged = res.le.rh0*tol
                   if(is_converged) then
-                        write(*,'(a,i4)') ' *** PCG converged: iterations = ',it
+                        ! write(*,'(a,i4)') ' *** PCG converged: iterations = ',it
                         exit
                   endif
             end do nit_loop
@@ -461,10 +462,10 @@ contains
       !!-----------------------------------------------------------------------------*
       !!    "out" writes output results.                                             *
       !!-----------------------------------------------------------------------------*
-      subroutine out(element_to_node,coordinates,nodal_value_of_f,file_io)
+      subroutine out(num_nodes,num_elements,element_to_node,coordinates,nodal_value_of_f,file_io)
             implicit none
 
-            integer, intent(in) :: element_to_node(3,mxp), file_io
+            integer, intent(in) :: num_nodes,num_elements,element_to_node(3,mxp), file_io
             real, intent(in)    :: nodal_value_of_f(mxp), coordinates(2, mxp)
 
             integer :: ip, ie

@@ -3,7 +3,7 @@ program main
 
     implicit none
 
-    integer       :: element_to_node(3,mxe), vb_index(mxe), boundary_node_num(2,mxb), num_side_nodes(4,mxb)
+    integer       :: num_nodes, num_elements, num_boundary_points, element_to_node(3,mxe), vb_index(mxe), boundary_node_num(2,mxb), num_side_nodes(4,mxb)
     real          :: coordinates(2, mxp), nodal_value_of_f(mxp), vb1(mxc), vb2(mxc), vb(3,mxc)
     integer       :: fname_io = 100, fname_out_io = 101
 
@@ -37,15 +37,15 @@ program main
     !!
     !! *** Reads the triangular mesh and problem constants: Kx,Ky,Q,fp,q
     !!
-    call inp(element_to_node,vb_index,coordinates,boundary_node_num,num_side_nodes,vb,vb1,vb2,fname_io)
+    call inp(num_nodes,num_elements,num_boundary_points,element_to_node,vb_index,coordinates,boundary_node_num,num_side_nodes,vb,vb1,vb2,fname_io)
 
     !!
     !! *** Assembles and solves the system of equations
     !!
-    call pcg(element_to_node,vb_index,coordinates,boundary_node_num,num_side_nodes,vb,vb1,vb2,nodal_value_of_f)
+    call pcg(num_nodes,num_elements,num_boundary_points,element_to_node,vb_index,coordinates,boundary_node_num,num_side_nodes,vb,vb1,vb2,nodal_value_of_f)
 
     !!
     !! *** Writes the computed solution
     !!
-    call out(element_to_node,coordinates,nodal_value_of_f,fname_out_io)
+    call out(num_nodes,num_elements,element_to_node,coordinates,nodal_value_of_f,fname_out_io)
 end program main

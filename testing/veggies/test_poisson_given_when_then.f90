@@ -27,7 +27,10 @@ module veggies_poisson_given_when_then
     end interface
 
     type, extends(input_t) :: load_data_file_result_t
-        integer :: actual_element_to_node(3,mxp),   &
+        integer :: actual_num_nodes,                &
+                   actual_num_elements,             &
+                   actual_num_boundary_points,      &
+                   actual_element_to_node(3,mxp),   &
                    actual_vb_index(mxe),            &
                    actual_boundary_node_num(2,mxb), &
                    actual_num_side_nodes(4,mxb)
@@ -53,6 +56,9 @@ contains
                         "the data file is loaded with poisson::inp", &
                         load_data_file, &
                         [ then__("the file will be open", check_file_is_open) &
+                        , then__("num_nodes will be as expected", check_num_nodes) &
+                        , then__("num_elements will be as expected", check_num_elements) &
+                        , then__("num_boundary_points will be as expected", check_num_boundary_points) &
                         , then__("element_to_node will be as expected", check_element_to_node) &
                         , then__("vb_index will be as expected", check_vb_index) &
                         , then__("boundary_node_num will be as expected", check_boundary_node_num) &
@@ -77,16 +83,19 @@ contains
         select type (input)
         type is (data_file_state_t)
             ! declare local variables needed to perform transformation
-            call inp(                            &
-                load_data_file_result%actual_element_to_node,   &
-                load_data_file_result%actual_vb_index,          &
-                load_data_file_result%actual_coordinates,       &
-                load_data_file_result%actual_boundary_node_num, &
-                load_data_file_result%actual_num_side_nodes,    &
-                load_data_file_result%actual_vb,                &
-                load_data_file_result%actual_vb1,               &
-                load_data_file_result%actual_vb2,               &
-                input%file_io                    &
+            call inp(                                             &
+                load_data_file_result%actual_num_nodes,           &
+                load_data_file_result%actual_num_elements,        &
+                load_data_file_result%actual_num_boundary_points, &
+                load_data_file_result%actual_element_to_node,     &
+                load_data_file_result%actual_vb_index,            &
+                load_data_file_result%actual_coordinates,         &
+                load_data_file_result%actual_boundary_node_num,   &
+                load_data_file_result%actual_num_side_nodes,      &
+                load_data_file_result%actual_vb,                  &
+                load_data_file_result%actual_vb1,                 &
+                load_data_file_result%actual_vb2,                 &
+                input%file_io                                     &
             )
             load_data_file_result%iostat = input%iostat
 
@@ -106,6 +115,48 @@ contains
         select type (input)
         type is (load_data_file_result_t)
             result_ = assert_equals(0, input%iostat)
+        class default
+            result_ = fail("Didn't get load_data_file_result_t")
+        end select
+    end function
+
+    function check_num_nodes(input) result(result_)
+        implicit none
+        class(input_t), intent(in) :: input
+        type(result_t) :: result_
+
+        select type (input)
+        type is (load_data_file_result_t)
+            result_ = &
+                assert_equals(9, input%actual_num_nodes)
+        class default
+            result_ = fail("Didn't get load_data_file_result_t")
+        end select
+    end function
+
+    function check_num_elements(input) result(result_)
+        implicit none
+        class(input_t), intent(in) :: input
+        type(result_t) :: result_
+
+        select type (input)
+        type is (load_data_file_result_t)
+            result_ = &
+                assert_equals(8, input%actual_num_elements)
+        class default
+            result_ = fail("Didn't get load_data_file_result_t")
+        end select
+    end function
+
+    function check_num_boundary_points(input) result(result_)
+        implicit none
+        class(input_t), intent(in) :: input
+        type(result_t) :: result_
+
+        select type (input)
+        type is (load_data_file_result_t)
+            result_ = &
+                assert_equals(8, input%actual_num_boundary_points)
         class default
             result_ = fail("Didn't get load_data_file_result_t")
         end select

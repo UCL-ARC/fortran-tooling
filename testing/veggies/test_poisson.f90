@@ -17,12 +17,12 @@ module veggies_poisson
     !! @brief A class to store the inputs and expected outputs of the inp function
     type, extends(input_t) :: inp_test_data_t
         character(len=:), allocatable :: data_filename
-        integer :: num_nodes,                         &
-                   num_elements,                      &
-                   num_boundary_points,               &
-                   num_sets,                          &
-                   num_dirichlet_boundary_conditions, &
-                   num_neumann_boundary_conditions
+        integer :: expected_num_nodes,                         &
+                   expected_num_elements,                      &
+                   expected_num_boundary_points,               &
+                   expected_num_sets,                          &
+                   expected_num_dirichlet_boundary_conditions, &
+                   expected_num_neumann_boundary_conditions
         integer :: expected_element_to_node(3,mxp),   &
                    expected_vb_index(mxe),            &
                    expected_boundary_node_num(2,mxb), &
@@ -114,7 +114,8 @@ contains
         class(input_t), intent(in) :: input
         type(result_t) :: result_
 
-        integer :: actual_element_to_node(3,mxp),   &
+        integer :: actual_num_nodes, actual_num_elements, actual_num_boundary_points, &
+                   actual_element_to_node(3,mxp),   &
                    actual_vb_index(mxe),            &
                    actual_boundary_node_num(2,mxb), &
                    actual_num_side_nodes(4,mxb)
@@ -129,27 +130,30 @@ contains
             ! Open the file ready to be read
             call open_file(input%data_filename, 'old', file_io)
 
-            call inp(                     &
-                actual_element_to_node,   &
-                actual_vb_index,          &
-                actual_coordinates,       &
-                actual_boundary_node_num, &
-                actual_num_side_nodes,    &
-                actual_vb,                &
-                actual_vb1,               &
-                actual_vb2,               &
-                file_io                   &
+            call inp(                       &
+                actual_num_nodes,           &
+                actual_num_elements,        &
+                actual_num_boundary_points, &
+                actual_element_to_node,     &
+                actual_vb_index,            &
+                actual_coordinates,         &
+                actual_boundary_node_num,   &
+                actual_num_side_nodes,      &
+                actual_vb,                  &
+                actual_vb1,                 &
+                actual_vb2,                 &
+                file_io                     &
             )
             
             result_ = &
-                assert_equals(input%expected_element_to_node(:, 1:input%num_elements), actual_element_to_node(:, 1:input%num_elements)).and.&
-                assert_equals(input%expected_vb_index(1:input%num_elements), actual_vb_index(1:input%num_elements)).and.&
-                assert_equals(input%expected_coordinates(:, 1:input%num_nodes), actual_coordinates(:, 1:input%num_nodes)).and.&
-                assert_equals(input%expected_boundary_node_num(:, 1:input%num_boundary_points), actual_boundary_node_num(:, 1:input%num_boundary_points)).and.&
-                assert_equals(input%expected_num_side_nodes(:, 1:input%num_boundary_points), actual_num_side_nodes(:, 1:input%num_boundary_points)).and.&
-                assert_equals(input%expected_vb(:, 1:input%num_sets), actual_vb(:, 1:input%num_sets)).and.&
-                assert_equals(input%expected_vb1(1:input%num_dirichlet_boundary_conditions), actual_vb1(1:input%num_dirichlet_boundary_conditions)).and.&
-                assert_equals(input%expected_vb2(1:input%num_neumann_boundary_conditions), actual_vb2(1:input%num_neumann_boundary_conditions))
+                assert_equals(input%expected_element_to_node(:, 1:input%expected_num_elements), actual_element_to_node(:, 1:input%expected_num_elements)).and.&
+                assert_equals(input%expected_vb_index(1:input%expected_num_elements), actual_vb_index(1:input%expected_num_elements)).and.&
+                assert_equals(input%expected_coordinates(:, 1:input%expected_num_nodes), actual_coordinates(:, 1:input%expected_num_nodes)).and.&
+                assert_equals(input%expected_boundary_node_num(:, 1:input%expected_num_boundary_points), actual_boundary_node_num(:, 1:input%expected_num_boundary_points)).and.&
+                assert_equals(input%expected_num_side_nodes(:, 1:input%expected_num_boundary_points), actual_num_side_nodes(:, 1:input%expected_num_boundary_points)).and.&
+                assert_equals(input%expected_vb(:, 1:input%expected_num_sets), actual_vb(:, 1:input%expected_num_sets)).and.&
+                assert_equals(input%expected_vb1(1:input%expected_num_dirichlet_boundary_conditions), actual_vb1(1:input%expected_num_dirichlet_boundary_conditions)).and.&
+                assert_equals(input%expected_vb2(1:input%expected_num_neumann_boundary_conditions), actual_vb2(1:input%expected_num_neumann_boundary_conditions))
         class default
             result_ = fail("Didn't get inp_test_data_t")
         end select
@@ -198,11 +202,11 @@ contains
         allocate(character(len(trim(data_filename))) :: inp_test_data%data_filename)
         inp_test_data%data_filename = trim(data_filename)
 
-        inp_test_data%num_nodes = num_nodes
-        inp_test_data%num_elements = num_elements
-        inp_test_data%num_boundary_points = num_boundary_points
-        inp_test_data%num_dirichlet_boundary_conditions = num_dirichlet_boundary_conditions
-        inp_test_data%num_neumann_boundary_conditions = num_neumann_boundary_conditions
+        inp_test_data%expected_num_nodes = num_nodes
+        inp_test_data%expected_num_elements = num_elements
+        inp_test_data%expected_num_boundary_points = num_boundary_points
+        inp_test_data%expected_num_dirichlet_boundary_conditions = num_dirichlet_boundary_conditions
+        inp_test_data%expected_num_neumann_boundary_conditions = num_neumann_boundary_conditions
 
         inp_test_data%expected_element_to_node = element_to_node
         inp_test_data%expected_vb_index = vb_index
