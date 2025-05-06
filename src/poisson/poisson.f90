@@ -139,7 +139,7 @@ contains
 
             integer      :: mx, ib, ip, ie, jb, jp, je, icheck, num_sets, num_dirichlet_boundary_conditions, &
                             num_neumann_boundary_conditions
-            character*80 :: text
+            character(len=80) :: text
 
             read(file_io,'(a)') text
             read(file_io,*) num_nodes,num_elements,num_boundary_points,num_sets,num_dirichlet_boundary_conditions, &
