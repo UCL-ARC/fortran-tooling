@@ -5,6 +5,8 @@ module test_drive_poisson
 
     implicit none
 
+    public
+
     !> Scalar values which define a mesh
     type :: mesh_scalars_t
         integer :: num_nodes, num_elements, num_boundary_points, num_sets, num_dirichlet_boundary_conditions, &
@@ -50,7 +52,7 @@ module test_drive_poisson
 contains
 
     !> Collect all test in this module into a single test suite
-    !! 
+    !!
     !! @param testsuite - An array of unittest_types in which to store this suite's tests
     subroutine collect_poisson_testsuite(testsuite)
         type(unittest_type), allocatable, intent(out) :: testsuite(:)
@@ -64,11 +66,12 @@ contains
     !> Define the values of a mesh with box_size = 10 and edge_size = 5
     subroutine get_15_05_mesh_values(data_filename, mesh_scalars, mesh_vectors)
         implicit none
-        character(len=:), allocatable :: data_filename
+        character(len=:), allocatable, intent(inout) :: data_filename
         type(mesh_scalars_t), intent(out) :: mesh_scalars
         type(mesh_vectors_t), intent(out) :: mesh_vectors
-        
-        character(len=100) :: data_filename_fixed = "testing/data/square_mesh_15_5"
+
+        character(len=100) :: data_filename_fixed
+        data_filename_fixed = "testing/data/square_mesh_15_5"
 
         allocate(character(len(trim(data_filename_fixed))) :: data_filename)
         data_filename = trim(data_filename_fixed)
@@ -81,8 +84,12 @@ contains
         mesh_scalars%num_neumann_boundary_conditions = 0
 
         mesh_vectors%element_to_node(1,1:mesh_scalars%num_elements) = [1, 2, 3, 1, 2, 3, 5, 6, 7, 5, 6, 7, 9, 10, 11, 9, 10, 11]
-        mesh_vectors%element_to_node(2,1:mesh_scalars%num_elements) = [2, 3, 4, 6, 7, 8, 6, 7, 8, 10, 11, 12, 10, 11, 12, 14, 15, 16]
-        mesh_vectors%element_to_node(3,1:mesh_scalars%num_elements) = [6, 7, 8, 5, 6, 7, 10, 11, 12, 9, 10, 11, 14, 15, 16, 13, 14, 15]
+        mesh_vectors%element_to_node(2,1:mesh_scalars%num_elements) = [ &
+            2, 3, 4, 6, 7, 8, 6, 7, 8, 10, 11, 12, 10, 11, 12, 14, 15, 16 &
+        ]
+        mesh_vectors%element_to_node(3,1:mesh_scalars%num_elements) = [ &
+            6, 7, 8, 5, 6, 7, 10, 11, 12, 9, 10, 11, 14, 15, 16, 13, 14, 15 &
+        ]
         mesh_vectors%vb_index(1:mesh_scalars%num_elements) = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
         mesh_vectors%boundary_node_num(1,1:mesh_scalars%num_boundary_points) = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
         mesh_vectors%boundary_node_num(2,1:mesh_scalars%num_boundary_points) = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
@@ -94,8 +101,12 @@ contains
         mesh_vectors%vb(1:3,mesh_scalars%num_sets) = [1, 1, 1]
         mesh_vectors%vb1(1:mesh_scalars%num_dirichlet_boundary_conditions) = 0
         mesh_vectors%vb1(1:mesh_scalars%num_neumann_boundary_conditions) = 0
-        mesh_vectors%coordinates(1,1:mesh_scalars%num_nodes) = [1.0, 1.0, 1.0, 1.0, 2.0, 2.0, 2.0, 2.0, 3.0, 3.0, 3.0, 3.0, 4.0, 4.0, 4.0, 4.0]
-        mesh_vectors%coordinates(2,1:mesh_scalars%num_nodes) = [1.0, 2.0, 3.0, 4.0, 1.0, 2.0, 3.0, 4.0, 1.0, 2.0, 3.0, 4.0, 1.0, 2.0, 3.0, 4.0]
+        mesh_vectors%coordinates(1,1:mesh_scalars%num_nodes) = [ &
+            1.0, 1.0, 1.0, 1.0, 2.0, 2.0, 2.0, 2.0, 3.0, 3.0, 3.0, 3.0, 4.0, 4.0, 4.0, 4.0 &
+        ]
+        mesh_vectors%coordinates(2,1:mesh_scalars%num_nodes) = [ &
+            1.0, 2.0, 3.0, 4.0, 1.0, 2.0, 3.0, 4.0, 1.0, 2.0, 3.0, 4.0, 1.0, 2.0, 3.0, 4.0 &
+        ]
     end subroutine get_15_05_mesh_values
 
     !> Verification code for the read_input_file subroutine
@@ -107,12 +118,14 @@ contains
 
         integer :: actual_num_nodes, actual_num_elements, actual_num_boundary_points, &
                    actual_element_to_node(3,mxp), actual_vb_index(mxe), actual_boundary_node_num(2,mxb), &
-                   actual_num_side_nodes(4,mxb), file_io = 123, i, j
-        real    :: actual_vb(3,mxc), actual_vb1(mxc), actual_vb2(mxc), actual_coordinates(2, mxp)
+                   actual_num_side_nodes(4,mxb), file_io, i, j
+        real    :: actual_vb(3,mxc), actual_vb1(mxc), actual_vb2(mxc), actual_coordinates(2, mxp), threshold
         character(len=200) :: failure_message
-        real :: threshold = 1e-06
+
+        threshold = 1e-06
 
         ! Open the file ready to be read
+        file_io = 123
         call open_file(inputs%data_filename, 'old', file_io)
 
         call read_input_file(                       &
@@ -141,33 +154,41 @@ contains
 
         do i = 1, expected_outputs%mesh_scalars%num_elements
             do j = 1, 3
-                write(failure_message,'(a,i1,a,i1,a,i2,a,i2)') "Unexpected value for element_to_node(", j, ",", i, "), got ", actual_element_to_node(j, i), " expected ", expected_outputs%mesh_vectors%element_to_node(j, i)
-                call check(error, actual_element_to_node(j, i), expected_outputs%mesh_vectors%element_to_node(j, i), failure_message)
+                write(failure_message,'(a,i1,a,i1,a,i2,a,i2)') "Unexpected value for element_to_node(", j, ",", i, "), got ", &
+                      actual_element_to_node(j, i), " expected ", expected_outputs%mesh_vectors%element_to_node(j, i)
+                call check(error, actual_element_to_node(j, i), expected_outputs%mesh_vectors%element_to_node(j, i), &
+                           failure_message)
                 if (allocated(error)) return
-            end do 
+            end do
 
-            write(failure_message,'(a,i1,a,i2,a,i2)') "Unexpected value for vb_index(", i, "), got ", actual_vb_index(i), " expected ", expected_outputs%mesh_vectors%vb_index(i)
+            write(failure_message,'(a,i1,a,i2,a,i2)') "Unexpected value for vb_index(", i, "), got ", &
+                  actual_vb_index(i), " expected ", expected_outputs%mesh_vectors%vb_index(i)
             call check(error, actual_vb_index(i), expected_outputs%mesh_vectors%vb_index(i), failure_message)
             if (allocated(error)) return
         end do
 
         do i = 1, expected_outputs%mesh_scalars%num_nodes
             do j = 1, 2
-                write(failure_message,'(a,i1,a,i1,a,f5.2,a,f5.2)') "Unexpected value for coordinates(", j, ",", i, "), got ", actual_coordinates(j, i), " expected ", expected_outputs%mesh_vectors%coordinates(j, i)
-                call check(error, actual_coordinates(j, i), expected_outputs%mesh_vectors%coordinates(j, i), failure_message, thr=threshold)
+                write(failure_message,'(a,i1,a,i1,a,f5.2,a,f5.2)') "Unexpected value for coordinates(", j, ",", i, "), got ", &
+                      actual_coordinates(j, i), " expected ", expected_outputs%mesh_vectors%coordinates(j, i)
+                call check(error, actual_coordinates(j, i), expected_outputs%mesh_vectors%coordinates(j, i), &
+                           failure_message, thr=threshold)
                 if (allocated(error)) return
-            end do 
+            end do
         end do
 
         do i = 1, expected_outputs%mesh_scalars%num_boundary_points
             do j = 1, 2
-                write(failure_message,'(a,i1,a,i1,a,i2,a,i2)') "Unexpected value for boundary_node_num(", j, ",", i, "), got ", actual_boundary_node_num(j, i), " expected ", expected_outputs%mesh_vectors%boundary_node_num(j, i)
-                call check(error, actual_boundary_node_num(j, i), expected_outputs%mesh_vectors%boundary_node_num(j, i), failure_message)
+                write(failure_message,'(a,i1,a,i1,a,i2,a,i2)') "Unexpected value for boundary_node_num(", j, ",", i, "), got ", &
+                      actual_boundary_node_num(j, i), " expected ", expected_outputs%mesh_vectors%boundary_node_num(j, i)
+                call check(error, actual_boundary_node_num(j, i), expected_outputs%mesh_vectors%boundary_node_num(j, i), &
+                           failure_message)
                 if (allocated(error)) return
-            end do 
+            end do
 
             do j = 1, 4
-                write(failure_message,'(a,i1,a,i1,a,i2,a,i2)') "Unexpected value for num_side_nodes(", j, ",", i, "), got ", actual_num_side_nodes(j, i), " expected ", expected_outputs%mesh_vectors%num_side_nodes(j, i)
+                write(failure_message,'(a,i1,a,i1,a,i2,a,i2)') "Unexpected value for num_side_nodes(", j, ",", i, "), got ", &
+                      actual_num_side_nodes(j, i), " expected ", expected_outputs%mesh_vectors%num_side_nodes(j, i)
                 call check(error, actual_num_side_nodes(j, i), expected_outputs%mesh_vectors%num_side_nodes(j, i), failure_message)
                 if (allocated(error)) return
             end do
@@ -175,20 +196,23 @@ contains
 
         do i = 1, expected_outputs%mesh_scalars%num_sets
             do j = 1, 3
-                write(failure_message,'(a,i1,a,i1,a,f5.2,a,f5.2)') "Unexpected value for vb(", j, ",", i, "), got ", actual_vb(j, i), " expected ", expected_outputs%mesh_vectors%vb(j, i)
+                write(failure_message,'(a,i1,a,i1,a,f5.2,a,f5.2)') "Unexpected value for vb(", j, ",", i, "), got ", &
+                      actual_vb(j, i), " expected ", expected_outputs%mesh_vectors%vb(j, i)
                 call check(error, actual_vb(j, i), expected_outputs%mesh_vectors%vb(j, i), failure_message, thr=threshold)
                 if (allocated(error)) return
             end do
         end do
 
         do i = 1, expected_outputs%mesh_scalars%num_dirichlet_boundary_conditions
-            write(failure_message,'(a,i1,a,f5.2,a,f5.2)') "Unexpected value for vb1(", i, "), got ", actual_vb1(i), " expected ", expected_outputs%mesh_vectors%vb1(i)
+            write(failure_message,'(a,i1,a,f5.2,a,f5.2)') "Unexpected value for vb1(", i, "), got ", &
+                  actual_vb1(i), " expected ", expected_outputs%mesh_vectors%vb1(i)
             call check(error, actual_vb1(i), expected_outputs%mesh_vectors%vb1(i), failure_message, thr=threshold)
             if (allocated(error)) return
         end do
 
         do i = 1, expected_outputs%mesh_scalars%num_neumann_boundary_conditions
-            write(failure_message,'(a,i1,a,f5.2,a,f5.2)') "Unexpected value for vb2(", i, "), got ", actual_vb2(i), " expected ", expected_outputs%mesh_vectors%vb2(i)
+            write(failure_message,'(a,i1,a,f5.2,a,f5.2)') "Unexpected value for vb2(", i, "), got ", &
+                  actual_vb2(i), " expected ", expected_outputs%mesh_vectors%vb2(i)
             call check(error, actual_vb2(i), expected_outputs%mesh_vectors%vb2(i), failure_message, thr=threshold)
             if (allocated(error)) return
         end do
@@ -214,11 +238,12 @@ contains
 
         type(pcg_inputs_t), intent(in) :: inputs
         type(pcg_expected_outputs_t), intent(in) :: expected_outputs
-        
-        real :: actual_nodal_value_of_f(mxp)
+
+        real :: actual_nodal_value_of_f(mxp), threshold
         character(len=200) :: failure_message
-        real :: threshold = 1e-06
         integer :: i
+
+        threshold = 1e-06
 
         call pcg(&
             inputs%mesh_scalars%num_nodes,           &
@@ -237,7 +262,8 @@ contains
 
         ! verify outputs
         do i = 1, inputs%mesh_scalars%num_nodes
-            write(failure_message,'(a,i3,a,f9.7,a,f9.7)') "Unexpected value for coordinates(", i, "), got ", actual_nodal_value_of_f(i), " expected ", expected_outputs%nodal_value_of_f(i)
+            write(failure_message,'(a,i3,a,f9.7,a,f9.7)') "Unexpected value for coordinates(", i, "), got ", &
+                  actual_nodal_value_of_f(i), " expected ", expected_outputs%nodal_value_of_f(i)
             call check(error, actual_nodal_value_of_f(i), expected_outputs%nodal_value_of_f(i), failure_message, thr=threshold)
             if (allocated(error)) return
         end do
@@ -252,10 +278,12 @@ contains
         type(pcg_expected_outputs_t) :: expected_outputs
 
         call get_15_05_mesh_values(inputs%data_filename, inputs%mesh_scalars, inputs%mesh_vectors)
-        expected_outputs%nodal_value_of_f(1:inputs%mesh_scalars%num_nodes) = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.407407, 0.481481, 0.518518, 0.592592]
+        expected_outputs%nodal_value_of_f(1:inputs%mesh_scalars%num_nodes) = [ &
+            0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.407407, 0.481481, 0.518518, 0.592592 &
+        ]
 
         call verify_pcg(error, inputs, expected_outputs)
 
         deallocate(inputs%data_filename)
     end subroutine test_pcg_15_05
-end module
+end module test_drive_poisson
