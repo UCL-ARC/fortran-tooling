@@ -30,8 +30,7 @@ Compilers tested: GNU Fortran (Homebrew GCC 14.2.0_1)
 | Feature | Implemented natively | Implemented manually |
 |---------|----------------------|----------------------|
 | Can run individual tests | No | Yes, see [main.f90](./main.f90). However, this requires running the test executable directly without ctest. |
-| Mocking | No | Not implemented |
-| Stubbing | No | Not implemented |
+| Mocking/Stubbing | No | Not implemented |
 | Data driven tests | No | Yes, but this is very cumbersome. See `verify_calculate_mesh_parameters` and `verify_calculate_mesh` in [test_mesh_generator.f90](./test_mesh_generator.f90)
 | Coverage report | Yes, with fpm | N/A |
 | Skip tests | Yes, see `test_skip_example` in [test_mesh_generator.f90](./test_mesh_generator.f90) | N/A |

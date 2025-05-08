@@ -18,8 +18,7 @@ Compilers tested: GNU Fortran (Homebrew GCC 14.2.0_1)
 | Feature | Implemented natively | Implemented manually |
 |---------|----------------------|----------------------|
 | Can run individual tests | Yes (by directly calling the test executable, not ctest, we can pass `-f` to filter tests by name) | N/A |
-| Mocking | No | No |
-| Stubbing | No | No |
+| Mocking/Stubbing | No | No |
 | Data driven tests | Yes (see [test_calculate_mesh_parameters.pf](./test_calculate_mesh_parameters.pf)) | N/A |
 | Coverage report | Yes or No (explanation) | Yes or No (explanation) |
 | Skip tests | Partially, but there is no logging of skipped tests (add required pre-compile flag e.g. `@Test(#ifdef NO_SKIP)`) | Partially (comment `@Test` annotation) |

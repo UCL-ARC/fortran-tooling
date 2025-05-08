@@ -16,8 +16,7 @@ Compilers tested: GNU Fortran (Homebrew GCC 14.2.0_1)
 | Feature | Implemented natively | Implemented manually |
 |---------|----------------------|----------------------|
 | Can run individual tests | Yes ( fpm test *"fpm test name"* [-- -f *"regex for test description"*] ) | N/A |
-| Mocking | No | No |
-| Stubbing | No | No |
+| Mocking/Stubbing | No | No |
 | Data driven tests | Yes (via defining custom types which extend `input_t` type) | N/A |
 | Coverage report | No | No |
 | Skip tests | No | Sort of (return a generic pass with a description indicating test was skipped) |
