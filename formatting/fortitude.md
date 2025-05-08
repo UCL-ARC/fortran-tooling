@@ -6,8 +6,8 @@ A tool for installing, i.e. `pip` or `homebrew`
 
 ## Installation
 
-The [quickstart page](https://fortitude.readthedocs.io/en/stable/#quickstart) for Fortitude details multiple ways of installing the tool.
-To minimise the amount of non-Fortran build systems/dependency managers, it may be best to opt for the curl and sh install method.
+To install fortitude we can utilise the provided `pyproject.toml` by following the instructions in [the pre-commit install instructions](../README.md#pre-commit)
+The [quickstart page](https://fortitude.readthedocs.io/en/stable/#quickstart) for Fortitude details multiple other ways of installing the tool.
 
 ## Usage in this repo
 
