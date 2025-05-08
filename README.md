@@ -108,18 +108,12 @@ fpm test
 [pre-commit](https://pre-commit.com/) is utilised within this repo. pre-commit is a tool to help enforce formatting standards as early as possible.
 pre-commit works by running a provided set of checks every time a `git commit` is attempted.
 
-To utilise pre-commit, it must be installed locally. This can be done in several ways. As stated above to minimise non-Fortran build systems, pre-commit can
-be installed globally on macOS using home brew
-
-```sh
-brew install pre-commit
+To utilise pre-commit, it must be installed locally. This can be done in several ways but the easiest is to use the provided `pyproject.toml` via...
 ```
-
-or with pip via
-
-```sh
-/path/to/python3 -m pip install pre-commit
-```
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -e .
+``` 
 
 Then, from the root of the repo, you start using pre-commit by running
 
