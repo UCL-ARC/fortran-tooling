@@ -1,11 +1,12 @@
 #!/bin/bash
 
 
-PFUNIT_INSTALLED_PATH="" # Path to pFUnit/installed directory
 
 clean_build=false
 build_cmake=false
 build_fpm=false
+build_tests=true
+PFUNIT_INSTALLED_PATH="" # Path to pFUnit/installed directory
 run_tests=false
 
 help() {
@@ -15,6 +16,8 @@ help() {
   echo "    -m  Build via cmake."
   echo "    -f  Build via fpm."
   echo "    -b  Build with all build tools."
+  echo "    -s  Skip building cmake tests"
+  echo "    -p  Path to pFUnit/installed directory."
   echo "    -t  Run tests."
   exit 0
 }
@@ -27,7 +30,7 @@ then
 fi
 
 # parse input arguments
-while getopts "hcmfbt" opt
+while getopts "hcmfbtp:s" opt
 do
   case ${opt} in
     h  ) help;;
@@ -37,6 +40,8 @@ do
     b  ) 
         build_cmake=true
         build_fpm=true;;
+    s  ) build_tests=false;;
+    p  ) PFUNIT_INSTALLED_PATH="${OPTARG}";;
     t  ) run_tests=true;;
     \? ) echo "Invalid option: $OPTARG" >&2; exit 1;;
   esac
@@ -67,7 +72,14 @@ fi
 if [ "$build_cmake" == "true" ]
 then
     echo "Building using cmake"
-    cmake -DCMAKE_PREFIX_PATH="$PFUNIT_INSTALLED_PATH" -B build-cmake 
+    if [ "$build_tests" == "true" ]
+    then
+        echo "Building tests"
+        cmake -DCMAKE_PREFIX_PATH="$PFUNIT_INSTALLED_PATH" -DBUILD_TESTS=ON -B build-cmake 
+    else
+        echo "Skipping tests"
+        cmake -DBUILD_TESTS=OFF -B build-cmake 
+    fi
     cmake --build build-cmake
 fi
 

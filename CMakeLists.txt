@@ -25,9 +25,13 @@ enable_testing()
 #--------------------------------------#
 #             test-drive               #
 #--------------------------------------#
-add_subdirectory("testing/test-drive")
+if (BUILD_TESTS MATCHES "ON")
+  add_subdirectory("testing/test-drive")
+endif()
 
 #--------------------------------------#
 #               pFUnit                 #
 #--------------------------------------#
-add_subdirectory("testing/pFUnit")
+if (BUILD_TESTS MATCHES "ON")
+  add_subdirectory("testing/pFUnit")
+endif()
