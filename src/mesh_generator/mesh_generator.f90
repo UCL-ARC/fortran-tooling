@@ -151,8 +151,8 @@ contains
             stop
         end if
 
-        write(file_io,*) "! num_nodes, num_elements, num_boundary_points, num_sets, num_dirichlet_boundary_conditions, &
-                          num_neumann_boundary_conditions"
+        write(file_io,*) "! num_nodes, num_elements, num_boundary_points, num_sets, num_dirichlet_boundary_conditions, ", &
+                         "num_neumann_boundary_conditions"
         write(file_io,*) num_nodes, num_elements, num_boundary_nodes, num_sets, num_dirichlet_boundary_conditions, &
                           num_neumann_boundary_conditions
 
@@ -169,7 +169,8 @@ contains
             write(file_io,*) i, nodes(1, i), nodes(2, i)
         end do
 
-        write(file_io,*) "! je,element_to_node(1,je),element_to_node(2,je),element_to_node(3,je),vb_index(je) - as many lines as num_elements"
+        write(file_io,*) "! je,element_to_node(1,je),element_to_node(2,je),element_to_node(3,je),vb_index(je) - as many lines ", &
+                         "as num_elements"
         do i = 1, num_elements
             write(file_io,*) i, elements(1, i), elements(2, i), elements(3, i), 1
         end do
@@ -179,7 +180,8 @@ contains
             write(file_io,*) i, 1
         end do
 
-        write(file_io,*) "! num_side_nodes(1,ib),num_side_nodes(2,ib),num_side_nodes(3,ib),num_side_nodes(4,ib) - as many lines as num_boundary_points"
+        write(file_io,*) "! num_side_nodes(1,ib),num_side_nodes(2,ib),num_side_nodes(3,ib),num_side_nodes(4,ib) - as many ", &
+                         "lines as num_boundary_points"
         do i = 1, num_boundary_nodes
             write(file_io,*) boundary_edges(1, i), boundary_edges(2, i), boundary_edges(3, i), 0
         end do
