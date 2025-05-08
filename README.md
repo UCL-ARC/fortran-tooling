@@ -75,7 +75,7 @@ If you have built using CMake, you can also run the poisson solver by directly c
 ./build/fortran-tooling-poisson <path_to_mesh_file>
 ```
 
-If you have built using FPM, you can run the mesh generator via FPM
+If you have built using FPM, you can also run the mesh generator via FPM
 ```sh
 fpm run poisson -- <path_to_mesh_file>
 ```

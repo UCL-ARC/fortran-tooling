@@ -15,7 +15,6 @@ help() {
   echo "    -c  Clean all build artifacts."
   echo "    -m  Build via cmake."
   echo "    -f  Build via fpm."
-  echo "    -b  Build with all build tools."
   echo "    -s  Skip building cmake tests"
   echo "    -p  Path to pFUnit/installed directory."
   echo "    -t  Run tests."
@@ -30,16 +29,13 @@ then
 fi
 
 # parse input arguments
-while getopts "hcmfbtp:s" opt
+while getopts "hcmftp:s" opt
 do
   case ${opt} in
     h  ) help;;
     c  ) clean_build=true;;
     m  ) build_cmake=true;;
     f  ) build_fpm=true;;
-    b  ) 
-        build_cmake=true
-        build_fpm=true;;
     s  ) build_tests=false;;
     p  ) PFUNIT_INSTALLED_PATH="${OPTARG}";;
     t  ) run_tests=true;;
