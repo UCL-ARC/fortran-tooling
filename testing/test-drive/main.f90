@@ -24,6 +24,7 @@ program tester
     call get_argument(1, suite_name)
     call get_argument(2, test_name)
 
+    write(error_unit, fmt) "Running test-drive tests suite"
     if (allocated(suite_name)) then
         is = select_suite(testsuites, suite_name)
         if (is > 0 .and. is <= size(testsuites)) then
