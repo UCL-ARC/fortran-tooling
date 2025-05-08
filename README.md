@@ -40,13 +40,13 @@ A bash script is provided for building ([build.sh](./build.sh)). However, there 
 ### CMake
 >Note: we have some [PFunit tests](./testing/pFUnit/) which require a local version of PFunit to be pre-built on your device. Once built, the path to the PFunit `installed` dir will need to be passed via `-DCMAKE_PREFIX_PATH`.
 
-One build system we are utilising cmake (see [CMakeLists.txt](./CMakeLists.txt)). Therefore, to build this repository, please run the following
+One build system we are utilising is cmake (see [CMakeLists.txt](./CMakeLists.txt)). Therefore, to build this repository, please run the following
 ```sh
-cmake -DCMAKE_PREFIX_PATH=/path/to/pfunit/installed/dir -B build 
+cmake -DCMAKE_PREFIX_PATH=/path/to/pfunit/installed/dir -B build-cmake 
 ``` 
 This will create a [build](./build) directory from within which the project can be compiled...
 ```sh
-cmake --build build
+cmake --build build-cmake
 ```
 This will produce executables for the two src codes, `fortran-tooling-mesh-generator` and `fortran-tooling-poisson`.
 
@@ -64,13 +64,13 @@ If you have built using CMake, you can run the mesh generator by directly callin
 ./build/fortran-tooling-mesh-generator <box_size> <edge_size>
 ```
 
-If you have built using FPM, you can run the mesh generator via FPM
+If you have built using FPM, you can also run the mesh generator via FPM
 ```sh
 fpm run mesh_generator -- <box_size> <edge_size>
 ```
 
 ### Poisson solver
-If you have built using CMake, you can run the poisson solver by directly calling the executable
+If you have built using CMake, you can also run the poisson solver by directly calling the executable
 ```sh
 ./build/fortran-tooling-poisson <path_to_mesh_file>
 ```
