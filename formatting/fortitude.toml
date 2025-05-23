@@ -1,5 +1,9 @@
 [check]
+# A set of rules we ignore. Fortitude will not enforce these rules.
 ignore = [
     "C003", # 'implicit none' missing 'external'
 ]
+
+# A custom maxmum line length for our repo which will effect the 
+# behaviour of rule S001	(line-too-long)
 line-length = 132
