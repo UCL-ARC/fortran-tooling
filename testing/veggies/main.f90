@@ -17,7 +17,7 @@ contains
         individual_tests(1) = test_mesh_generator()
         individual_tests(2) = test_poisson()
         individual_tests(3) = test_poisson_given_when_then()
-        
+
         tests = test_that(individual_tests)
 
         passed = run_tests(tests)

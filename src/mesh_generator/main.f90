@@ -1,8 +1,8 @@
 program main
-    use, intrinsic :: iso_fortran_env
-    use mesh_generator
+    use, intrinsic :: iso_fortran_env, only : int64, real64
+    use mesh_generator, only : calculate_mesh_parameters, calculate_mesh, write_mesh_to_file
 
-    implicit none 
+    implicit none
 
     ! Command line arguments
     integer                       :: argl
@@ -40,9 +40,9 @@ program main
 
     ! Output start message
     write(*,'(A)') "Generating mesh using:"
-    write(*,'(A,1I16)') "box size: ", box_size 
-    write(*,*) " edge_size: ", edge_size
-    
+    write(*,'(A,1I16)') " box size: ", box_size
+    write(*,'(A,1F16.3)') " edge_size: ", edge_size
+
     call calculate_mesh_parameters(box_size, edge_size, num_edges_per_boundary, num_nodes, num_boundary_nodes, num_elements)
 
     ! Allocate arrays
@@ -51,6 +51,6 @@ program main
     allocate(boundary_edges(3, num_boundary_nodes))
 
     call calculate_mesh(num_edges_per_boundary, num_nodes, num_elements, num_boundary_nodes, nodes, elements, boundary_edges)
-    
+
     call write_mesh_to_file(num_nodes, num_elements, num_boundary_nodes, nodes, elements, boundary_edges)
 end program main

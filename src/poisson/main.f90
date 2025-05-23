@@ -1,9 +1,10 @@
 program main
-    use poisson
+    use poisson, only : read_input_file, write_output_file, pcg, open_file, mxp, mxe, mxb, mxc
 
     implicit none
 
-    integer       :: num_nodes, num_elements, num_boundary_points, element_to_node(3,mxe), vb_index(mxe), boundary_node_num(2,mxb), num_side_nodes(4,mxb)
+    integer       :: num_nodes, num_elements, num_boundary_points, element_to_node(3,mxe), vb_index(mxe), &
+                     boundary_node_num(2,mxb), num_side_nodes(4,mxb)
     real          :: coordinates(2, mxp), nodal_value_of_f(mxp), vb1(mxc), vb2(mxc), vb(3,mxc)
     integer       :: fname_io = 100, fname_out_io = 101
 
@@ -32,17 +33,19 @@ program main
 
     call open_file(input_fname, 'old', fname_io)
     call open_file(output_fname, 'new', fname_out_io)
-    
+
 
     !!
     !! *** Reads the triangular mesh and problem constants: Kx,Ky,Q,fp,q
     !!
-    call read_input_file(num_nodes,num_elements,num_boundary_points,element_to_node,vb_index,coordinates,boundary_node_num,num_side_nodes,vb,vb1,vb2,fname_io)
+    call read_input_file(num_nodes,num_elements,num_boundary_points,element_to_node,vb_index,coordinates,boundary_node_num, &
+                         num_side_nodes,vb,vb1,vb2,fname_io)
 
     !!
     !! *** Assembles and solves the system of equations
     !!
-    call pcg(num_nodes,num_elements,num_boundary_points,element_to_node,vb_index,coordinates,boundary_node_num,num_side_nodes,vb,vb1,vb2,nodal_value_of_f)
+    call pcg(num_nodes,num_elements,num_boundary_points,element_to_node,vb_index,coordinates,boundary_node_num,num_side_nodes,vb, &
+             vb1,vb2,nodal_value_of_f)
 
     !!
     !! *** Writes the computed solution

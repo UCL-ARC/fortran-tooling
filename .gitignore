@@ -4,3 +4,5 @@
 build/
 build-cmake/
 *Temporary
+.vscode
+*.egg-info

@@ -10,6 +10,9 @@ module veggies_poisson
             result_t, &
             test_item_t
     implicit none
+
+    public
+
     public :: inp_test_data_t, test_poisson, check_inp_valid_inputs
 
     !! @class inp_test_t
@@ -32,14 +35,14 @@ module veggies_poisson
                    expected_vb2(mxc),  &
                    expected_coordinates(2, mxp)
 
-    end type
+    end type inp_test_data_t
     interface inp_test_data_t
         module procedure inp_test_data_constructor
-    end interface
+    end interface inp_test_data_t
 contains
     !> The test suite for poisson
     function test_poisson() result(tests)
-        implicit none 
+        implicit none
         type(test_item_t) :: tests
         integer :: num_nodes_10_5,                         &
                    num_elements_10_5,                      &
@@ -55,7 +58,7 @@ contains
                    vb1_10_5(mxc),  &
                    vb2_10_5(mxc),  &
                    coordinates_10_5(2, mxp)
-        
+
         !> box_size = 10, edge_size = 5.0
         num_nodes_10_5 = 9
         num_elements_10_5 = 8
@@ -100,7 +103,7 @@ contains
                     ],                                                                  &
                     check_inp_valid_inputs)                                             &
                 ])
-    end function
+    end function test_poisson
 
     !> A unit test for the read_input_file subroutine with valid inputs.
     !!
@@ -123,14 +126,14 @@ contains
                    actual_vb1(mxc),  &
                    actual_vb2(mxc),  &
                    actual_coordinates(2, mxp)
-        integer :: file_io = 100
+        integer, parameter :: file_io = 100
 
         select type (input)
         type is (inp_test_data_t)
             ! Open the file ready to be read
             call open_file(input%data_filename, 'old', file_io)
 
-            call read_input_file(                       &
+            call read_input_file(           &
                 actual_num_nodes,           &
                 actual_num_elements,        &
                 actual_num_boundary_points, &
@@ -144,21 +147,29 @@ contains
                 actual_vb2,                 &
                 file_io                     &
             )
-            
+
             result_ = &
-                assert_equals(input%expected_element_to_node(:, 1:input%expected_num_elements), actual_element_to_node(:, 1:input%expected_num_elements)).and.&
-                assert_equals(input%expected_vb_index(1:input%expected_num_elements), actual_vb_index(1:input%expected_num_elements)).and.&
-                assert_equals(input%expected_coordinates(:, 1:input%expected_num_nodes), actual_coordinates(:, 1:input%expected_num_nodes)).and.&
-                assert_equals(input%expected_boundary_node_num(:, 1:input%expected_num_boundary_points), actual_boundary_node_num(:, 1:input%expected_num_boundary_points)).and.&
-                assert_equals(input%expected_num_side_nodes(:, 1:input%expected_num_boundary_points), actual_num_side_nodes(:, 1:input%expected_num_boundary_points)).and.&
-                assert_equals(input%expected_vb(:, 1:input%expected_num_sets), actual_vb(:, 1:input%expected_num_sets)).and.&
-                assert_equals(input%expected_vb1(1:input%expected_num_dirichlet_boundary_conditions), actual_vb1(1:input%expected_num_dirichlet_boundary_conditions)).and.&
-                assert_equals(input%expected_vb2(1:input%expected_num_neumann_boundary_conditions), actual_vb2(1:input%expected_num_neumann_boundary_conditions))
+                assert_equals(input%expected_element_to_node(:, 1:input%expected_num_elements),          &
+                              actual_element_to_node(:, 1:input%expected_num_elements)).and.             &
+                assert_equals(input%expected_vb_index(1:input%expected_num_elements),                    &
+                              actual_vb_index(1:input%expected_num_elements)).and.                       &
+                assert_equals(input%expected_coordinates(:, 1:input%expected_num_nodes),                 &
+                              actual_coordinates(:, 1:input%expected_num_nodes)).and.                    &
+                assert_equals(input%expected_boundary_node_num(:, 1:input%expected_num_boundary_points), &
+                              actual_boundary_node_num(:, 1:input%expected_num_boundary_points)).and.    &
+                assert_equals(input%expected_num_side_nodes(:, 1:input%expected_num_boundary_points),    &
+                              actual_num_side_nodes(:, 1:input%expected_num_boundary_points)).and.       &
+                assert_equals(input%expected_vb(:, 1:input%expected_num_sets),                           &
+                              actual_vb(:, 1:input%expected_num_sets)).and.                              &
+                assert_equals(input%expected_vb1(1:input%expected_num_dirichlet_boundary_conditions),    &
+                              actual_vb1(1:input%expected_num_dirichlet_boundary_conditions)).and.       &
+                assert_equals(input%expected_vb2(1:input%expected_num_neumann_boundary_conditions),      &
+                              actual_vb2(1:input%expected_num_neumann_boundary_conditions))
         class default
             result_ = fail("Didn't get inp_test_data_t")
         end select
 
-    end function
+    end function check_inp_valid_inputs
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !! Constructors
@@ -181,12 +192,12 @@ contains
         implicit none
 
         character(len=100), intent(in) :: data_filename
-        integer :: num_nodes,                         &
-                   num_elements,                      &
-                   num_boundary_points,               &
-                   num_sets,                          &
-                   num_dirichlet_boundary_conditions, &
-                   num_neumann_boundary_conditions
+        integer, intent(in) :: num_nodes,                         &
+                               num_elements,                      &
+                               num_boundary_points,               &
+                               num_sets,                          &
+                               num_dirichlet_boundary_conditions, &
+                               num_neumann_boundary_conditions
         integer, intent(in) ::        &
             element_to_node(3,mxp),   &
             vb_index(mxe),            &
@@ -216,5 +227,5 @@ contains
         inp_test_data%expected_vb1 = vb1
         inp_test_data%expected_vb2 = vb2
         inp_test_data%expected_coordinates = coordinates
-    end function
-end module
+    end function inp_test_data_constructor
+end module veggies_poisson

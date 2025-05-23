@@ -1,10 +1,12 @@
 module test_drive_mesh_generator
-    use, intrinsic :: iso_fortran_env
+    use, intrinsic :: iso_fortran_env, only : int64, real64
     use testdrive, only : new_unittest, unittest_type, error_type, check, skip_test
 
-    use mesh_generator
-    
-    implicit none 
+    use mesh_generator, only : calculate_mesh_parameters, calculate_mesh
+
+    implicit none
+
+    public
 
     real(kind=real64) :: test_threshold = 1e-06
 
@@ -28,7 +30,7 @@ module test_drive_mesh_generator
     end type calculate_mesh_expected_ouputs
 contains
     !> Collect all test in this module into a single test suite
-    !! 
+    !!
     !! @param testsuite - An array of unittest_types in which to store this suite's tests
     subroutine collect_mesh_generator_testsuite(testsuite)
         type(unittest_type), allocatable, intent(out) :: testsuite(:)
@@ -41,11 +43,11 @@ contains
     end subroutine collect_mesh_generator_testsuite
 
     !> A unit test template for the calculate_mesh_parameters subroutine.
-    !! 
+    !!
     !! @param error - An allocatable error_type to track failing tests.
-    !! @param inputs - A structure containing the required inputs for 
+    !! @param inputs - A structure containing the required inputs for
     !!                 calling calculate_mesh_parameters.
-    !! @param expected_outputs - A structure containing the outputs we 
+    !! @param expected_outputs - A structure containing the outputs we
     !!                           expect for the provided inputs.
     subroutine verify_calculate_mesh_parameters(error, inputs, expected_outputs)
         implicit none
@@ -64,10 +66,10 @@ contains
         call check(error, actual_num_edges_per_boundary, expected_outputs%num_edges_per_boundary)
         call check(error, actual_num_elements,           expected_outputs%num_elements)
         call check(error, actual_num_nodes,              expected_outputs%num_nodes)
-        
+
         ! Catch test failure
         if (allocated(error)) return
-    end subroutine
+    end subroutine verify_calculate_mesh_parameters
     !> A unit test for the calculate_mesh_parameters subroutine with:
     !!     box_size = 5
     !!     edge_size = 1.0
@@ -109,11 +111,11 @@ contains
 
 
     !> A unit test template for the calculate_mesh subroutine.
-    !! 
+    !!
     !! @param error - An allocatable error_type to track failing tests.
-    !! @param inputs - A structure containing the required inputs for 
+    !! @param inputs - A structure containing the required inputs for
     !!                 calling calculate_mesh.
-    !! @param expected_outputs - A structure containing the outputs we 
+    !! @param expected_outputs - A structure containing the outputs we
     !!                           expect for the provided inputs.
     subroutine verify_calculate_mesh(error, inputs, expected_outputs)
         implicit none
@@ -124,24 +126,27 @@ contains
         integer(kind=int64), dimension(3, inputs%num_elements) :: actual_elements
         integer(kind=int64), dimension(3, inputs%num_boundary_nodes) :: actual_boundary_edges
         real(kind=real64), dimension(2, inputs%num_nodes) :: actual_nodes
-        real(kind=real64) :: threshold = 1e-06
-        character*80 :: failure_message
+        real(kind=real64), parameter :: threshold = 1e-06
+        character(len=80) :: failure_message
 
         integer :: i, j
 
-        call calculate_mesh(inputs%num_edges_per_boundary, inputs%num_nodes, inputs%num_elements, inputs%num_boundary_nodes, actual_nodes, actual_elements, actual_boundary_edges)
+        call calculate_mesh(inputs%num_edges_per_boundary, inputs%num_nodes, inputs%num_elements, inputs%num_boundary_nodes, &
+                            actual_nodes, actual_elements, actual_boundary_edges)
 
         do i = 1, inputs%num_elements
             do j = 1, 3
-                write(failure_message,'(a,i1,a,i1,a,i2,a,i2)') "Unexpected value for elements(", j, ",", i, "), got ", actual_elements(j, i), " expected ", expected_outputs%elements(j, i)
+                write(failure_message,'(a,i1,a,i1,a,i2,a,i2)') "Unexpected value for elements(", j, ",", i, "), got ", &
+                      actual_elements(j, i), " expected ", expected_outputs%elements(j, i)
                 call check(error, actual_elements(j, i), expected_outputs%elements(j, i), failure_message)
                 if (allocated(error)) return
-            end do 
+            end do
         end do
 
         do i = 1, inputs%num_boundary_nodes
             do j = 1, 3
-                write(failure_message,'(a,i1,a,i1,a,i2,a,i2)') "Unexpected value for boundary_edges(", j, ",", i, "), got ", actual_boundary_edges(j, i), " expected ", expected_outputs%boundary_edges(j, i)
+                write(failure_message,'(a,i1,a,i1,a,i2,a,i2)') "Unexpected value for boundary_edges(", j, ",", i, "), got ", &
+                      actual_boundary_edges(j, i), " expected ", expected_outputs%boundary_edges(j, i)
                 call check(error, actual_boundary_edges(j, i), expected_outputs%boundary_edges(j, i), failure_message)
                 if (allocated(error)) return
             end do
@@ -149,7 +154,8 @@ contains
 
         do i = 1, inputs%num_nodes
             do j = 1, 2
-                write(failure_message,'(a,i1,a,i1,a,f3.1,a,f3.1)') "Unexpected value for nodes(", j, ",", i, "), got ", actual_nodes(j, i), " expected ", expected_outputs%nodes(j, i)
+                write(failure_message,'(a,i1,a,i1,a,f3.1,a,f3.1)') "Unexpected value for nodes(", j, ",", i, "), got ", &
+                      actual_nodes(j, i), " expected ", expected_outputs%nodes(j, i)
                 call check(error, actual_nodes(j, i), expected_outputs%nodes(j, i), failure_message, thr=threshold)
                 if (allocated(error)) return
             end do
@@ -173,37 +179,37 @@ contains
 
         ! Setup expected outputs
         allocate(expected_outputs%boundary_edges(3, inputs%num_nodes))
-        expected_outputs%boundary_edges(:,1) = (/1,2,1/)
-        expected_outputs%boundary_edges(:,2) = (/2,3,2/)
-        expected_outputs%boundary_edges(:,3) = (/3,6,2/)
-        expected_outputs%boundary_edges(:,4) = (/6,9,6/)
-        expected_outputs%boundary_edges(:,5) = (/9,8,8/)
-        expected_outputs%boundary_edges(:,6) = (/8,7,7/)
-        expected_outputs%boundary_edges(:,7) = (/7,4,7/)
-        expected_outputs%boundary_edges(:,8) = (/4,1,3/)
+        expected_outputs%boundary_edges(:,1) = [1,2,1]
+        expected_outputs%boundary_edges(:,2) = [2,3,2]
+        expected_outputs%boundary_edges(:,3) = [3,6,2]
+        expected_outputs%boundary_edges(:,4) = [6,9,6]
+        expected_outputs%boundary_edges(:,5) = [9,8,8]
+        expected_outputs%boundary_edges(:,6) = [8,7,7]
+        expected_outputs%boundary_edges(:,7) = [7,4,7]
+        expected_outputs%boundary_edges(:,8) = [4,1,3]
         allocate(expected_outputs%elements(3, inputs%num_elements))
-        expected_outputs%elements(:,1) = (/1,2,5/)
-        expected_outputs%elements(:,2) = (/2,3,6/)
-        expected_outputs%elements(:,3) = (/1,5,4/)
-        expected_outputs%elements(:,4) = (/2,6,5/)
-        expected_outputs%elements(:,5) = (/4,5,8/)
-        expected_outputs%elements(:,6) = (/5,6,9/)
-        expected_outputs%elements(:,7) = (/4,8,7/)
-        expected_outputs%elements(:,8) = (/5,9,8/)
+        expected_outputs%elements(:,1) = [1,2,5]
+        expected_outputs%elements(:,2) = [2,3,6]
+        expected_outputs%elements(:,3) = [1,5,4]
+        expected_outputs%elements(:,4) = [2,6,5]
+        expected_outputs%elements(:,5) = [4,5,8]
+        expected_outputs%elements(:,6) = [5,6,9]
+        expected_outputs%elements(:,7) = [4,8,7]
+        expected_outputs%elements(:,8) = [5,9,8]
         allocate(expected_outputs%nodes(2, inputs%num_nodes))
-        expected_outputs%nodes(:,1) = (/1.0,1.0/)
-        expected_outputs%nodes(:,2) = (/1.0,2.0/)
-        expected_outputs%nodes(:,3) = (/1.0,3.0/)
-        expected_outputs%nodes(:,4) = (/2.0,1.0/)
-        expected_outputs%nodes(:,5) = (/2.0,2.0/)
-        expected_outputs%nodes(:,6) = (/2.0,3.0/)
-        expected_outputs%nodes(:,7) = (/3.0,1.0/)
-        expected_outputs%nodes(:,8) = (/3.0,2.0/)
-        expected_outputs%nodes(:,9) = (/3.0,3.0/)
+        expected_outputs%nodes(:,1) = [1.0,1.0]
+        expected_outputs%nodes(:,2) = [1.0,2.0]
+        expected_outputs%nodes(:,3) = [1.0,3.0]
+        expected_outputs%nodes(:,4) = [2.0,1.0]
+        expected_outputs%nodes(:,5) = [2.0,2.0]
+        expected_outputs%nodes(:,6) = [2.0,3.0]
+        expected_outputs%nodes(:,7) = [3.0,1.0]
+        expected_outputs%nodes(:,8) = [3.0,2.0]
+        expected_outputs%nodes(:,9) = [3.0,3.0]
 
         ! Call parent test
         call verify_calculate_mesh(error, inputs, expected_outputs)
-        
+
         ! Teardown
         deallocate(expected_outputs%boundary_edges)
         deallocate(expected_outputs%elements)
@@ -212,7 +218,7 @@ contains
 
 
     !> A unit test to demonstrate test-drives ability to skip a test
-    !! 
+    !!
     !! @param error - An allocatable error_type to track failing tests.
     subroutine test_skip_example(error)
         type(error_type), allocatable, intent(out) :: error

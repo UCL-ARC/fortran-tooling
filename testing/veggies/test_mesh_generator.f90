@@ -1,5 +1,5 @@
 module veggies_mesh_generator
-    use, intrinsic :: iso_fortran_env
+    use, intrinsic :: iso_fortran_env, only : int64, real64
     use veggies, only: &
             assert_equals, &
             describe, &
@@ -21,34 +21,37 @@ module veggies_mesh_generator
         real(kind=real64) :: edge_size
         integer(kind=int64) :: box_size, expected_num_edges_per_boundary, &
                 expected_num_nodes, expected_num_boundary_nodes, expected_num_elements
-    end type
+    end type valid_calculate_mesh_parameters_inout_t
     interface valid_calculate_mesh_parameters_inout_t
         module procedure valid_calc_params_constructor
-    end interface
+    end interface valid_calculate_mesh_parameters_inout_t
 
 contains
     !> The test suite for the mesh_generator
     function test_mesh_generator() result(tests)
-        implicit none 
+        implicit none
         type(test_item_t) :: tests
 
         tests = describe( &
                 "mesh_generator", &
                 [ it( &
                     "calculate_mesh_parameters passes with valid inputs", &
-                    [ example_t(valid_calculate_mesh_parameters_inout_t(1.0_real64, 10_int64, 10_int64, 121_int64, 40_int64, 200_int64)) &
-                    , example_t(valid_calculate_mesh_parameters_inout_t(0.2_real64, 5_int64, 25_int64, 676_int64, 100_int64, 1250_int64))  &
-                    , example_t(valid_calculate_mesh_parameters_inout_t(3.0_real64, 100_int64, 33_int64, 1156_int64, 132_int64, 2178_int64))  &
+                    [ example_t(valid_calculate_mesh_parameters_inout_t(1.0_real64, 10_int64, 10_int64, 121_int64, 40_int64,    &
+                                                                        200_int64))                                             &
+                    , example_t(valid_calculate_mesh_parameters_inout_t(0.2_real64, 5_int64, 25_int64, 676_int64, 100_int64,    &
+                                                                        1250_int64))                                            &
+                    , example_t(valid_calculate_mesh_parameters_inout_t(3.0_real64, 100_int64, 33_int64, 1156_int64, 132_int64, &
+                                                                        2178_int64))                                            &
                     ], &
                     check_calculate_mesh_parameters_valid_inputs) &
                 , it( &
                     "calculate_mesh passes with valid inputs", &
                     check_calculate_mesh_valid_inputs_10_5) &
                 ])
-    end function
+    end function test_mesh_generator
 
     !> A unit test for the calculate_mesh_parameters subroutine with valid inputs.
-    !! 
+    !!
     !! @param inputs - An instance of the valid_calculate_mesh_parameters_inout_t containing function
     !!                 inputs and expected outputs.
     !!
@@ -77,7 +80,7 @@ contains
             result_ = fail("Didn't get mesh_parameters_inout_t")
         end select
 
-    end function
+    end function check_calculate_mesh_parameters_valid_inputs
 
     !> A unit test template for the calculate_mesh subroutine for a simple case where box_size = 10 and edge_size = 5.
     function check_calculate_mesh_valid_inputs_10_5() result(result_)
@@ -106,14 +109,15 @@ contains
         expected_nodes(2,:) = [1, 2, 3, 1, 2, 3, 1, 2, 3]
 
 
-        call calculate_mesh(num_edges_per_boundary, num_nodes, num_elements, num_boundary_nodes, actual_nodes, actual_elements, actual_boundary_edges)
+        call calculate_mesh(num_edges_per_boundary, num_nodes, num_elements, num_boundary_nodes, actual_nodes, actual_elements, &
+                            actual_boundary_edges)
 
         result_ = &
             assert_equals(actual_elements, expected_elements).and.&
             assert_equals(actual_boundary_edges, expected_boundary_edges).and.&
             assert_equals(actual_nodes, expected_nodes)
 
-    end function
+    end function check_calculate_mesh_valid_inputs_10_5
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !! Constructors
@@ -131,5 +135,5 @@ contains
         valid_calculate_mesh_parameters_inout%expected_num_nodes = expected_num_nodes
         valid_calculate_mesh_parameters_inout%expected_num_boundary_nodes = expected_num_boundary_nodes
         valid_calculate_mesh_parameters_inout%expected_num_elements = expected_num_elements
-    end function
+    end function valid_calc_params_constructor
 end module veggies_mesh_generator
