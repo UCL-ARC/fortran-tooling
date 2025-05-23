@@ -59,5 +59,5 @@ target_link_libraries(
 )
 
 foreach(t IN LISTS tests)
-  add_test(NAME "${PROJECT_NAME}-test-drive/${t}" COMMAND "test_${PROJECT_NAME}-test-drive" "${t}" WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}")
+  add_test(NAME "test-drive-${t}" COMMAND "test_${PROJECT_NAME}-test-drive" "${t}" WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}")
 endforeach()

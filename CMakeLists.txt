@@ -22,16 +22,22 @@ add_executable("${PROJECT_NAME}-poisson" "${PROJ_POISSON_SOURCES}")
 
 enable_testing()
 
+# Ignore tests from dependencies
+configure_file(${CMAKE_SOURCE_DIR}/CTestCustom.cmake ${CMAKE_BINARY_DIR})
+
+option(BUILD_TEST_DRIVE "Flag for building the test-drive tests." OFF)
+option(BUILD_PFUNIT "Flag for building the pFUnit tests." OFF)
+
 #--------------------------------------#
 #             test-drive               #
 #--------------------------------------#
-if (BUILD_TESTS MATCHES "ON")
+if (BUILD_TEST_DRIVE MATCHES "ON")
   add_subdirectory("testing/test-drive")
 endif()
 
 #--------------------------------------#
 #               pFUnit                 #
 #--------------------------------------#
-if (BUILD_TESTS MATCHES "ON")
+if (BUILD_PFUNIT MATCHES "ON")
   add_subdirectory("testing/pFUnit")
 endif()

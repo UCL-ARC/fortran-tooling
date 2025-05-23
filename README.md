@@ -40,12 +40,12 @@ A bash script is provided for building ([build.sh](./build.sh)). However, there 
 
 ### CMake
 
->Note: we have some [pFUnit tests](./testing/pFUnit/) which require a local version of pFUnit to be pre-built on your device. Once built, the path to the pFUnit `installed` dir will need to be passed via `-DCMAKE_PREFIX_PATH`.
+>Note: we have some [pFUnit tests](./testing/pFUnit/) which require a local version of pFUnit to be built on your device. This can be done via the provided build.sh script.
 
 One build system we are utilising is cmake (see [CMakeLists.txt](./CMakeLists.txt)). Therefore, to build this repository, please run the following
 
 ```sh
-cmake -DCMAKE_PREFIX_PATH=/path/to/pfunit/installed/dir -B build-cmake 
+cmake -DCMAKE_PREFIX_PATH=/path/to/pfunit/installed/dir -DBUILD_PFUNIT=ON -DBUILD_TEST_DRIVE=ON -B build-cmake 
 ``` 
 This will create a [build](./build) directory from within which the project can be compiled...
 
