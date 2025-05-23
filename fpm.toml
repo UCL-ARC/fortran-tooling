@@ -33,3 +33,137 @@ main = "main.f90"
 name = "veggies-tests"
 source-dir = "testing/veggies"
 main = "main.f90"
+
+[extra.ford]
+project = "Fortran-tooling"
+doc_license = "mit"
+favicon = "docs/media/fortran-tooling.png"
+license = "mit"
+project_github = "https://github.com/UCL-ARC/fortran-tooling"
+summary = "Fortran-tooling, UCL-ARC."
+author = "UCL, ARC"
+github = "https://github.com/UCL-ARC"
+exclude_dir = "debugging"
+page_dir = "docs/content"
+src_dir = ["src", "testing"]
+extensions = ["f90", "pf"]
+fixed_length_limit = false
+predocmark = ">"
+predocmark_alt = "<"
+preprocess = false
+css = "docs/css/site-wide.css"
+display = ["public", "protected", "private"]
+print_creation_date =  true
+creation_date = "%Y-%m-%d %H:%M (UTC%z)"
+proc_internals =  true
+search =  true
+sort = "permission"
+graph =  false
+graph_maxnodes = 1000
+graph_maxdepth = 1
+md_extensions = "markdown.extensions.toc"
+hide_undoc =  true
+
+# Docstring aliases
+[extra.ford.alias]
+mesh_geometry_description = """
+The geometry of this mesh is kept simple by placing nodes 
+in a regular pattern, as demonstrated below (note the 
+arrangment of the node and element IDs).
+``
+21._____22._____23._____24._____25.
+  |     / |     / |     / |     / |
+  | 29/ 25| 30/ 26| 31/ 27| 32/ 28|
+  | /     | /     | /     | /     |
+16._____17._____18._____19._____20.
+  |     / |     / |     / |     / |
+  | 21/ 17| 22/ 18| 23/ 19| 24/ 20|
+  | /     | /     | /     | /     |
+11._____12._____13._____14._____15.
+  |     / |     / |     / |     / |
+  | 13/  9| 14/ 10| 15/ 11| 16/ 12|
+  | /     | /     | /     | /     |
+ 6.______7.______8.______9._____10.
+  |     / |     / |     / |     / |
+  |  5/  1|  6/  2|  7/  3|  8/  4|
+  | /     | /     | /     | /     |
+ 1.______2.______3.______4.______5.
+``
+The size of the output square and its elements is determined
+by two inputs, box_size (the length of each side of the
+square) and edge_size (the length of a single elements
+boundary edge). Therefore, the above mesh would be generated
+by inputs that satisfy - box_size / edge_size = 4.
+"""
+
+poisson_description = """
+Solves the solution of the steady-state heat conduction
+equation represented by the Poisson equation:
+$$(Kx f,x),x + (Ky f,y),y + Q = 0 \\quad in \\quad D$$
+With boundary conditions 
+$$f = fp \\quad (1)$$
+$$Kx f,x + Ky f,y = q \\quad (2)$$
+It uses a finite element Galerkin discretization on a triangular mesh.
+The solution is assumed to vary linearly within an element. The values
+of the unknown (\\(f\\)) are stored at the nodes. The resulting system of
+equations is solved by means of a Preconditioned Conjugate Gradient
+(PCG) with diagonal preconditioning.
+"""
+poisson_version_and_author = """
+**Version:** February 95<br>
+**Author:** Joaquim Peiro<br>
+&emsp;&emsp;&emsp;&emsp;Department of Aeronautics<br>
+&emsp;&emsp;&emsp;&emsp;Imperial College of Science, Technology and Medicine<br>
+&emsp;&emsp;&emsp;&emsp;Prince Consort Road<br>
+&emsp;&emsp;&emsp;&emsp;LONDON SW7 2BY   (U.K.)<br>
+&emsp;&emsp;&emsp;&emsp;e-mail: j.peiro@ic.ac.uk
+"""
+
+element_to_node_docstring = """
+(I1,I2,I3) Element to node connectivity array.
+
+I1,I2,I3 are the numbers of the nodes forming
+the triangular element. Using the right-hand
+rule, the circulation I1->I2->I3 is in the
+z-direction:
+```
+     I3              y
+      *              ^
+     /\\             |
+    /  \\            +--> x
+I1 *-----* I2
+     -->
+```
+"""
+vb_index_docstring = """
+Points to the index in vb2 where the element
+values of the parameters Kx,Ky,Q are stored.
+"""
+boundary_node_num_docstring = """
+(I1,I2) I1 is the boundary node number. I2 is
+either 0 (no Dirichlet BC) or a pointer (I2>0)
+to the position in "vb1" containing prescribed
+value of (fp).
+"""
+num_side_nodes_docstring = """
+(I1,I2,IE,IK) I1,I2 are the numbers of the nodes
+on the side. IE is the element containing the
+side. IK is either 0 (no Neumann BC) or a
+pointer (IK > 0) at the position in "vb2" that
+contains the prescribed value of (q). The values
+(Kx,Ky) are those corresponding to element IE.
+"""
+vb_docstring = """
+An array containing the values (Kx,Ky,Q) for the
+sets within the mesh.
+"""
+vb1_docstring = """
+An array containing the values (Kx,Ky,Q) for the
+Dirichlet boundary conditions within the mesh.
+"""
+vb2_docstring = """
+An array containing the values (Kx,Ky,Q) for the
+Neumann boundary conditions within the mesh.
+"""
+coordinates_docstring = "(x,y) coordinates of the nodes."
+nodal_value_of_f_docstring = "Nodal values of f."
