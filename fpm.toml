@@ -8,20 +8,11 @@ copyright = "Copyright 2025, UCL ARC"
 [fortran]
 source-form = "free"
 
-[profiles.gfortran.linux]
-flags = "-ffree-line-length-none"
-
-[build]
-auto-executables = true
-auto-tests = true
-auto-examples = true
-
-[install]
-library = false
-
 [dev-dependencies]
 test-drive.git = "https://github.com/fortran-lang/test-drive"
 test-drive.tag = "v0.5.0"
+veggies.git = "https://gitlab.com/everythingfunctional/veggies"
+veggies.tag = "main"
 
 [[executable]]
 name = "poisson"
@@ -34,6 +25,11 @@ source-dir = "src/mesh_generator"
 main = "main.f90"
 
 [[test]]
-name = "test-drive-mesh-generator"
+name = "test-drive-tests"
 source-dir = "testing/test-drive"
+main = "main.f90"
+
+[[test]]
+name = "veggies-tests"
+source-dir = "testing/veggies"
 main = "main.f90"

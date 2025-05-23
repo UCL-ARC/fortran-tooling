@@ -24,7 +24,6 @@ endif()
 
 # Define test files
 set(PROJ_TEST_DRIVE_DIR "${PROJECT_SOURCE_DIR}/testing/test-drive")
-file(GLOB PROJ_TEST_DRIVE_SOURCES "${PROJ_TEST_DRIVE_DIR}/tests/*.f90")
 
 # Filter out the main.f90 files. We can only have one main() function in our tests
 set(PROJ_POISSON_SOURCES_EXC_MAIN ${PROJ_POISSON_SOURCES})
@@ -36,6 +35,7 @@ list(FILTER PROJ_MESH_GENERATOR_SOURCES_EXC_MAIN EXCLUDE REGEX ".*main.f90")
 set(
   tests
   "mesh_generator"
+  "poisson"
 )
 set(
   test-srcs
@@ -49,7 +49,6 @@ endforeach()
 add_executable(
   "test_${PROJECT_NAME}-test-drive"
   "${test-srcs}"
-  "${PROJ_TEST_DRIVE_SOURCES}"
   "${PROJ_POISSON_SOURCES_EXC_MAIN}"
   "${PROJ_MESH_GENERATOR_SOURCES_EXC_MAIN}"
 )
@@ -60,5 +59,5 @@ target_link_libraries(
 )
 
 foreach(t IN LISTS tests)
-  add_test("${PROJECT_NAME}-test-drive/${t}" "test_${PROJECT_NAME}-test-drive" "${t}")
+  add_test(NAME "${PROJECT_NAME}-test-drive/${t}" COMMAND "test_${PROJECT_NAME}-test-drive" "${t}" WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}")
 endforeach()

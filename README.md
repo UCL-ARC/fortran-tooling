@@ -35,34 +35,58 @@ There are two src codes within this repository [mesh_generator](./src/mesh_gener
 
 ## Building
 
-We are utilising cmake (see [CMakeLists.txt](./CMakeLists.txt)) for our build system. Therefore, to build this repository, please run the following
+A bash script is provided for building ([build.sh](./build.sh)). However, there are some instructions below for building without this script.
+
+### CMake
+>Note: we have some [PFunit tests](./testing/pFUnit/) which require a local version of PFunit to be pre-built on your device. Once built, the path to the PFunit `installed` dir will need to be passed via `-DCMAKE_PREFIX_PATH`.
+
+One build system we are utilising is cmake (see [CMakeLists.txt](./CMakeLists.txt)). Therefore, to build this repository, please run the following
 ```sh
-cmake -B build 
+cmake -DCMAKE_PREFIX_PATH=/path/to/pfunit/installed/dir -B build-cmake 
 ``` 
 This will create a [build](./build) directory from within which the project can be compiled...
 ```sh
-cd build
-make
+cmake --build build-cmake
 ```
 This will produce executables for the two src codes, `fortran-tooling-mesh-generator` and `fortran-tooling-poisson`.
+
+### FPM
+To build the project using FPM, from the root of the repo, run
+```sh
+fpm build
+```
 
 ## Running the src
 
 ### Mesh generator
-
+If you have built using CMake, you can run the mesh generator by directly calling the executable
 ```sh
 ./build/fortran-tooling-mesh-generator <box_size> <edge_size>
 ```
 
-### Poisson solver
-
+If you have built using FPM, you can also run the mesh generator via FPM
 ```sh
-./build/fortran-tooling-poisson # then respond to prompt with the mesh name, likely to be `square_mesh`
+fpm run mesh_generator -- <box_size> <edge_size>
+```
+
+### Poisson solver
+If you have built using CMake, you can also run the poisson solver by directly calling the executable
+```sh
+./build/fortran-tooling-poisson <path_to_mesh_file>
+```
+
+If you have built using FPM, you can also run the mesh generator via FPM
+```sh
+fpm run poisson -- <path_to_mesh_file>
 ```
 
 ## Running the tests
-
-To run the tests, from within the `build` directory, run the following.
+If you have built using CMake, you can run the tests by running the following from within the `build-cmake` directory.
 ```sh
-$ ctest
+ctest
+```
+
+If you have built using fpm, you can run the tests by running the following from the root of the repo
+```sh
+fpm test
 ```

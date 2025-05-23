@@ -94,48 +94,45 @@ module poisson
       integer, parameter :: mxb  =  5000 
       integer, parameter :: mxc  =   100
 
-      integer :: num_nodes, num_elements, num_boundary_points, num_sets, num_dirichlet_boundary_conditions, &
-                 num_neumann_boundary_conditions
-
 contains
 
       subroutine open_file(file_name, status, file_io)
             implicit none
 
             integer, intent(in) :: file_io
-            character*120, intent(in) :: file_name
+            character(len=:), allocatable, intent(in) :: file_name
             character*3, intent(in) :: status
 
             integer :: iostat
 
-            print *, trim(file_name)
-            
-            open (unit=file_io,             &
-                  file=trim(file_name),     &
-                  status=status,            &
+            open (unit=file_io,   &
+                  file=file_name, &
+                  status=status,  &
                   IOSTAT=iostat)
 
             if( iostat .ne. 0) then
-                  write(*,'(a)') ' *** Error when opening '//trim(file_name)
-            else
-                  write(*,'(/,a)') ' *** '//trim(file_name)//' opened'
+                  write(*,'(a)') ' *** Error when opening '//file_name
+                  error stop 1
             end if
       end subroutine open_file
 
-      !!-----------------------------------------------------------------------------*
-      !!                                                                             *
-      !!    "inp" reads the input data: triangular mesh and problem parameters.      *
-      !!                                                                             *
-      !!-----------------------------------------------------------------------------*
-      subroutine inp(element_to_node,vb_index,coordinates,boundary_node_num,num_side_nodes,vb,vb1,vb2,file_io)
+      !!---------------------------------------------------------------------------------*
+      !!                                                                                 *
+      !! "read_input_file" reads the input data: triangular mesh and problem parameters. *
+      !!                                                                                 *
+      !!---------------------------------------------------------------------------------*
+      subroutine read_input_file(num_nodes,num_elements,num_boundary_points,element_to_node,vb_index,coordinates, &
+                     boundary_node_num,num_side_nodes,vb,vb1,vb2,file_io)
             implicit none
 
-            integer, intent(out) :: element_to_node(3,mxp), vb_index(mxe), boundary_node_num(2,mxb), &
+            integer, intent(out) :: num_nodes, num_elements, num_boundary_points, &
+                                    element_to_node(3,mxp), vb_index(mxe), boundary_node_num(2,mxb), &
                                     num_side_nodes(4,mxb)
             real, intent(out)    :: vb(3,mxc), vb1(mxc), vb2(mxc), coordinates(2, mxp)
             integer, intent(in)  :: file_io
 
-            integer      :: mx, ib, ip, ie, jb, jp, je, icheck
+            integer      :: mx, ib, ip, ie, jb, jp, je, icheck, num_sets, num_dirichlet_boundary_conditions, &
+                            num_neumann_boundary_conditions
             character*80 :: text
 
             read(file_io,'(a)') text
@@ -232,7 +229,7 @@ contains
                   read(file_io,*) num_side_nodes(1,ib),num_side_nodes(2,ib),num_side_nodes(3,ib),num_side_nodes(4,ib)
             end do 
 
-      end subroutine inp
+      end subroutine read_input_file
 
       !!-----------------------------------------------------------------------------*
       !!                                                                             *
@@ -240,15 +237,18 @@ contains
       !!    method.                                                                  *
       !!                                                                             *
       !!-----------------------------------------------------------------------------*
-      subroutine pcg(element_to_node,vb_index,coordinates,nodal_value_of_f,boundary_node_num,num_side_nodes,vb,vb1,vb2,element_stiffness,rhs_vector,b,f_increment,boundary_index,pre_conditioning_matrix)
+      subroutine pcg(num_nodes,num_elements,num_boundary_points,element_to_node,vb_index,coordinates,boundary_node_num,num_side_nodes,vb,vb1,vb2,nodal_value_of_f)
             implicit none
 
             real, parameter :: eps = 1.e-04
 
-            integer, intent(inout) :: element_to_node(3,mxp), vb_index(mxe), boundary_node_num(2,mxb),    &
-                                    num_side_nodes(4,mxb), boundary_index(mxp)
-            real, intent(inout)    :: coordinates(2, mxp), nodal_value_of_f(mxp), rhs_vector(mxp), b(mxp), f_increment(mxp), vb(3,mxc), vb1(mxc), &
-                                    vb2(mxc), element_stiffness(6,mxe), pre_conditioning_matrix(mxp)
+            integer, intent(in) :: num_nodes, num_elements, num_boundary_points, &
+                                   element_to_node(3,mxp), vb_index(mxe), boundary_node_num(2,mxb), num_side_nodes(4,mxb)
+            real, intent(in)    :: coordinates(2, mxp), vb(3,mxc), vb1(mxc), vb2(mxc)
+            real, intent(out)   :: nodal_value_of_f(mxp)
+            
+            integer :: boundary_index(mxp)
+            real    :: element_stiffness(6,mxe), rhs_vector(mxp), b(mxp), f_increment(mxp), pre_conditioning_matrix(mxp)
             
             integer      :: ib, ip, ie, nit, in, ip1, ip2, ip3, ix, it
             real         :: tol, va, akx, aky, qq, ar, a1, a2, qa, qb, x21, y21, x31, y31, s1x, s1y, s2x, &
@@ -393,7 +393,7 @@ contains
                         energy = energy+b(ip)*rhs_vector(ip)
                   end do
                   beta       = energy/energy_old
-                  write(*,*) "energy: ", energy, "energy_old: ", energy_old
+                  ! write(*,*) "energy: ", energy, "energy_old: ", energy_old
                   energy_old = energy
 
                   !!
@@ -445,7 +445,7 @@ contains
 
                   is_converged = res.le.rh0*tol
                   if(is_converged) then
-                        write(*,'(a,i4)') ' *** PCG converged: iterations = ',it
+                        ! write(*,'(a,i4)') ' *** PCG converged: iterations = ',it
                         exit
                   endif
             end do nit_loop
@@ -460,12 +460,12 @@ contains
       end subroutine pcg
 
       !!-----------------------------------------------------------------------------*
-      !!    "out" writes output results.                                             *
+      !!    "write_output_file" writes output results.                               *
       !!-----------------------------------------------------------------------------*
-      subroutine out(element_to_node,coordinates,nodal_value_of_f,file_io)
+      subroutine write_output_file(num_nodes,num_elements,element_to_node,coordinates,nodal_value_of_f,file_io)
             implicit none
 
-            integer, intent(in) :: element_to_node(3,mxp), file_io
+            integer, intent(in) :: num_nodes,num_elements,element_to_node(3,mxp), file_io
             real, intent(in)    :: nodal_value_of_f(mxp), coordinates(2, mxp)
 
             integer :: ip, ie
@@ -482,27 +482,5 @@ contains
             end do
 
             return
-      end subroutine out
-
-      !!------------------------------------------------------------*
-      !!                                                            *
-      !!             ***    UTILITY  ROUTINES    ***                *
-      !!                                                            *
-      !!------------------------------------------------------------*
-      character*120 function textread(prompt) result(text_read_in)
-            implicit none
-            
-            character*(*), intent(in) :: prompt
-            
-
-            integer :: l = 120
-
-            text_read_in = ' '
-            do 
-                  write(*,'(/,a,$)') prompt
-                  read(*,'(a)') text_read_in
-                  l = len(trim(text_read_in))
-                  if(l.gt.0) exit
-            end do
-      end function textread
+      end subroutine write_output_file
 end module poisson

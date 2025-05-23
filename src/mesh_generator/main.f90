@@ -17,19 +17,31 @@ program main
     real(kind=real64), dimension(:, :), allocatable :: nodes
 
     ! Get command line args (Fortran 2003 standard)
-    if (command_argument_count() > 0) then
+    if (command_argument_count() == 2) then
         call get_command_argument(1, length=argl)
         allocate(character(argl) :: a)
         call get_command_argument(1, a)
         read(a,*) box_size
+        deallocate(a)
+        call get_command_argument(2, length=argl)
+        allocate(character(argl) :: a)
         call get_command_argument(2, a)
         read(a,*) edge_size
+        deallocate(a)
+    else
+        write(*,'(A)') "Error: Invalid input"
+        call get_command_argument(0, length=argl)
+        allocate(character(argl) :: a)
+        call get_command_argument(0, a)
+        write(*,'(A,A,A)') "Usage: ", a, " <box_size> <edge_size>"
+        deallocate(a)
+        stop
     end if
 
     ! Output start message
     write(*,'(A)') "Generating mesh using:"
     write(*,'(A,1I16)') "box size: ", box_size 
-    write(*,*) " process: ", edge_size
+    write(*,*) " edge_size: ", edge_size
     
     call calculate_mesh_parameters(box_size, edge_size, num_edges_per_boundary, num_nodes, num_boundary_nodes, num_elements)
 

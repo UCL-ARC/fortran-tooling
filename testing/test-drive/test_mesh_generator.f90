@@ -1,4 +1,4 @@
-module test_mesh_generator
+module test_drive_mesh_generator
     use, intrinsic :: iso_fortran_env
     use testdrive, only : new_unittest, unittest_type, error_type, check, skip_test
 
@@ -60,10 +60,10 @@ contains
                 actual_num_edges_per_boundary, actual_num_nodes,              &
                 actual_num_boundary_nodes, actual_num_elements)
 
-        call check(error, expected_outputs%num_boundary_nodes,     actual_num_boundary_nodes)
-        call check(error, expected_outputs%num_edges_per_boundary, actual_num_edges_per_boundary)
-        call check(error, expected_outputs%num_elements,           actual_num_elements)
-        call check(error, expected_outputs%num_nodes,              actual_num_nodes)
+        call check(error, actual_num_boundary_nodes,     expected_outputs%num_boundary_nodes)
+        call check(error, actual_num_edges_per_boundary, expected_outputs%num_edges_per_boundary)
+        call check(error, actual_num_elements,           expected_outputs%num_elements)
+        call check(error, actual_num_nodes,              expected_outputs%num_nodes)
         
         ! Catch test failure
         if (allocated(error)) return
@@ -134,7 +134,7 @@ contains
         do i = 1, inputs%num_elements
             do j = 1, 3
                 write(failure_message,'(a,i1,a,i1,a,i2,a,i2)') "Unexpected value for elements(", j, ",", i, "), got ", actual_elements(j, i), " expected ", expected_outputs%elements(j, i)
-                call check(error, expected_outputs%elements(j, i), actual_elements(j, i), failure_message)
+                call check(error, actual_elements(j, i), expected_outputs%elements(j, i), failure_message)
                 if (allocated(error)) return
             end do 
         end do
@@ -142,7 +142,7 @@ contains
         do i = 1, inputs%num_boundary_nodes
             do j = 1, 3
                 write(failure_message,'(a,i1,a,i1,a,i2,a,i2)') "Unexpected value for boundary_edges(", j, ",", i, "), got ", actual_boundary_edges(j, i), " expected ", expected_outputs%boundary_edges(j, i)
-                call check(error, expected_outputs%boundary_edges(j, i), actual_boundary_edges(j, i), failure_message)
+                call check(error, actual_boundary_edges(j, i), expected_outputs%boundary_edges(j, i), failure_message)
                 if (allocated(error)) return
             end do
         end do
@@ -150,7 +150,7 @@ contains
         do i = 1, inputs%num_nodes
             do j = 1, 2
                 write(failure_message,'(a,i1,a,i1,a,f3.1,a,f3.1)') "Unexpected value for nodes(", j, ",", i, "), got ", actual_nodes(j, i), " expected ", expected_outputs%nodes(j, i)
-                call check(error, expected_outputs%nodes(j, i), actual_nodes(j, i), failure_message, thr=threshold)
+                call check(error, actual_nodes(j, i), expected_outputs%nodes(j, i), failure_message, thr=threshold)
                 if (allocated(error)) return
             end do
         end do
@@ -190,7 +190,7 @@ contains
         expected_outputs%elements(:,6) = (/5,6,9/)
         expected_outputs%elements(:,7) = (/4,8,7/)
         expected_outputs%elements(:,8) = (/5,9,8/)
-        allocate(expected_outputs%nodes(3, inputs%num_nodes))
+        allocate(expected_outputs%nodes(2, inputs%num_nodes))
         expected_outputs%nodes(:,1) = (/1.0,1.0/)
         expected_outputs%nodes(:,2) = (/1.0,2.0/)
         expected_outputs%nodes(:,3) = (/1.0,3.0/)
@@ -219,4 +219,4 @@ contains
         call skip_test(error, "This feature is not implemented yet")
         return
     end subroutine test_skip_example
-end module test_mesh_generator
+end module test_drive_mesh_generator
