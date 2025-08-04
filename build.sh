@@ -222,7 +222,7 @@ then
         echo "Running cmake tests"
         tests_run=true
         pushd build-cmake > /dev/null
-        ctest
+        ctest --output-on-failure
         popd > /dev/null
     fi
 
