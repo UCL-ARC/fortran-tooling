@@ -4,4 +4,5 @@
 
 | tool | description | Known issues |
 | ---- | ----------- | ------------ |
-| [Fortitude](https://fortitude.readthedocs.io/en/stable/) | A [Ruff](https://docs.astral.sh/ruff/) style linter for Fortran. | |
+| [Fortitude](./fortitude.md) | A [Ruff](https://docs.astral.sh/ruff/) style linter for Fortran. | |
+| [fortls](./fortls.md) | A Fortran language server for easy local development. | |
