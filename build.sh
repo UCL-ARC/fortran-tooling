@@ -15,6 +15,7 @@ pfunit_src_path=""
 pfunit_version="v4.12.0"
 clean_pfunit_build=false
 num_build_threads="1"
+test_pfunit=false
 
 help() {
   echo "Usage:"
@@ -28,6 +29,7 @@ help() {
   echo "    -t  | --test                  Run tests."
   echo "    -p  | --build-pfunit          Build the pFUnit lib."
   echo "    -cp | --clean-pfunit          Clean the pFUnit build directory."
+  echo "    -tp | --test-pfunit           Test the build of pFUnit."
   echo "    -sm | --skip-cmake-tests      Skip building and running cmake tests (fpm tests are only built when ran)."
   echo ""
   echo "OPTIONS:"
@@ -83,6 +85,11 @@ while [ $# -gt 0 ] ; do
             shift 1
             continue
             ;;
+        -tp | --test-pfunit)
+            test_pfunit=true
+            shift 1
+            continue
+            ;;
         -sm | --skip-cmake-tests)
             build_tests=false
             shift 1
@@ -114,7 +121,7 @@ while [ $# -gt 0 ] ; do
 done
 
 # if nothing to do, tell user
-if [[ "$build_cmake" == "false" && "$build_fpm" == "false" && "$build_pfunit" == "false" && "$run_tests" == "false" && "$clean_build" == "false" && "$clean_pfunit_build" == "false" ]]
+if [[ "$build_cmake" == "false" && "$build_fpm" == "false" && "$build_pfunit" == "false" && "$run_tests" == "false" && "$clean_build" == "false" && "$clean_pfunit_build" == "false" && "$test_pfunit" == "false" ]]
 then
     echo "Nothing to do. Please specify at least one of --build-cmake, --build-fpm, --build-pfunit, --test, --clean or --clean-pfunit. Use --help for details"
     exit 0
@@ -140,6 +147,7 @@ fi
 # Build pFUnit
 if [ "$build_pfunit" == "true" ]
 then
+    # Verify the provided pfunit dir
     if [ "$pfunit_src_path" == "" ]
     then
         echo "Building pFUnit requested but no root dir for pFUnit provided. Please provide a path using --pfunit-dir."
@@ -168,10 +176,27 @@ then
             git clone --branch $pfunit_version $PFUNIT_REMOTE_URL $pfunit_src_path
             popd > /dev/null
         fi
+    fi
 
-        echo "Building pFUnit from source"
-        cmake $pfunit_src_path -B $pfunit_src_path/build
-        cmake --build $pfunit_src_path/build "-j$num_build_threads" --target install
+    echo "Building pFUnit from source"
+    cmake $pfunit_src_path -B $pfunit_src_path/build -DINSTALL_PATH=$PFUNIT_INSTALLED_PATH -DMPI=YES -DCMAKE_Fortran_COMPILER=mpif90 -DOPENMP=YES
+    cmake --build $pfunit_src_path/build "-j$num_build_threads" --target install
+
+    echo ""
+    echo "Successfully built pFUnit. To use installation, add the following to cmake flags"
+    echo "  -DCMAKE_PREFIX_PATH=$PFUNIT_INSTALLED_PATH"
+fi
+
+if [ "$test_pfunit" == "true" ]
+then
+    echo "Running pFUnit tests"
+    if [ "$pfunit_src_path" == "" ]
+    then
+        echo "Testing pFUnit requested but no root dir for pFUnit provided. Please provide a path using --path."
+        exit 0
+    else
+        # exclude tests starting with test_derived as these are for a dependency of pFUnit
+        ctest --test-dir "$pfunit_src_path/build" --output-on-failure -E "(test_derived).*"
     fi
 fi
 
