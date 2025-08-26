@@ -3,6 +3,8 @@ set(test_lib "test-drive")
 set(test_pkg "TEST_DRIVE")
 set(test_url "https://github.com/fortran-lang/test-drive")
 
+set(TEST_DRIVE_BUILD_TESTING OFF CACHE BOOL "Disable test-drive internal tests")
+
 message(STATUS "Retrieving ${test_lib} from ${test_url}")
 include(FetchContent)
 FetchContent_Declare(
@@ -59,5 +61,5 @@ target_link_libraries(
 )
 
 foreach(t IN LISTS tests)
-  add_test(NAME "${PROJECT_NAME}-test-drive/${t}" COMMAND "test_${PROJECT_NAME}-test-drive" "${t}" WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}")
+  add_test(NAME "test-drive-${t}" COMMAND "test_${PROJECT_NAME}-test-drive" "${t}" WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}")
 endforeach()

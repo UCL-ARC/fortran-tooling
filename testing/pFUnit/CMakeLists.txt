@@ -22,7 +22,7 @@ file(GLOB
 set(test_mesh_generator_src ${test_srcs})
 list(FILTER test_mesh_generator_src INCLUDE REGEX ".*mesh.*")
 
-add_pfunit_ctest (mesh_generator_tests
+add_pfunit_ctest ("pfunit-mesh_generator"
   TEST_SOURCES ${test_mesh_generator_src}
   LINK_LIBRARIES sut # your application library
   )
