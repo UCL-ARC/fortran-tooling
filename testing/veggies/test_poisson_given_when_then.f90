@@ -44,7 +44,6 @@ module veggies_poisson_given_when_then
 contains
 
     function test_poisson_given_when_then() result(test)
-        implicit none
         type(test_item_t) :: test
 
         character(len=:), allocatable :: file_name
@@ -73,7 +72,6 @@ contains
     end function test_poisson_given_when_then
 
     function load_data_file(input) result(output)
-        implicit none
         class(input_t), intent(in) :: input
         type(transformed_t) :: output
 
@@ -109,7 +107,6 @@ contains
     end function load_data_file
 
     function check_file_is_open(input) result(result_)
-        implicit none
         class(input_t), intent(in) :: input
         type(result_t) :: result_
 
@@ -122,7 +119,6 @@ contains
     end function check_file_is_open
 
     function check_num_nodes(input) result(result_)
-        implicit none
         class(input_t), intent(in) :: input
         type(result_t) :: result_
 
@@ -136,7 +132,6 @@ contains
     end function check_num_nodes
 
     function check_num_elements(input) result(result_)
-        implicit none
         class(input_t), intent(in) :: input
         type(result_t) :: result_
 
@@ -150,7 +145,6 @@ contains
     end function check_num_elements
 
     function check_num_boundary_points(input) result(result_)
-        implicit none
         class(input_t), intent(in) :: input
         type(result_t) :: result_
 
@@ -164,7 +158,6 @@ contains
     end function check_num_boundary_points
 
     function check_element_to_node(input) result(result_)
-        implicit none
         class(input_t), intent(in) :: input
         type(result_t) :: result_
 
@@ -180,7 +173,6 @@ contains
     end function check_element_to_node
 
     function check_vb_index(input) result(result_)
-        implicit none
         class(input_t), intent(in) :: input
         type(result_t) :: result_
 
@@ -193,7 +185,6 @@ contains
     end function check_vb_index
 
     function check_boundary_node_num(input) result(result_)
-        implicit none
         class(input_t), intent(in) :: input
         type(result_t) :: result_
 
@@ -208,7 +199,6 @@ contains
     end function check_boundary_node_num
 
     function check_num_side_nodes(input) result(result_)
-        implicit none
         class(input_t), intent(in) :: input
         type(result_t) :: result_
 
@@ -225,7 +215,6 @@ contains
     end function check_num_side_nodes
 
     function check_vb(input) result(result_)
-        implicit none
         class(input_t), intent(in) :: input
         type(result_t) :: result_
 
@@ -241,7 +230,6 @@ contains
     end function check_vb
 
     function check_vb1(input) result(result_)
-        implicit none
         class(input_t), intent(in) :: input
         type(result_t) :: result_
 
@@ -254,7 +242,6 @@ contains
     end function check_vb1
 
     function check_coordinates(input) result(result_)
-        implicit none
         class(input_t), intent(in) :: input
         type(result_t) :: result_
 
@@ -274,7 +261,6 @@ contains
 !! Constructors
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     function data_file_state_constructor() result(data_file_state)
-        implicit none
         type(data_file_state_t) :: data_file_state
 
         integer, parameter :: file_io = 200

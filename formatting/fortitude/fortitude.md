@@ -6,7 +6,7 @@ A tool for installing, i.e. `pip` or `homebrew`
 
 ## Installation
 
-To install fortitude we can utilise the provided `pyproject.toml` by following the instructions in [the pre-commit install instructions](../README.md#pre-commit).
+To install fortitude we can utilise the provided `requirements.txt` by following the instructions in [the pre-commit install instructions](../../README.md#pre-commit).
 The [quickstart page](https://fortitude.readthedocs.io/en/stable/#quickstart) for Fortitude details multiple other ways of installing the tool.
 
 ## Usage in this repo
