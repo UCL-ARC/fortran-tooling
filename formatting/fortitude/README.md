@@ -24,7 +24,7 @@ The config file, [fortitude.toml](./fortitude.toml), we have provided in the abo
 
 ### pre-commit
 
-We have also integrated Fortitude with pre-commit. To set this up, follow the [instructions on the main README.md](../README.md#pre-commit).
+We have also integrated Fortitude with pre-commit. To set this up, follow the [instructions on the main README.md](../../README.md#pre-commit).
 Once this is set up, if you then try and commit a poorly formatted Fortran file...
 
 ```sh
