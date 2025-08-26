@@ -8,7 +8,8 @@ At the top of the list are the recommended and still supported documentation too
 ## Candidate Tools
 
 | Tool | Description | Known issues |
-| **Recommended** | | |
+| ---- | ------ | ----- |
+| **Recommended** |||
 | [Doxygen](https://www.doxygen.nl/) | Commonly used documentation tool for large repositories. Officially supports Fortran with language-specific docblocks. See [doxygen.md](doxygen.md) for details on use. | <ul><li> Examples are somewhat outdated </li><li> Support traditionally has not been great </li></ul> |
 | [FORD](https://github.com/Fortran-FOSS-Programmers/ford) | Created due to Doxygen's lack of Fortran compatability, FORtran Documentater (FORD) is an independent automatic documenter for modern Fortran. See [ford.md](ford.md) for details on use. | <ul><li> Not the healthiest repository </li><li> Not as feature rich as Doxygen (in principle) </ul> |
 | **Dead projects** | | |
