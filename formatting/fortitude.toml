@@ -1,5 +1,12 @@
 [check]
 ignore = [
     "C003", # 'implicit none' missing 'external'
+    "S091", # file extension should be '.f90' or '.F90'
 ]
+
 line-length = 132
+
+[check.per-file-ignores]
+"*.pf" = [
+    "E001", # Syntax error, not ideal but needed to allow macros
+]
