@@ -1,103 +1,99 @@
 module test_calculate_mesh_parameters
-   use, intrinsic :: iso_fortran_env
+   use, intrinsic :: iso_fortran_env, only : int64, real64
+   use mesh_generator, only : calculate_mesh_parameters
+   ! allow(C121)
    use funit
-   use mesh_generator
    implicit none
- 
-   ! test data types
+   public
+
+   !> Type to bundle inputs and expected outputs of mesh_generator::calculate_mesh_parameters
    @testParameter
-   type, extends(AbstractTestParameter) :: Test_CalculateMeshParameterCase_params
+   type, extends(AbstractTestParameter) :: Test_calculate_mesh_parameters_params
+      !> The input edge size
       real(kind=real64) :: edgeSize
-      integer(kind=int64) :: boxSize, &
-            expectedNumEdgesPerBoundary, &
-            expectedNumNodes, &
-            expectedNumBoundaryNodes, &
-            expectedNumElements
+      !> The input box size
+      integer(kind=int64) :: boxSize
+      !> The expected number of edges per boundary
+      integer(kind=int64) :: expectedNumEdgesPerBoundary
+      !> The expected number of nodes
+      integer(kind=int64) :: expectedNumNodes
+      !> The expected number of boundary nodes
+      integer(kind=int64) :: expectedNumBoundaryNodes
+      !> The expected number of elements
+      integer(kind=int64) :: expectedNumElements
    contains
-      procedure :: toString => CalculateMeshParameterCase_toString
-   end type Test_CalculateMeshParameterCase_params
- 
+      procedure :: toString => Test_calculate_mesh_parameters_params_toString
+   end type Test_calculate_mesh_parameters_params
+
+    !> Type to define a single mesh_generator::calculate_mesh_parameters test case
    @TestCase(testParameters={getParameters()}, constructor=newTest)
-   type, extends(ParameterizedTestCase) :: Test_CalculateMeshParameters_case
-      real(kind=real64) :: edgeSize
-      integer(kind=int64) :: boxSize, &
-         expectedNumEdgesPerBoundary, &
-         expectedNumNodes, &
-         expectedNumBoundaryNodes, &
-         expectedNumElements
-   end type Test_CalculateMeshParameters_case
-   !-------------------
- 
+   type, extends(ParameterizedTestCase) :: Test_calculate_mesh_parameters_case
+      type(Test_calculate_mesh_parameters_params) :: params
+   end type Test_calculate_mesh_parameters_case
+
 contains
- 
-   ! Constructors
-   function newTest(testParameter) result(tst)
-      type (Test_CalculateMeshParameters_case) :: tst
-      type (Test_CalculateMeshParameterCase_params), intent(in) :: testParameter
 
-      real(kind=real64) :: edgeSize
-      integer(kind=int64) :: boxSize, &
-         expectedNumEdgesPerBoundary, &
-         expectedNumNodes, &
-         expectedNumBoundaryNodes, &
-         expectedNumElements
-
-      tst%edgeSize = testParameter%edgeSize
-      tst%boxSize = testParameter%boxSize
-      tst%expectedNumEdgesPerBoundary = testParameter%expectedNumEdgesPerBoundary
-      tst%expectedNumNodes = testParameter%expectedNumNodes
-      tst%expectedNumBoundaryNodes = testParameter%expectedNumBoundaryNodes
-      tst%expectedNumElements = testParameter%expectedNumElements
-
-   end function newTest
-   !-------------------
-
-   ! to strings
-   function CalculateMeshParameterCase_toString(this) result(string)
-      class (Test_CalculateMeshParameterCase_params), intent(in) :: this
-      character(:), allocatable :: string
-
-      character(len=80) :: buffer
-
-      write(buffer,'("(edgeSize,boxSize)=(",i3,",",f4.1,")")') &
-           this%boxSize, this%edgeSize
-      string = trim(buffer)
-
-   end function CalculateMeshParameterCase_toString
-   !-------------------
-
-   ! Define test parameter sets
+   !> Test suite for the mesh_generator::calculate_mesh_parameters subroutine
    function getParameters() result(params)
-      type (Test_CalculateMeshParameterCase_params), allocatable :: params(:)
- 
-      params = [ &
-         & Test_CalculateMeshParameterCase_params(1.0_real64, 10_int64, 10_int64, 121_int64, 40_int64, 200_int64), &
-         & Test_CalculateMeshParameterCase_params(0.2_real64, 5_int64, 25_int64, 676_int64, 100_int64, 1250_int64), &
-         & Test_CalculateMeshParameterCase_params(3.0_real64, 100_int64, 33_int64, 1156_int64, 132_int64, 2178_int64) &
-         & ]
+      type (Test_calculate_mesh_parameters_params), allocatable :: params(:)
 
+      ! Define multiple test cases with different inputs and expected outputs
+      params = [ &
+         Test_calculate_mesh_parameters_params(1.0_real64, 10_int64, 10_int64, 121_int64, 40_int64, 200_int64), &
+         Test_calculate_mesh_parameters_params(0.2_real64, 5_int64, 25_int64, 676_int64, 100_int64, 1250_int64), &
+         Test_calculate_mesh_parameters_params(3.0_real64, 100_int64, 33_int64, 1156_int64, 132_int64, 2178_int64) &
+      ]
    end function getParameters
-   !-------------------
- 
-   ! Actual tests
+
+   !> Check for the expected output of the mesh_generator::calculate_mesh_parameters subroutine
    @Test
    subroutine testCalculateMeshParameters(this)
-      implicit none
-      class (Test_CalculateMeshParameters_case), intent(inout) :: this
+      !> The current test case containing inputs and expected outputs
+      class (Test_calculate_mesh_parameters_case), intent(inout) :: this
 
+      ! Declare variables to hold the actual outputs from the subroutine which we will compare to our expected values later
       integer(kind=int64) :: actualNumEdgesPerBoundary, actualNumNodes, &
          actualNumBoundaryNodes, actualNumElements
 
-      call calculate_mesh_parameters(this%boxSize, this%edgeSize, &
-         actualNumEdgesPerBoundary, actualNumNodes, &
+      ! Call the subroutine under test
+      call calculate_mesh_parameters(this%params%boxSize, this%params%edgeSize, actualNumEdgesPerBoundary, actualNumNodes, &
          actualNumBoundaryNodes, actualNumElements)
 
-      @assertEqual(this%expectedNumEdgesPerBoundary, actualNumEdgesPerBoundary, "Unexpected actualNumEdgesPerBoundary")
-      @assertEqual(this%expectedNumNodes, actualNumNodes, "Unexpected actualNumNodes")
-      @assertEqual(this%expectedNumBoundaryNodes, actualNumBoundaryNodes, "Unexpected actualNumBoundaryNodes")
-      @assertEqual(this%expectedNumElements, actualNumElements, "Unexpected actualNumElements")
-
+      ! Check that the actual outputs from the subroutine match the expected outputs
+      @assertEqual(this%params%expectedNumEdgesPerBoundary, actualNumEdgesPerBoundary, "Unexpected actualNumEdgesPerBoundary")
+      @assertEqual(this%params%expectedNumNodes, actualNumNodes, "Unexpected actualNumNodes")
+      @assertEqual(this%params%expectedNumBoundaryNodes, actualNumBoundaryNodes, "Unexpected actualNumBoundaryNodes")
+      @assertEqual(this%params%expectedNumElements, actualNumElements, "Unexpected actualNumElements")
    end subroutine testCalculateMeshParameters
-   !-------------------
- 
+
+   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+   ! Constructors
+   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+   !> Constructor for Test_calculate_mesh_parameters_case
+   function newTest(testParameter) result(tst)
+      !> The parameters to define the new test case. Must be of type Test_calculate_mesh_parameters_case to be picked up by pFUnit
+      type (Test_calculate_mesh_parameters_case) :: tst
+        !> The test case to be populated with parameters. Must be of type Test_calculate_mesh_parameters_params to be picked up by pFUnit
+      type (Test_calculate_mesh_parameters_params), intent(in) :: testParameter
+
+      tst%params = testParameter
+   end function newTest
+
+   !> Convert the test parameters to a string for logging purposes
+   function Test_calculate_mesh_parameters_params_toString(this) result(string)
+      !> The test parameters to convert to a string
+      class (Test_calculate_mesh_parameters_params), intent(in) :: this
+
+      character(:), allocatable :: string
+      character(len=80) :: buffer
+
+      ! Populate the buffer with the inputs which define the current test case
+      write(buffer,'("(edgeSize,boxSize)=(",i3,",",f4.1,")")') &
+           this%boxSize, this%edgeSize
+         
+      ! Save the buffer to the output string, trimming any excess whitespace
+      string = trim(buffer)
+   end function Test_calculate_mesh_parameters_params_toString
+
 end module test_calculate_mesh_parameters
