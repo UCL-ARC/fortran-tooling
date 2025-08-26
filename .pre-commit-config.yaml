@@ -7,4 +7,4 @@ repos:
     # requires the `--config-file` option to be specified before the `check` subcommand
     # and the pre-commit hook correctly states check in the entry.
     - id: fortitude
-      entry: fortitude --config-file formatting/fortitude.toml check --force-exclude
+      entry: fortitude --config-file formatting/fortitude.toml check --force-exclude --file-extensions=f90,F90,pf
