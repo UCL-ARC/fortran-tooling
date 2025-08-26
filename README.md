@@ -8,7 +8,7 @@ This repository aims to improve Fortran best practices within UCL and the wider 
 - building
 - compiling
 - [debugging](./debugging)
-- documentation
+- [documentation](./documentation)
 - [formatting](./formatting)
 - interfaces
 - libraries
