@@ -1,0 +1,15 @@
+# Fortran Documentation
+
+Building documentation from your source code has widely been used for a long time, and now commonly used tools like Doxygen work with Fortran.
+
+## Candidate Tools
+
+| Tool | Description | Known issues |
+| **Recommended** | | |
+| [Doxygen](https://www.doxygen.nl/) | Commonly used documentation tool for large repositories. Officially supports Fortran with language-specific docblocks | <ul><li> Examples are somewhat outdated </li><li> Support traditionally has not been great </li></ul> |
+| [FORD](https://github.com/Fortran-FOSS-Programmers/ford) | Created due to Doxygen's lack of Fortran compatability, FORtran Documentater (FORD) is an independent automatic documenter for modern Fortran | <ul><li> Not the healthiest repository </li><li> Not as feature rich as Doxygen (in principle) </ul> |
+| **Dead projects** | | |
+| [ROBODoc](https://rfsber.home.xs4all.nl/Robo/) | Automatic parsing of any comment-enabled language into various output formats | <ul><li>Last updated 2021</li><li> Various links no longer work </li></ul> |
+| [Doctran](https://github.com/CPardi/Doctran) | Cross-platform documentation generator specifically designed for Fortran | <ul><li> Last updated 9 years ago </li><li> Homepage examples et al no longer exist </li></ul> |
+| [f90tohtml](https://code.google.com/archive/p/f90tohtml/) | | Last revision 2009 |
+| [f90doc](https://fortranwiki.org/fortran/show/f90doc) | | Last revision 2005 |
