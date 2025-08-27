@@ -39,8 +39,8 @@ There are two src codes within this repository [mesh_generator](./src/mesh_gener
 A bash [build.sh](./build.sh) script is provided for building all the source code and tests found in this repository. 
 Optionally, the script can also install the project dependacies.  
 
-The script provides both *CMake* and *fpm* backends for building the project, which can be ran with `./build --build-cmake` or `./build --build-fpm` respectively.  
-Note that building with CMake requires a local installation of pFUnit.  
+The script provides both *CMake* and *fpm* backends for building the project, which can be ran with `./build.sh --build-cmake` or `./build.sh --build-fpm` respectively.  
+Note that using the CMake backend requires a local installation of pFUnit (see more info in the CMake installation instructions).  
 
 Alternatively, instructions for building the project without the script are provided below.
 Instructions for installing pFUnit using the script are also provided.
