@@ -40,7 +40,7 @@ A bash [build.sh](./build.sh) script is provided for building all the source cod
 Optionally, the script can also install the project dependacies.  
 
 The script provides both *CMake* and *fpm* backends for building the project, which can be ran with `./build --build-cmake` or `./build --build-fpm` respectively.  
-Note that building with CMake requires a local installation of pFUnit, and fpm  
+Note that building with CMake requires a local installation of pFUnit.  
 
 Alternatively, instructions for building the project without the script are provided below.
 Instructions for installing pFUnit using the script are also provided.
