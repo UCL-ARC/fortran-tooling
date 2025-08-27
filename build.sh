@@ -1,49 +1,206 @@
 #!/bin/bash
 
+set -e
 
+PFUNIT_REMOTE_URL="https://github.com/Goddard-Fortran-Ecosystem/pFUnit.git"
+PFUNIT_INSTALLED_PATH="" # Path to pFUnit/installed directory
 
 clean_build=false
 build_cmake=false
 build_fpm=false
+build_pfunit=false
 build_tests=true
-PFUNIT_INSTALLED_PATH="" # Path to pFUnit/installed directory
 run_tests=false
+pfunit_src_path=""
+pfunit_version="v4.12.0"
+clean_pfunit_build=false
+num_build_threads="1"
+test_pfunit=false
 
 help() {
   echo "Usage:"
-  echo "    -h  Display this help message."
-  echo "    -c  Clean all build artifacts."
-  echo "    -m  Build via cmake."
-  echo "    -f  Build via fpm."
-  echo "    -s  Skip building cmake tests"
-  echo "    -p  Path to pFUnit/installed directory."
-  echo "    -t  Run tests."
+  echo "    $0 [-h|--help] [-c|--clean] [-m|--build-cmake] [-f|--build-fpm] [-t|--test] [-p|--build-pfunit] [-cp|--clean-pfunit] [-sm|--skip-cmake-tests] [-n|--num-build-threads <n>] [-p|--pfunit-dir <pd>] [--pfunit-version <pv>]"
+  echo ""
+  echo "ARGS:"
+  echo "    -h  | --help                  Display this help message."
+  echo "    -c  | --clean                 Clean all build artifacts."
+  echo "    -m  | --build-cmake           Build via cmake."
+  echo "    -f  | --build-fpm             Build via fpm."
+  echo "    -t  | --test                  Run tests."
+  echo "    -p  | --build-pfunit          Build the pFUnit lib."
+  echo "    -cp | --clean-pfunit          Clean the pFUnit build directory."
+  echo "    -tp | --test-pfunit           Test the build of pFUnit."
+  echo "    -sm | --skip-cmake-tests      Skip building and running cmake tests (fpm tests are only built when ran)."
+  echo ""
+  echo "OPTIONS:"
+  echo "    -n  | --num-build-threads <n>  The number of threads to use for building. defaults to 1."
+  echo "    -pd | --pfunit-dir <pd>        Absolute path to the root dir of a pFUnit installation. If one does"
+  echo "                                   not yet exist, it can be built by specifying --build-pfunit. If this"
+  echo "                                   option is not specified, the pFUnit tests will not be built."
+  echo "    -pv | --pfunit-version <pv>    The version of pFUnit to install. Defaults to v4.12.0."
   exit 0
 }
 
 # check for no input arguments and show help
 if [ $# -eq 0 ];
 then
-    ./build.sh -h
-    exit 0
+    help
+    exit 1
 fi
 
 # parse input arguments
-while getopts "hcmftp:s" opt
-do
-  case ${opt} in
-    h  ) help;;
-    c  ) clean_build=true;;
-    m  ) build_cmake=true;;
-    f  ) build_fpm=true;;
-    s  ) build_tests=false;;
-    p  ) PFUNIT_INSTALLED_PATH="${OPTARG}";;
-    t  ) run_tests=true;;
-    \? ) echo "Invalid option: $OPTARG" >&2; exit 1;;
-  esac
+while [ $# -gt 0 ] ; do
+    case $1 in
+        -h | --help)
+            help
+            exit 0
+            ;;
+        -c | --clean)
+            clean_build=true
+            shift 1
+            continue
+            ;;
+        -m | --build-cmake)
+            build_cmake=true
+            shift 1
+            continue
+            ;;
+        -f | --build-fpm)
+            build_fpm=true
+            shift 1
+            continue
+            ;;
+        -t | --test)
+            run_tests=true
+            shift 1
+            continue
+            ;;
+        -p | --build-pfunit)
+            build_pfunit=true
+            shift 1
+            continue
+            ;;
+        -cp | --clean-pfunit)
+            clean_pfunit_build=true
+            shift 1
+            continue
+            ;;
+        -tp | --test-pfunit)
+            test_pfunit=true
+            shift 1
+            continue
+            ;;
+        -sm | --skip-cmake-tests)
+            build_tests=false
+            shift 1
+            continue
+            ;;
+        -n | --num-build-threads)
+            num_build_threads=$2
+            shift 2
+            continue
+            ;;
+        -pd | --pfunit-dir)
+            pfunit_src_path=$2
+            PFUNIT_INSTALLED_PATH="$pfunit_src_path/build/installed"
+            shift 2
+            continue
+            ;;
+        -pv | --pfunit-version)
+            pfunit_version=$2
+            shift 2
+            continue
+            ;;
+        *) 
+            echo "Invalid option: $1" >&2; 
+            help 
+            exit 1
+            ;;
+    esac
+    shift 1
 done
-shift $((OPTIND -1))
 
+# if nothing to do, tell user
+if [[ "$build_cmake" == "false" && "$build_fpm" == "false" && "$build_pfunit" == "false" && "$run_tests" == "false" && "$clean_build" == "false" && "$clean_pfunit_build" == "false" && "$test_pfunit" == "false" ]]
+then
+    echo "Nothing to do. Please specify at least one of --build-cmake, --build-fpm, --build-pfunit, --test, --clean or --clean-pfunit. Use --help for details"
+    exit 0
+fi
+
+
+# Clean pFUnit build dir
+if [ "$clean_pfunit_build" == "true" ]
+then
+    if [ "$pfunit_src_path" == "" ]
+    then
+        echo "Cleaning pFUnit build requested but no root dir for pFUnit provided. Please provide a path using --pfunit-dir."
+        exit 0
+    elif [ -d "$pfunit_src_path/build" ]
+    then
+        echo "Cleaning pFUnit build"
+        rm -rf $pfunit_src_path/build
+    else
+        echo "No pFUnit build found at $pfunit_src_path/build. Nothing to clean."
+    fi
+fi
+
+# Build pFUnit
+if [ "$build_pfunit" == "true" ]
+then
+    # Verify the provided pfunit dir
+    if [ "$pfunit_src_path" == "" ]
+    then
+        echo "Building pFUnit requested but no root dir for pFUnit provided. Please provide a path using --pfunit-dir."
+        exit 0
+    else    
+        if [ -d "$pfunit_src_path" ]
+        then
+            pushd $pfunit_src_path > /dev/null
+            if [ $(git remote get-url origin) != "$PFUNIT_REMOTE_URL" ]
+            then
+                echo "pFUnit source path $pfunit_src_path is not a valid pFUnit clone. Please remove the existing clone or choose a different path."
+                exit 1
+            fi
+            current_pfunit_version=$(git describe --exact-match --tags)
+            
+            if [ "$current_pfunit_version" != "$pfunit_version" ]
+            then
+                echo "pFUnit version $current_pfunit_version found but $pfunit_version was requested. Please switch versions or remove the existing clone."
+                exit 1
+            fi
+            popd > /dev/null
+        else
+            mkdir $pfunit_src_path
+            pushd $pfunit_src_path > /dev/null
+            echo "Cloning pFUnit from $PFUNIT_REMOTE_PATH"
+            git clone --branch $pfunit_version $PFUNIT_REMOTE_URL $pfunit_src_path
+            popd > /dev/null
+        fi
+    fi
+
+    echo "Building pFUnit from source"
+    cmake $pfunit_src_path -B $pfunit_src_path/build -DINSTALL_PATH=$PFUNIT_INSTALLED_PATH -DMPI=YES -DCMAKE_Fortran_COMPILER=mpif90 -DOPENMP=YES
+    cmake --build $pfunit_src_path/build "-j$num_build_threads" --target install
+
+    echo ""
+    echo "Successfully built pFUnit. To use installation, add the following to cmake flags"
+    echo "  -DCMAKE_PREFIX_PATH=$PFUNIT_INSTALLED_PATH"
+fi
+
+if [ "$test_pfunit" == "true" ]
+then
+    echo "Running pFUnit tests"
+    if [ "$pfunit_src_path" == "" ]
+    then
+        echo "Testing pFUnit requested but no root dir for pFUnit provided. Please provide the absolute path using --pfunit-dir."
+        exit 0
+    else
+        # exclude tests starting with test_derived as these are for a dependency of pFUnit
+        ctest --test-dir "$pfunit_src_path/build" --output-on-failure -E "(test_derived).*"
+    fi
+fi
+
+# Clean fortran-tooling build dirs
 if [ "$clean_build" == "true" ]
 then
     if [ -d "build" ]; then
@@ -56,22 +213,27 @@ then
     fi
 fi
 
-# Build cmake version
+# Build fortran-tooling cmake version
 if [ "$build_cmake" == "true" ]
 then
     echo "Building using cmake"
+
+    TEST_FLAGS=""
     if [ "$build_tests" == "true" ]
     then
-        echo "Building tests"
-        cmake -DCMAKE_PREFIX_PATH="$PFUNIT_INSTALLED_PATH" -DBUILD_TESTS=ON -B build-cmake 
-    else
-        echo "Skipping tests"
-        cmake -DBUILD_TESTS=OFF -B build-cmake 
+        TEST_FLAGS="-DBUILD_TEST_DRIVE=ON"
+        if [ "$pfunit_src_path" != "" ]
+        then
+            TEST_FLAGS="-DCMAKE_PREFIX_PATH=$PFUNIT_INSTALLED_PATH -DBUILD_PFUNIT=ON $TEST_FLAGS"
+        fi
     fi
-    cmake --build build-cmake
+
+    echo "cmake $TEST_FLAGS -B build-cmake"
+    cmake $TEST_FLAGS -B build-cmake
+    cmake --build build-cmake "-j$num_build_threads"
 fi
 
-# Build fpm version
+# Build fortran-tooling fpm version
 if [ "$build_fpm" == "true" ]
 then
     echo "Building using fpm"
@@ -84,9 +246,9 @@ then
     if [ -d "build-cmake" ]; then
         echo "Running cmake tests"
         tests_run=true
-        pushd build-cmake
-        ctest
-        popd
+        pushd build-cmake > /dev/null
+        ctest --output-on-failure
+        popd > /dev/null
     fi
 
     if [ -d "build" ]; then
@@ -97,6 +259,6 @@ then
 
     if [ "$tests_run" == "false" ]
     then
-        echo "No tests found. Must build first."
+        echo "No tests found. You must build them first."
     fi
 fi

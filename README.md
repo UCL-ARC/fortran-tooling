@@ -36,18 +36,26 @@ There are two src codes within this repository [mesh_generator](./src/mesh_gener
 
 ## Building
 
-A bash script is provided for building ([build.sh](./build.sh)). However, there are some instructions below for building without this script.
+A bash [build.sh](./build.sh) script is provided for building all the source code and tests found in this repository. 
+Optionally, the script can also install the project dependacies.  
+
+The script provides both *CMake* and *fpm* backends for building the project, which can be ran with `./build.sh --build-cmake` or `./build.sh --build-fpm` respectively.  
+Note that using the CMake backend requires a local installation of pFUnit (see more info in the CMake installation instructions).  
+
+Alternatively, instructions for building the project without the script are provided below.
+Instructions for installing pFUnit using the script are also provided.
 
 ### CMake
 
->Note: we have some [pFUnit tests](./testing/pFUnit/) which require a local version of pFUnit to be pre-built on your device. Once built, the path to the pFUnit `installed` dir will need to be passed via `-DCMAKE_PREFIX_PATH`.
+>Note: the CMake contains some [pFUnit tests](./testing/pFUnit/) which require a local version of pFUnit to be built on your device.
+It can be installed either via the provided build.sh script or by following the installation instruction in the [pFUnit repo](https://github.com/Goddard-Fortran-Ecosystem/pFUnit).
 
-One build system we are utilising is cmake (see [CMakeLists.txt](./CMakeLists.txt)). Therefore, to build this repository, please run the following
+To built the repository using cmake (see [CMakeLists.txt](./CMakeLists.txt)), please run the following
 
 ```sh
-cmake -DCMAKE_PREFIX_PATH=/path/to/pfunit/installed/dir -B build-cmake 
+cmake -DCMAKE_PREFIX_PATH=</path/to/pfunit/installed/dir> -DBUILD_PFUNIT=ON -DBUILD_TEST_DRIVE=ON -B build-cmake 
 ``` 
-This will create a [build](./build) directory from within which the project can be compiled...
+This will create a [build](./build-cmake) directory and setup the build environment. To compile the code please run
 
 ```sh
 cmake --build build-cmake
@@ -62,6 +70,16 @@ To build the project using FPM, from the root of the repo, run
 ```sh
 fpm build
 ```
+
+
+### pFUnit
+
+The ([build.sh](./build.sh) scripts provides a wrapper for simplifying the installation of pFUint.  To run the installer, execute
+
+```sh
+./build -p --build-pfunit --pfunit-dir=<PATH_TO_PFUINT>
+```
+where `<PATH_TO_PFUNIT>` is the **absolute** path to the local where pFUnit will be installed. Optionally, adding the flag `--test-pfunit` will test the pFUnit installation. 
 
 ## Running the src
 
