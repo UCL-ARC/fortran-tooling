@@ -192,7 +192,7 @@ then
     echo "Running pFUnit tests"
     if [ "$pfunit_src_path" == "" ]
     then
-        echo "Testing pFUnit requested but no root dir for pFUnit provided. Please provide a path using --path."
+        echo "Testing pFUnit requested but no root dir for pFUnit provided. Please provide the absolute path using --pfunit-dir."
         exit 0
     else
         # exclude tests starting with test_derived as these are for a dependency of pFUnit
