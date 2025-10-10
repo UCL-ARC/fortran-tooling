@@ -44,10 +44,9 @@ To build the project using FPM, from the root of the repo, run
 fpm build
 ```
 
-
 ### pFUnit
 
-The ([build.sh](./build.sh) scripts provides a wrapper for simplifying the installation of pFUint.  To run the installer, execute
+The [build.sh](./build.sh) scripts provides a wrapper for simplifying the installation of pFUint.  To run the installer, execute
 
 ```sh
 ./build -p --build-pfunit --pfunit-dir=<PATH_TO_PFUINT>
@@ -111,3 +110,18 @@ Then, from the root of the repo, you start using pre-commit by running
 ```sh
 pre-commit install
 ```
+
+## Documentation
+
+### Ford
+
+To generate the Ford documentation locally run the command 
+
+```sh
+ford README.md 
+```
+
+This will create a folder `doc` within the root of the repo. Within `doc` there will be an
+`index.html` file. Open this file in a browser to view the generated documentation. Further
+information about how Ford is set up within this repo is provided in the generated
+documentation at `Tools->Documentation->Ford`.
