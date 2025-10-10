@@ -22,7 +22,7 @@ brew update
 brew install FORD
 ```
 
-There is also a spack pacakge available to install FORD:
+There is also a spack package available to install FORD:
 
 ```sh
 spack install py-ford
