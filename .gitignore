@@ -8,3 +8,4 @@ build-cmake/
 *.egg-info
 .venv
 **doc
+.venv

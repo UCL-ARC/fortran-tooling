@@ -1,3 +1,6 @@
+---
+title: Formatting
+---
 # Fortran formatting
 
 ## Candidate Tools

@@ -1,3 +1,7 @@
+---
+title: Ford
+---
+
 # [FORD](https://github.com/Fortran-FOSS-Programmers/ford)
 
 FORtran Documenter (FORD) is an automatic documentation generater designed for Fortran.

@@ -1,3 +1,7 @@
+---
+title: Doxygen
+---
+
 # [Doxygen](https://www.doxygen.nl/)
 
 The Doxygen tool is a widely-used tool for automatically generating documentation from a codebase.
