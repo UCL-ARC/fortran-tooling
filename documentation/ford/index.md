@@ -81,7 +81,7 @@ contains
 end program cool_prog
 ```
 
-> Note: `!>` is set by us as the allowed "predocmark" within our `fpm.toml`. the standard way to
+> Note: `!>` is set by us as the allowed "predocmark" within our `README.md`. The standard way to
 > document with Ford is to place a dosctring starting with `!!` after the entity you are
 > documenting, but this is less standard in other languages, hence why we are using a predocmark.
 
@@ -93,11 +93,10 @@ are organised following the [instructions defined in the Ford documentation](htt
 
 Essentially, there is an `index.md` at the root of our repository which allows us to specify that
 the `page_dir` Ford should use as the root of our static page hierarchy is the root of our
-repository. We do this within the `fpm.toml`. 
+repository. We do this within the header of the `README.md`. 
 
-```toml
-[extra.ford]
-page_dir = "."
+```yaml
+page_dir: .
 ```
 
 With this information, Ford will then search all subdirectories for an `index.md` with a
