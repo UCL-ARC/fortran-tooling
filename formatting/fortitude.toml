@@ -1,5 +1,0 @@
-[check]
-ignore = [
-    "C003", # 'implicit none' missing 'external'
-]
-line-length = 132
