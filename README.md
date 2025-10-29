@@ -1,31 +1,10 @@
-# UCL ARC Fortran Tooling Recommendations and Examples
+---
+title: How to use this Repo
+---
+
+# Fortran Tooling
 
 This repository aims to improve Fortran best practices within UCL and the wider Fortran community by documenting a growing list of Fortran tools recommended by [UCL ARC](https://ucl.ac.uk/arc).
-
-## Topics covered
-
-- benchmarking
-- building
-- compiling
-- [debugging](./debugging)
-- [documentation](./documentation)
-- [formatting](./formatting)
-- interfaces
-- libraries
-- package management
-- profiling and tracing
-- [testing](./testing)
-
-## ARC Fortran projects
-
-| Name | Start | End | Repo | Opportunity | Tools | Lessons |
-| --- | --- | --- | --- | --- | --- | --- |
-| LFRic | Sept 2024 | March 2025 | [GitHub](https://github.com/exoclim/lfric_dev) | [#594](https://github.com/UCL-ARC/research-software-opportunities/issues/594) | Rose, Cylc | |
-| CONQUEST | May 2023 | May 2024 | [GitHub](https://github.com/OrderN/CONQUEST-release) | [#781](https://github.com/UCL-ARC/research-software-opportunities/issues/781) | Make, VTune, Advisor | |
-| ALPS | Aug 2022 | Jul 2023 | [GitHub](https://github.com/danielver02/ALPS) | [#691](https://github.com/UCL-ARC/research-software-opportunities/issues/691) | Autotools, Ford | |
-| FruitDemand | Apr 2021 | Mar 2023 |  | [#382](https://github.com/UCL-ARC/research-software-opportunities/issues/382) |  Make, Ford, PFUnit | |
-| Trove | Jan 2021 | Aug 2021 | [GitHub](https://github.com/Trovemaster/TROVE/tree/merge-develop-mpi) | [#404](https://github.com/UCL-ARC/research-software-opportunities/issues/404) | Make, pFUnit (see the [PR](https://github.com/Trovemaster/TROVE/pull/44/files#diff-beda42571c095172ab63437d050612a571d0d9ddd3ad4f2aecbce907a9b7e3d0)) | |
-| Zacros | Jan 2021 | Sep 2022 | | [#349](https://github.com/UCL-ARC/research-software-opportunities/issues/349) & older | CMake, CTest | |
 
 ## src code
 
@@ -71,10 +50,9 @@ To build the project using FPM, from the root of the repo, run
 fpm build
 ```
 
-
 ### pFUnit
 
-The ([build.sh](./build.sh) scripts provides a wrapper for simplifying the installation of pFUint.  To run the installer, execute
+The [build.sh](./build.sh) scripts provides a wrapper for simplifying the installation of pFUint.  To run the installer, execute
 
 ```sh
 ./build -p --build-pfunit --pfunit-dir=<PATH_TO_PFUINT>
@@ -138,3 +116,20 @@ Then, from the root of the repo, you start using pre-commit by running
 ```sh
 pre-commit install
 ```
+
+## Documentation
+
+### Ford
+
+To generate the Ford documentation locally run the command 
+
+```sh
+ford ford-home.md 
+```
+
+This will create a folder `ford-docs` within the root of the repo. Within `ford-docs` there will be an
+`index.html` file. Open this file in a browser to view the generated documentation. Further
+information about how Ford is set up within this repo is provided in the generated
+documentation at `Tools->Documentation->Ford`.
+
+> Note: the name of the output directory for our docs, `ford-docs`, is defined in [ford-home.md](./ford-home.md)

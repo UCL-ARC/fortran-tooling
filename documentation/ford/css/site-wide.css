@@ -1,0 +1,26 @@
+.equations_table table,
+.equations_table th,
+.equations_table td
+{
+  border: 1px solid;
+  padding: 5pt;
+}
+
+:not(pre) > code, .codehilite > pre {
+  color: black;
+  background-color: aliceblue;
+  border: solid 1pt lightgray;
+  padding: 1pt;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.nav-link {
+  padding: 0.1rem;
+}

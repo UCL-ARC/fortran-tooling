@@ -1,4 +1,6 @@
-# Fortran Documentation
+---
+title: documentation
+---
 
 Building documentation from your source code has widely been used for a long time, and now commonly used tools like Doxygen work with Fortran.
 

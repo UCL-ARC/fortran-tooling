@@ -1,3 +1,7 @@
+---
+title: Fortitude
+---
+
 # [Fortitude](https://fortitude.readthedocs.io/en/stable/)
 
 ## Prerequisite

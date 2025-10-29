@@ -1,4 +1,9 @@
+---
+title: pFUnit
+---
+
 # pFUnit
+
 pFUnit is a unit testing framework enabling JUnit-like testing of serial and MPI-parallel software written in Fortran. Limited support for OpenMP is also provided in the form of managing exceptions in a thread-safe manner.
 
 pFUnit uses several advanced Fortran features, especially object oriented capabilities, to offer a convenient, lightweight mechanism for Fortran developers to create and run software tests that specify the desired behavior for a given piece of code.
@@ -22,9 +27,13 @@ Compilers tested: GNU Fortran (Homebrew GCC 14.2.0_1)
 | Data driven tests | Yes (see [test_calculate_mesh_parameters.pf](./test_calculate_mesh_parameters.pf)) | N/A |
 | Coverage report | Yes or No (explanation) | Yes or No (explanation) |
 | Skip tests | Partially, but there is no logging of skipped tests (add required pre-compile flag e.g. `@Test(#ifdef NO_SKIP)`) | Partially (comment `@Test` annotation) |
+| Supports testing MPI parallel code | Yes | N/A |
+| Supports testing OpenMP parallel code | No | No |
 
 
 ## Pros
+
+- Supports testing MPI parallel code
 
 ## Cons
 - pFUnit must be built locally before it can be used within this project

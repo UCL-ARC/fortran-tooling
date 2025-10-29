@@ -1,3 +1,7 @@
+---
+title: Veggies
+---
+
 # veggies
 
 [Veggies](https://gitlab.com/everythingfunctional/veggies) is a unit testing framework for testing Fortran codes.

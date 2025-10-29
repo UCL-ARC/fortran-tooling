@@ -7,3 +7,5 @@ build-cmake/
 .vscode
 *.egg-info
 .venv
+**doc
+**ford-docs
