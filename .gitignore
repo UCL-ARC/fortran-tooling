@@ -8,4 +8,4 @@ build-cmake/
 *.egg-info
 .venv
 **doc
-.venv
+**ford-docs
