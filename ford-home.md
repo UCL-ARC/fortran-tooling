@@ -9,7 +9,6 @@ github: https://github.com/UCL-ARC
 exclude_dir: debugging
 page_dir: .
 src_dir: src
-         testing
 extensions: f90
             pf
 fixed_length_limit: false
