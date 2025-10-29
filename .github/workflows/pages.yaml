@@ -32,7 +32,7 @@ jobs:
         uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955 # v4
       - uses: actions/setup-python@v6 
         with:
-          python-version: 'pypy3.13' 
+          python-version: '3.13' 
       - name: Generate Ford docs
         run: pip install ford; ford ford-home.md
       - name: Setup Ruby
