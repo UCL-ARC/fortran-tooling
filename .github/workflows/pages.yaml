@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - main
+      - fix-ford-graph-generation
 
   # Run manually from the Actions tab
   workflow_dispatch:
