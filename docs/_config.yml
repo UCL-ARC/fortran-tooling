@@ -1,0 +1,15 @@
+title: Fortran Tooling
+description: Recommendations and examples for Fortran tools used in UCL's Advanced Research Computing center
+theme: just-the-docs
+
+url: https://UCL-ARC.github.io/fortran-tooling
+
+color_shceme: dark
+
+aux_links:
+  Source repository: https://github.com/UCL-ARC/python-tooling
+  Ford documentation: ./ford-docs/index.html
+aux_links_new_tab: true
+
+logo: "assets/logo.png"
+favicon_ico: "assets/logo.ico"

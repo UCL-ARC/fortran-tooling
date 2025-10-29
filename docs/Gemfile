@@ -1,0 +1,8 @@
+source "https://rubygems.org"
+
+gem "jekyll", "~>4"
+
+group :jekyll_plugins do
+  gem "just-the-docs", "~>0"
+end
+

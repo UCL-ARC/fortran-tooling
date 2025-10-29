@@ -1,7 +1,7 @@
 ---
 project: Fortran-tooling
 doc_license: mit
-favicon: documentation/ford/media/fortran-tooling.png
+favicon: docs/assets/favicon.ico
 license: mit
 project_github: https://github.com/UCL-ARC/fortran-tooling
 author: UCL, ARC
@@ -9,7 +9,6 @@ github: https://github.com/UCL-ARC
 exclude_dir: debugging
 page_dir: .
 src_dir: src
-         testing
 extensions: f90
             pf
 fixed_length_limit: false
@@ -30,7 +29,9 @@ graph_maxnodes: 1000
 graph_maxdepth: 1
 md_extensions: markdown.extensions.toc
 hide_undoc: true
-output_dir: ford-docs
+output_dir: docs/ford-docs
+exclude_dir: docs
+             testing
 ---
 
 Welcome to Fortran tooling documentation generated with Ford

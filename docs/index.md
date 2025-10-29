@@ -1,3 +1,10 @@
+---
+# Feel free to add content and custom Front Matter to this file.
+# To modify the layout, see https://jekyllrb.com/docs/themes/#overriding-theme-defaults
+
+layout: home
+---
+
 # Fortran Tooling
 
 Welcome to Fortran tooling documentation
@@ -24,5 +31,5 @@ Welcome to Fortran tooling documentation
 
 Continue to our documentation generated with...
 
-- [Ford](ford/docs)
-- [Doxygen](doxygen/docs)
+- [Ford](./ford-docs/index.html)
+- Doxygen
