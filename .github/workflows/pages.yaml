@@ -33,7 +33,7 @@ jobs:
         with:
           python-version: '3.13' 
       - name: Generate Ford docs
-        run: pip install ford; ford ford-home.md
+        run: pip install -r requirements.txt; ford ford-home.md
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
