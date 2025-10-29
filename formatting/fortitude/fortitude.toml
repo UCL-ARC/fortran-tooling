@@ -4,6 +4,8 @@ ignore = [
     "C003", # 'implicit none' missing 'external'
 ]
 
-# A custom maxmum line length for our repo which will effect the 
-# behaviour of rule S001	(line-too-long)
+# A custom maximum line length for our repo which will effect the 
+#   behaviour of rule S001	(line-too-long)
+# Note: some lines are allowed to violate this rule, such as long
+# strings or comments. This is tpo allow for large URLs, etc.
 line-length = 132

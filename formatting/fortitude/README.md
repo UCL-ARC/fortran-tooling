@@ -6,7 +6,7 @@ A tool for installing, i.e. `pip` or `homebrew`
 
 ## Installation
 
-To install fortitude we can utilise the provided `requirements.txt` by following the instructions in [the pre-commit install instructions](../../README.md#pre-commit).
+To install fortitude we can utilise the provided `requirements.txt` by following [the pre-commit install instructions](../../README.md#pre-commit).
 The [quickstart page](https://fortitude.readthedocs.io/en/stable/#quickstart) for Fortitude details multiple other ways of installing the tool.
 
 ## Usage in this repo
@@ -14,7 +14,7 @@ The [quickstart page](https://fortitude.readthedocs.io/en/stable/#quickstart) fo
 This repo has been formatted with Fortitude. To check this repo with Fortitude, simply run the following from the root of this repository
 
 ```sh
-fortitude --config-file formatting/fortitude.toml check
+fortitude --config-file formatting/fortitude/fortitude.toml check
 ```
 
 The config file, [fortitude.toml](./fortitude.toml), we have provided in the above command contains our rules which alter the 
