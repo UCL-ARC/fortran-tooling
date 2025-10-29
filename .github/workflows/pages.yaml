@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - main
+      - connor/issue-68
 
   # Run manually from the Actions tab
   workflow_dispatch:
@@ -59,7 +60,7 @@ jobs:
 
   # Deployment job
   website-deploy:
-    if: github.ref == 'refs/heads/main' # only deploy from main
+    # if: github.ref == 'refs/heads/main' # only deploy from main
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
