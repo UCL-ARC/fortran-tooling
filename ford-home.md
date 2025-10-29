@@ -1,7 +1,7 @@
 ---
 project: Fortran-tooling
 doc_license: mit
-favicon: docs/assets/fortran-tooling.png
+favicon: docs/assets/favicon.ico
 license: mit
 project_github: https://github.com/UCL-ARC/fortran-tooling
 author: UCL, ARC
