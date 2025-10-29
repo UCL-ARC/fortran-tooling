@@ -127,7 +127,7 @@ To generate the Ford documentation locally run the command
 ford ford-home.md 
 ```
 
-This will create a folder `gh-pages/ford-docs` within the root of the repo. Within `gh-pages/ford-docs` there will be an
+This will create a folder `docs/ford-docs` within the root of the repo. Within `docs/ford-docs` there will be an
 `index.html` file. Open this file in a browser to view the generated documentation. Further
 information about how Ford is set up within this repo is provided in the generated
 documentation at `Tools->Documentation->Ford`.

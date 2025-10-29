@@ -30,8 +30,8 @@ graph_maxnodes: 1000
 graph_maxdepth: 1
 md_extensions: markdown.extensions.toc
 hide_undoc: true
-output_dir: gh-pages/ford-docs
-exclude_dir: gh-pages
+output_dir: docs/ford-docs
+exclude_dir: docs
              testing
 ---
 
