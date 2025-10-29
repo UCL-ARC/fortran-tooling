@@ -5,11 +5,7 @@ on:
   push:
     branches:
       - main
-
-  # Run on any PRs that touch the docs directory
-  pull_request:
-    paths:
-      - docs/**
+      - connor/issue-68
 
   # Run manually from the Actions tab
   workflow_dispatch:
