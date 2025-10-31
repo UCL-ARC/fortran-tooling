@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 # Usage: ./uncomment_doxygen.sh <inputfile>
 
 set -euo pipefail
