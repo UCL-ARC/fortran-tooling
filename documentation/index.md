@@ -5,8 +5,6 @@ title: documentation
 <!-- Doxygen config
 @page documentation Documentation
 @ingroup tools
-@subpage doxygen
-@subpage ford
 -->
 
 Building documentation from your source code has widely been used for a long time, and now commonly used tools like Doxygen work with Fortran.
@@ -14,7 +12,7 @@ Building documentation from your source code has widely been used for a long tim
 A number of automated documentation generation projects for Fortran have come and gone over the years, and below are documented a number of them.
 At the top of the list are the recommended and still supported documentation tools.
 
-## Candidate Tools
+# Candidate Tools
 
 | Tool | Description | Known issues |
 | ---- | ------ | ----- |
@@ -26,3 +24,7 @@ At the top of the list are the recommended and still supported documentation too
 | [Doctran](https://github.com/CPardi/Doctran) | Cross-platform documentation generator specifically designed for Fortran | <ul><li> Last updated 9 years ago </li><li> Homepage examples et al no longer exist </li></ul> |
 | [f90tohtml](https://code.google.com/archive/p/f90tohtml/) | | Last revision 2009 |
 | [f90doc](https://fortranwiki.org/fortran/show/f90doc) | The basis for FORD | Last revision 2005 |
+
+<!-- Doxygen config
+**Subpages:** @subpage doxygen @subpage ford
+-->
