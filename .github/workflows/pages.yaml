@@ -38,7 +38,7 @@ jobs:
       - name: Doxygen Action
         uses: mattnotmitt/doxygen-action@1.12.0
         with:
-          doxyfile-path: 'Doxyfile'
+          doxyfile-path: 'documentation/doxygen/Doxyfile'
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
