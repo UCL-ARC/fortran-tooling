@@ -2,18 +2,21 @@
 title: How to use this Repo
 ---
 
-# Fortran Tooling
+<!-- Doxygen config
+@page developer-docs Developer Docs
+-->
+
 
 This repository aims to improve Fortran best practices within UCL and the wider Fortran community by documenting a growing list of Fortran tools recommended by [UCL ARC](https://ucl.ac.uk/arc).
 
-## src code
+# src code
 
 There are two src codes within this repository [mesh_generator](./src/mesh_generator/) and [poisson](./src/poisson/). These are designed to work together.
 
 - `mesh_generator` generates a basic square 2D triangular mesh (see [mesh_generator.f90](./src/mesh_generator/mesh_generator.f90) for more details).
 - `poisson` is a solver which finds the solution of the steady-state heat conduction equation represented by the Poisson equation over a 2D triangular mesh (see [poisson.f90](./src/poisson/poisson.f90) for more details).
 
-## Building
+# Building
 
 A bash [build.sh](./build.sh) script is provided for building all the source code and tests found in this repository. 
 Optionally, the script can also install the project dependacies.  
@@ -24,7 +27,7 @@ Note that using the CMake backend requires a local installation of pFUnit (see m
 Alternatively, instructions for building the project without the script are provided below.
 Instructions for installing pFUnit using the script are also provided.
 
-### CMake
+## CMake
 
 >Note: the CMake contains some [pFUnit tests](./testing/pFUnit/) which require a local version of pFUnit to be built on your device.
 It can be installed either via the provided build.sh script or by following the installation instruction in the [pFUnit repo](https://github.com/Goddard-Fortran-Ecosystem/pFUnit).
@@ -42,7 +45,7 @@ cmake --build build-cmake
 
 This will produce executables for the two src codes, `fortran-tooling-mesh-generator` and `fortran-tooling-poisson`.
 
-### FPM
+## FPM
 
 To build the project using FPM, from the root of the repo, run
 
@@ -50,7 +53,7 @@ To build the project using FPM, from the root of the repo, run
 fpm build
 ```
 
-### pFUnit
+## Building pFUnit
 
 The [build.sh](./build.sh) scripts provides a wrapper for simplifying the installation of pFUint.  To run the installer, execute
 
@@ -59,9 +62,9 @@ The [build.sh](./build.sh) scripts provides a wrapper for simplifying the instal
 ```
 where `<PATH_TO_PFUNIT>` is the **absolute** path to the local where pFUnit will be installed. Optionally, adding the flag `--test-pfunit` will test the pFUnit installation. 
 
-## Running the src
+# Running the src
 
-### Mesh generator
+## Mesh generator
 
 If you have built using CMake, you can run the mesh generator by directly calling the executable
 
@@ -74,7 +77,7 @@ If you have built using FPM, you can also run the mesh generator via FPM
 fpm run mesh_generator -- <box_size> <edge_size>
 ```
 
-### Poisson solver
+## Poisson solver
 If you have built using CMake, you can also run the poisson solver by directly calling the executable
 ```sh
 ./build/fortran-tooling-poisson <path_to_mesh_file>
@@ -85,7 +88,7 @@ If you have built using FPM, you can also run the mesh generator via FPM
 fpm run poisson -- <path_to_mesh_file>
 ```
 
-## Running the tests
+# Running the tests
 
 If you have built using CMake, you can run the tests by running the following from within the `build-cmake` directory.
 
@@ -99,7 +102,7 @@ If you have built using FPM, you can run the tests by running the following from
 fpm test
 ```
 
-## pre-commit
+# pre-commit
 
 [pre-commit](https://pre-commit.com/) is utilised within this repo. pre-commit is a tool to help enforce formatting standards as early as possible.
 pre-commit works by running a provided set of checks every time a `git commit` is attempted.
@@ -117,9 +120,9 @@ Then, from the root of the repo, you start using pre-commit by running
 pre-commit install
 ```
 
-## Documentation
+# Generating documentation
 
-### Ford
+## Ford docs
 
 To generate the Ford documentation locally run the command 
 
@@ -132,5 +135,5 @@ This will create a folder `docs/ford-docs` within the root of the repo. Within `
 information about how Ford is set up within this repo is provided in the generated
 documentation at `Tools->Documentation->Ford`.
 
-> Note: the name of the output directory for our docs, `ford-docs`, is defined in [ford-home.md](./ford-home.md) as the value
+> Note: the name of the output directory for our docs, `ford-docs`, is defined in `ford-home.md` as the value
 > for `output_dir`

@@ -1,7 +1,12 @@
 ---
 title: Formatting
 ---
-# Fortran formatting
+
+<!-- Doxygen config
+@page formatting Formatting
+@ingroup formatting
+@subpage fortitude
+-->
 
 ## Candidate Tools
 

@@ -2,7 +2,13 @@
 title: testing
 ---
 
-# fortran-unit-testing
+<!-- Doxygen config
+@page testing Testing
+@ingroup formatting
+@subpage pfunit
+@subpage veggies
+@subpage test-drive
+-->
 
 Fortran code bases often have next to zero test coverage. Any tests implemented are fully end-to-end and often just check that a single value in some output file is what we expect it to be. Whilst a test like this can catch a breaking change or bug, it will be unlikely to indicate where that breaking change has been introduced. The solution to this issue is unit testing. 
 
