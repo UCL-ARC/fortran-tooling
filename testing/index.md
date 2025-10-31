@@ -1,13 +1,9 @@
 ---
-title: testing
+title: Testing
 ---
 
 <!-- Doxygen config
 @page testing Testing
-@ingroup formatting
-@subpage pfunit
-@subpage veggies
-@subpage test-drive
 -->
 
 Fortran code bases often have next to zero test coverage. Any tests implemented are fully end-to-end and often just check that a single value in some output file is what we expect it to be. Whilst a test like this can catch a breaking change or bug, it will be unlikely to indicate where that breaking change has been introduced. The solution to this issue is unit testing. 
@@ -23,7 +19,7 @@ There are several examples of good unit testing tools for other languages, such 
 
 These will be used as the basis for what the recommended Fortran unit testing tool should look like. Therefore, key features from these tools shall be individually tested for each Fortran unit testing tool we select to test.
 
-## Template Features matrix
+# Template Features matrix
 
 To aid in our recommendations of testing frameworks, we utilise the below matrix for tracking the capabilities
 of each test framework.
@@ -40,7 +36,7 @@ Compilers tested: *A list of compilers we have tried with these tests*
 | Supports testing MPI parallel code | Yes or No (explanation) | Yes or No (explanation) |
 | Supports testing OpenMP parallel code | Yes or No (explanation) | Yes or No (explanation) |
 
-### Explanations 
+## Explanations 
 
 **Mocking**
 
@@ -71,3 +67,7 @@ call functionB(data, output)  ! Use these hard coded values in out procedure bei
 This may seem overkill in the above example, but it becomes more important if we pass `functionA` into `functionB` and wanted to ensure this was stubbed.
 
 The difference compared to mocking is that stubbing will not track calls to the mocked procedure/function/object whereas mocking will.
+
+<!-- Doxygen config
+**Subpages:** @subpage pfunit @subpage veggies @subpage test-drive
+-->

@@ -85,7 +85,7 @@ title: Tools
 
 and uncomments any Doxygen config blocks. For example,
 
-```md
+```
 <!-- Doxygen config
 @page doxygen Doxygen
 @ingroup documentation
