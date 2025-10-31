@@ -2,7 +2,10 @@
 title: pFUnit
 ---
 
-# pFUnit
+<!-- Doxygen config
+@page pfunit pFUnit
+@ingroup testing
+-->
 
 pFUnit is a unit testing framework enabling JUnit-like testing of serial and MPI-parallel software written in Fortran. Limited support for OpenMP is also provided in the form of managing exceptions in a thread-safe manner.
 
