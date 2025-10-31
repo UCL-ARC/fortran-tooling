@@ -35,10 +35,12 @@ jobs:
           python-version: '3.13' 
       - name: Generate Ford docs
         run: pip install -r requirements.txt; sudo apt install graphviz; ford ford-home.md
-      - name: Doxygen Action
-        uses: mattnotmitt/doxygen-action@1.12.0
-        with:
-          doxyfile-path: 'documentation/doxygen/Doxyfile'
+      - name: Install Doxygen
+        run: |
+          sudo apt-get update 
+          sudo apt-get install -y doxygen
+      - name: Run Doxygen to generate documentation
+        run: doxygen ./documentation/doxygen/Doxyfile
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
