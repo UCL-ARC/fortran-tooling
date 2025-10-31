@@ -2,9 +2,14 @@
 title: Doxygen
 ---
 
-# [Doxygen](https://www.doxygen.nl/)
+<!-- Doxygen config
+@page doxygen Doxygen
+@ingroup documentation
+-->
 
-The Doxygen tool is a widely-used tool for automatically generating documentation from a codebase.
+<!-- # Doxygen -->
+
+The [Doxygen]((https://www.doxygen.nl/)) tool is a widely-used tool for automatically generating documentation from a codebase.
 It 
 
 ## Prerequisites

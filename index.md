@@ -2,6 +2,16 @@
 title: Tools
 ---
 
+<!-- Doxygen config
+@page tools Tools
+### Subpages
+- @subpage debugging
+- @subpage documentation
+- @subpage formatting
+- @subpage testing
+-->
+
+
 Within these pages you will find a curated list of Fortran tools recommended by [UCL ARC](https://www.ucl.ac.uk/advanced-research-computing/).
 
 ## ARC Fortran projects

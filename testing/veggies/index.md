@@ -2,7 +2,11 @@
 title: Veggies
 ---
 
-# veggies
+<!-- Doxygen config
+@page veggies Veggies
+@ingroup testing
+-->
+
 
 [Veggies](https://gitlab.com/everythingfunctional/veggies) is a unit testing framework for testing Fortran codes.
 It has a sister project called [Garden](https://gitlab.com/everythingfunctional/garden) which acts as the same
