@@ -1,5 +1,5 @@
 ---
-title: documentation
+title: Documentation
 ---
 
 <!-- Doxygen config
