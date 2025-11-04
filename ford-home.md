@@ -41,6 +41,7 @@ graph: true
 graph_maxnodes: 1000
 graph_maxdepth: 2
 output_dir: docs/ford-docs
+doxygen: True
 ---
 
 Welcome to Fortran tooling documentation generated with Ford
