@@ -74,7 +74,7 @@ FILTER_PATTERNS = *.md=./documentation/doxygen/strip_triple_dash_sections.py
 ```
 
 This causes preprocessing to be run against all `*.md` files that have been discovered and not excluded by us.
-This preprocessing is defined within [strip_triple_dash_sections.py](./strip_triple_dash_sections.py) which
+This preprocessing is defined within [format_markdown_for_doxygen.sh](./format_markdown_for_doxygen.sh) which
 removes any Ford specific configuration. For example,
 
 ```md
