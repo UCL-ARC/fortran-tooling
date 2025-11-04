@@ -28,7 +28,9 @@ For all features:
 
 Installation is done from source via the Doxygen [download page](https://www.doxygen.nl/download.html).
 
-Download the latest version for your operating system from that page, and follow the extensive [installation instructions](https://www.doxygen.nl/manual/install.html) provided by Doxyden.
+Download the latest version for your operating system from that page, and follow the extensive [installation instructions](https://www.doxygen.nl/manual/install.html) provided by Doxygen.
+
+> Note: Mac users can install vie Homebrew with `brew install doxygen`
 
 ## Use
 
@@ -70,7 +72,7 @@ use of the preprocessing capabilities of Doxygen. In our `Doxyfile` We have spec
 
 ```
 ENABLE_PREPROCESSING = YES
-FILTER_PATTERNS = *.md=./documentation/doxygen/strip_triple_dash_sections.py
+FILTER_PATTERNS = *.md=./documentation/doxygen/format_markdown_for_doxygen.sh
 ```
 
 This causes preprocessing to be run against all `*.md` files that have been discovered and not excluded by us.

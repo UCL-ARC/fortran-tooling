@@ -135,5 +135,16 @@ This will create a folder `docs/ford-docs` within the root of the repo. Within `
 information about how Ford is set up within this repo is provided in the generated
 documentation at `Tools->Documentation->Ford`.
 
-> Note: the name of the output directory for our docs, `ford-docs`, is defined in `ford-home.md` as the value
-> for `output_dir`
+
+## Doxygen docs
+
+To generate the Doxygen documentation locally run the command
+
+```sh
+doxygen documentation/doxygen/Doxyfile
+```
+
+This will create a folder `docs/doxygen-docs` within the root of the repo. Within `docs/doxygen-docs` there will
+be an `index.html` file. Open this file in a browser to view the generated dociumentation. Further information
+about how Doxygen is set up within this repo is provided in the generated documentation at
+`Tools->documentaion->Doxygen`.

@@ -6,9 +6,9 @@ title: Ford
 @ingroup documentation
 -->
 
-FORtran Documenter ([FORD]((https://github.com/Fortran-FOSS-Programmers/ford))) is an automatic documentation generater designed for Fortran.
+FORtran Documenter ([FORD]((https://github.com/Fortran-FOSS-Programmers/ford))) is an automatic documentation generator designed for Fortran.
 
-Originally conveived due to Doxygen's historical lack of Fortran support, FORD has turned into a well established and feature-rich documentation project.
+Originally conceived due to Doxygen's historical lack of Fortran support, FORD has turned into a well established and feature-rich documentation project.
 See [the FORD repository](https://github.com/Fortran-FOSS-Programmers/ford) for a full description of the features available.
 
 TODO list some of the useful bits we're interested in here/are unique from Doxygen?
