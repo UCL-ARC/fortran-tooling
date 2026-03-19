@@ -23,7 +23,6 @@ extensions: f90
 fixed_length_limit: false
 predocmark: >
 preprocess: false
-alias: landing-page = http://github-pages.arc.ucl.ac.uk/fortran-tooling
 creation_date: %Y-%m-%d %H:%M (UTC%z)
 css: documentation/ford/css/site-wide.css
 display: public
@@ -50,5 +49,5 @@ These docs demonstrate what is possible with Ford.
 
 ### Useful links
 
-- [GitHub Pages root](|landing-page|)
-- [Doxygen generated documentation](|landing-page|/doxygen-docs/index.html)
+- [GitHub Pages root](../)
+- [Doxygen generated documentation](../doxygen-docs/html/index.html)
