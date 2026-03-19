@@ -2,7 +2,12 @@
 title: Fortitude
 ---
 
-# [Fortitude](https://fortitude.readthedocs.io/en/stable/)
+<!-- Doxygen config
+@page fortitude Fortitude
+@ingroup formatting
+-->
+
+[Fortitude](https://fortitude.readthedocs.io/en/stable/) is a Fortran linter, inspired by (and built upon) Ruff.
 
 ## Prerequisite
 

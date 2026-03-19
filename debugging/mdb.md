@@ -2,7 +2,12 @@
 title: mdb
 ---
 
-# [mdb](https://github.com/TomMelt/mdb)
+<!-- Doxygen config
+@page mdb mdb
+@ingroup debugging
+-->
+
+[mdb](https://github.com/TomMelt/mdb) is a parallel debugger developed by [Thomas Meltzer](https://github.com/TomMelt)
 
 ## Prerequisite
 

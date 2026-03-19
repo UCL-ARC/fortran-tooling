@@ -32,4 +32,4 @@ Welcome to Fortran tooling documentation
 Continue to our documentation generated with...
 
 - [Ford](./ford-docs/index.html)
-- Doxygen
+- [Doxygen](./doxygen-docs/html/index.html)

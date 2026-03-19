@@ -2,7 +2,11 @@
 title: test-drive
 ---
 
-# test-drive
+<!-- Doxygen config
+@page test-drive test-drive
+@ingroup testing
+-->
+
 This project offers a lightweight, procedural unit testing framework based on nothing but standard Fortran. Integration with [meson](https://mesonbuild.com/), [cmake](https://cmake.org/) and [Fortran package manager (fpm)](https://github.com/fortran-lang/fpm) is available. Alternatively, the testdrive.F90 source file can be redistributed in the project's testsuite as well.
 
 ## Running the tests
