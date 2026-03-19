@@ -7,4 +7,4 @@ These docs demonstrate what is possible with Doxygen.
 ### Useful links
 
 - [GitHub Pages root](../../)
-- [Ford generated documentation](../ford-docs/index.html)
+- [Ford generated documentation](../../ford-docs/index.html)
