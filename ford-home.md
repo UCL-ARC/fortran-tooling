@@ -51,4 +51,4 @@ These docs demonstrate what is possible with Ford.
 ### Useful links
 
 - [GitHub Pages root](|landing-page|)
-<!-- - [Doxygen generated documentation]() -->
+- [Doxygen generated documentation](|landing-page|/doxygen-docs/index.html)
