@@ -5,6 +5,12 @@ on:
   push:
     branches:
       - main
+  pull_request:
+    types:
+      - opened
+      - ready_for_review
+      - reopened
+      - synchronize
 
   # Run manually from the Actions tab
   workflow_dispatch:
