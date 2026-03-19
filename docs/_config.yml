@@ -9,7 +9,7 @@ color_shceme: dark
 aux_links:
   Source repository: https://github.com/UCL-ARC/fortran-tooling
   Ford documentation: ./ford-docs/index.html
-  Doxygen documentation: ./doxygen-docs/index.html
+  Doxygen documentation: ./doxygen-docs/html/index.html
 aux_links_new_tab: true
 
 logo: "assets/logo.png"
