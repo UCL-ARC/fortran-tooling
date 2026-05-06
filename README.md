@@ -58,4 +58,4 @@ doxygen documentation/doxygen/Doxyfile
 This will create a folder `docs/doxygen-docs` within the root of the repo. Within `docs/doxygen-docs` there will
 be an `index.html` file. Open this file in a browser to view the generated dociumentation. Further information
 about how Doxygen is set up within this repo is provided in the generated documentation at
-`Tools->documentaion->Doxygen`.
+`Tools->documentation->Doxygen`.

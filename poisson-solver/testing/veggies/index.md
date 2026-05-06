@@ -36,7 +36,7 @@ Compilers tested: GNU Fortran (Homebrew GCC 14.2.0_1)
 
 ## Cons
 
-- Very few contibutors.
+- Very few contributors.
 - Quite complex to get started.
 
 ## Building

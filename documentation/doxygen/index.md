@@ -22,7 +22,7 @@ For all features:
 - Qt >= 5.14
 - A `latex` distribution
 - [Graphvix](https://www.graphviz.org/) >= 2.38
-- [Ghostscipt](https://www.ghostscript.com/)
+- [Ghostscript](https://www.ghostscript.com/)
 
 ## Installation
 

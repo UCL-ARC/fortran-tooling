@@ -28,7 +28,7 @@ Create a virtual Python virtual environment
 python3 -m venv $HOME/mdb-venv
 ```
 
-Activate the virtual environement
+Activate the virtual environment
 
 ```sh
 source $HOME/mdb-venv/bin/activate
