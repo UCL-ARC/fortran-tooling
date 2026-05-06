@@ -7,8 +7,13 @@ copyright = "Copyright 2025, UCL ARC"
 
 [fortran]
 source-form = "free"
+implicit-external = true
+implicit-typing = true
 
 [[executable]]
 name = "game-of-life"
 source-dir = "src"
 main = "main.f90"
+
+[dependencies]
+mpi="*"
