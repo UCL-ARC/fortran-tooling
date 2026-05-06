@@ -1,4 +1,4 @@
-!> The game of life
+!> The key logic specific to the game of life
 module game_of_life
     ! allow(C121)
     use mpi
