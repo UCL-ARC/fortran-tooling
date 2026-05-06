@@ -1,13 +1,13 @@
 # src code
 
-There are two src codes within this repository [mesh_generator](./src/mesh_generator/) and [poisson](./src/poisson/). These are designed to work together.
+There are two src codes within this directory: [mesh_generator](./src/mesh_generator/) and [poisson](./src/poisson/). These are designed to work together.
 
 - `mesh_generator` generates a basic square 2D triangular mesh (see [mesh_generator.f90](./src/mesh_generator/mesh_generator.f90) for more details).
 - `poisson` is a solver which finds the solution of the steady-state heat conduction equation represented by the Poisson equation over a 2D triangular mesh (see [poisson.f90](./src/poisson/poisson.f90) for more details).
 
 # Building
 
-A bash [build.sh](./build.sh) script is provided for building all the source code and tests found in this repository. 
+A bash [build.sh](./build.sh) script is provided for building all the source code and tests found in this directory. 
 Optionally, the script can also install the project dependacies.  
 
 The script provides both *CMake* and *fpm* backends for building the project, which can be ran with `./build.sh --build-cmake` or `./build.sh --build-fpm` respectively.  
@@ -21,7 +21,7 @@ Instructions for installing pFUnit using the script are also provided.
 >Note: the CMake contains some [pFUnit tests](./testing/pFUnit/) which require a local version of pFUnit to be built on your device.
 It can be installed either via the provided build.sh script or by following the installation instruction in the [pFUnit repo](https://github.com/Goddard-Fortran-Ecosystem/pFUnit).
 
-To built the repository using cmake (see [CMakeLists.txt](./CMakeLists.txt)), please run the following
+To built the Poisson solver app using cmake (see [CMakeLists.txt](./CMakeLists.txt)), please run the following
 
 ```sh
 cmake -DCMAKE_PREFIX_PATH=</path/to/pfunit/installed/dir> -DBUILD_PFUNIT=ON -DBUILD_TEST_DRIVE=ON -B build-cmake 
