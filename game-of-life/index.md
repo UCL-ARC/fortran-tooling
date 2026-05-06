@@ -13,7 +13,7 @@ the starting state of the system. The system is then evolved.
 To build and run the src code use the following commands from within this dir.
 
 ```bash
-cmake -B build-cmake -DCMAKE_PREFIX_PATH=/path/to/pfunit/install
+cmake -B build-cmake
 cmake --build build-cmake
 mpirun -np <num_mpi_ranks> ./build-cmake/game-of-life ../models/model-1.dat # Or another data file
 ```
@@ -21,12 +21,28 @@ mpirun -np <num_mpi_ranks> ./build-cmake/game-of-life ../models/model-1.dat # Or
 Alternatively, this code can be built using make via the following command.
 
 ```bash
-PFUNIT_INCLUDE_DIR="/path/to/pfunit/install" make build
+PFUNIT_INCLUDE_DIR="/path/to/pfunit/install" make game_of_life
 ```
 
 ## Tests
 
-There [tests]() provided have been written using [pFUnit](link/somewhere). 
+There [tests](./test/) provided have been written using [pFUnit](link/somewhere). To compile and run these tests using CMake, use:
+
+```bash
+# We must provide the path to the directory where pFUnit is installed
+cmake -B build-cmake -DCMAKE_PREFIX_PATH=/path/to/pfunit/install
+cmake --build build-cmake
+ctest --test-dir build-cmake --output-on-failure
+```
+
+or with Make
+
+```bash
+PFUNIT_INCLUDE_DIR=/path/to/pfunit/install make tests
+mpirun -np <num_ranks> ./test/tests
+```
+
+> Note: pFUnit relies on python to generate the tests and this must be available on your path as `python` (i.e. `python3` will not work)
 
 ### Building pFUnit
 
