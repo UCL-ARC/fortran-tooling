@@ -23,7 +23,7 @@ fixed_length_limit: false
 predocmark: >
 preprocess: false
 creation_date: %Y-%m-%d %H:%M (UTC%z)
-css: documentation/ford/css/site-wide.css
+css: docs/ford/css/site-wide.css
 display: public
          protected
          private

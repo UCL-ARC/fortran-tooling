@@ -3,7 +3,7 @@ title: Ford
 ---
 <!-- Doxygen config
 @page ford Ford
-@ingroup documentation
+@ingroup documenting
 -->
 
 FORtran Documenter ([FORD]((https://github.com/Fortran-FOSS-Programmers/ford))) is an automatic documentation generator designed for Fortran.
@@ -95,7 +95,7 @@ are organised following the [instructions defined in the Ford documentation](htt
 
 Essentially, there is an `index.md` at the root of our repository which allows us to specify that
 the `page_dir` Ford should use as the root of our static page hierarchy is the root of our
-repository. We do this within the header of the `README.md`. 
+repository. We do this within the header of the `ford-home.md`. 
 
 ```yaml
 page_dir: .
@@ -119,8 +119,8 @@ file structure...
 ```
 root of repo
 |-- index.md (title: Tools)
-|-- documentation
-    |-- index.md (title: Documentation)
+|-- documenting
+    |-- index.md (title: Documenting)
 |   |-- doxygen.md (title: Doxygen)
 |   |-- ford
 |       |-- index.md (title: Ford)
@@ -133,11 +133,11 @@ root of repo
 ```
 
 would produce the following static page structure (notice src is ignored as it does not
-contain and `index.md` with a title).
+contain an `index.md` with a title).
 
 ```
 Tools
-|-- Documentation
+|-- Documenting
 |   |-- Doxygen
 |   |-- Ford
 |-- Testing

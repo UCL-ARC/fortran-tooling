@@ -4,7 +4,7 @@ title: Doxygen
 
 <!-- Doxygen config
 @page doxygen Doxygen
-@ingroup documentation
+@ingroup documenting
 -->
 
 The [Doxygen]((https://www.doxygen.nl/)) tool is a widely-used tool for automatically generating documentation from a codebase.
@@ -72,11 +72,11 @@ use of the preprocessing capabilities of Doxygen. In our `Doxyfile` We have spec
 
 ```
 ENABLE_PREPROCESSING = YES
-FILTER_PATTERNS = *.md=./documentation/doxygen/format_markdown_for_doxygen.sh
+FILTER_PATTERNS = *.md=./docs/doxygen/format_markdown_for_doxygen.sh
 ```
 
 This causes preprocessing to be run against all `*.md` files that have been discovered and not excluded by us.
-This preprocessing is defined within [format_markdown_for_doxygen.sh](./format_markdown_for_doxygen.sh) which
+This preprocessing is defined within [format_markdown_for_doxygen.sh](../../doxygen/format_markdown_for_doxygen.sh) which
 removes any Ford specific configuration. For example,
 
 ```md
@@ -90,7 +90,7 @@ and uncomments any Doxygen config blocks. For example,
 ```
 <!-- Doxygen config
 @page doxygen Doxygen
-@ingroup documentation
+@ingroup documenting
 -->
 ```
 
@@ -98,5 +98,5 @@ becomes
 
 ```md
 @page doxygen Doxygen
-@ingroup documentation
+@ingroup documenting
 ```
