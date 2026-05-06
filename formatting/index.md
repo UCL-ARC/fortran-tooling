@@ -9,9 +9,10 @@ title: Formatting
 
 # Candidate Tools
 
-| tool | description | Known issues |
-| ---- | ----------- | ------------ |
-| [Fortitude](./fortitude/) | A [Ruff](https://docs.astral.sh/ruff/) style linter for Fortran. | |
+| tool | description | homepage | Known issues |
+| ---- | ----------- | -------- | ------------ |
+| [Fortitude](./fortitude/) | A [Ruff](https://docs.astral.sh/ruff/) style linter for Fortran. | [readthedocs](https://fortitude.readthedocs.io/en/stable/) | |
+| [prek](./prek/) | Tool to automate running quality check hooks before commiting to git | [website](https://prek.j178.dev/) | |
 
 <!-- Doxygen config
 **Subpages**: @subpage fortitude
