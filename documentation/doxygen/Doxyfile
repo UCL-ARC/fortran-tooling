@@ -232,7 +232,12 @@ FILE_PATTERNS          = *.inc \
 # Note that relative paths are relative to the directory from which Doxygen is
 # run.
 
-EXCLUDE                = docs ford-home.md src/poisson
+EXCLUDE                = docs \
+                         ford-home.md \
+                         poisson-solver \
+                         poisson-solver/src/poisson \
+                         game-of-life/build \
+                         game-of-life/test
 
 # If the value of the INPUT tag contains directories, you can use the
 # EXCLUDE_PATTERNS tag to specify one or more wildcard patterns to exclude
@@ -241,9 +246,7 @@ EXCLUDE                = docs ford-home.md src/poisson
 # Note that the wildcards are matched against the file with absolute path, so to
 # exclude all test directories for example use the pattern */test/*
 
-EXCLUDE_PATTERNS = *testing/pFUnit/*.pf *testing/pFUnit/*.F90 *testing/pFUnit/*.inc \
-                   *testing/veggies/*.f90 \
-                   *testing/test-drive/*.f90 
+EXCLUDE_PATTERNS = *test/pFUnit/*.pf *test/pFUnit/*.F90 *test/pFUnit/*.inc \
 
 # The EXCLUDE_SYMLINKS tag can be used to select whether or not files or
 # directories that are symbolic links (a Unix file system feature) are excluded

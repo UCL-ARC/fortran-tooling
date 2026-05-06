@@ -1,0 +1,211 @@
+!> Module for testing the subroutine game_of_life::exchange_boundaries
+module test_exchange_boundaries
+    use comms, only : exchange_boundaries, DomainDecomposition, DOWN, LEFT, RIGHT, UP
+    ! allow(C121)
+    use pfunit
+    implicit none
+
+    public
+
+    !> Type to bundle inputs and expected outputs of game_of_life::exchange_boundaries
+    @testParameter
+    type, extends(MPITestParameter) :: exchange_boundaries_test_params
+        integer, dimension(:,:,:), allocatable :: input_board, expected_output_board
+        integer :: ncols, nrows
+        integer, dimension(:,:), allocatable :: neighbours
+    end type exchange_boundaries_test_params
+
+    !> Type to define a single exchange_boundaries test case
+    @TestCase(testParameters={getParameters()}, constructor=newTest)
+    type, extends(MPITestCase) :: exchange_boundaries_test_case
+        type(exchange_boundaries_test_params) :: params
+    end type exchange_boundaries_test_case
+
+contains
+
+    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    ! Test Suites
+    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+    !> Test suite for the game_of_life::exchange_boundaries subroutine
+    function getParameters() result(params)
+        type(exchange_boundaries_test_params), allocatable :: params(:)
+
+        integer :: max_num_ranks, num_ranks, rank, rank_index, i
+
+        integer, dimension(:,:,:), allocatable :: input_board, expected_output_board
+        integer, dimension(:,:), allocatable :: neighbours
+        integer :: ncols, nrows
+
+        max_num_ranks = 4
+        allocate(params(3))
+
+        ncols = 31
+        nrows = 31
+        allocate(input_board(nrows+2, ncols+2, max_num_ranks))
+        allocate(expected_output_board(nrows+2, ncols+2, max_num_ranks))
+        allocate(neighbours(4, max_num_ranks))
+
+        ! 2 Ranks
+        !  --------
+        ! | 111111 |
+        ! | 111111 |
+        !  --------
+        ! | 000000 |
+        ! | 000000 |
+        !  --------
+        ! Shared by all ranks
+        num_ranks                                   = 2
+        neighbours                                  = MPI_PROC_NULL
+        ! Rank 0
+        rank                                        = 0
+        rank_index                                  = rank + 1
+        input_board(:,:,rank_index)                 = rank
+        expected_output_board(:,:,rank_index)       = rank
+        neighbours(UP, rank_index)                  = 1 ! UPward halo should be received from rank 1
+        expected_output_board(nrows+2,:,rank_index) = neighbours(UP, rank_index)
+        ! Rank 1
+        rank                                        = 1
+        rank_index                                  = rank + 1
+        input_board(:,:,rank_index)                 = rank
+        expected_output_board(:,:,rank_index)       = rank
+        neighbours(DOWN, rank_index)                = 0 ! DOWNward halo should be received from rank 0
+        expected_output_board(1,:,rank_index)       = neighbours(DOWN, rank_index)
+        params(1) = exchange_boundaries_test_params(num_ranks, input_board, expected_output_board, ncols, nrows, neighbours)
+
+        ! 3 Ranks
+        !  --------
+        ! | 222222 |
+        ! | 222222 |
+        !  --------
+        ! | 111111 |
+        !  --------
+        ! | 000000 |
+        !  --------
+        ! Shared by all ranks
+        num_ranks                                   = 3
+        neighbours                                  = MPI_PROC_NULL
+        ! Rank 0
+        rank                                        = 0
+        rank_index                                  = rank + 1
+        input_board(:,:,rank_index)                 = rank
+        expected_output_board(:,:,rank_index)       = rank
+        neighbours(UP,rank_index)                   = 1 ! UPward halo should be received from rank 1
+        expected_output_board(nrows+2,:,rank_index) = neighbours(UP,rank_index)
+        ! Rank 1
+        rank                                        = 1
+        rank_index                                  = rank + 1
+        input_board(:,:,rank_index)                 = rank
+        expected_output_board(:,:,rank_index)       = rank
+        neighbours(DOWN, rank_index)                = 0 ! DOWNward halo should be received from rank 0
+        expected_output_board(1,:,rank_index)       = neighbours(DOWN, rank_index)
+        neighbours(UP, rank_index)                  = 2 ! UPward halo should be received from rank 2
+        expected_output_board(nrows+2,:,rank_index) = neighbours(UP, rank_index)
+        ! Rank 2
+        rank                                        = 2
+        rank_index                                  = rank + 1
+        input_board(:,:,rank_index)                 = rank
+        expected_output_board(:,:,rank_index)       = rank
+        neighbours(DOWN, rank_index)                = 1 ! DOWNward halo should be received from rank 1
+        expected_output_board(1,:,rank_index)       = neighbours(DOWN, rank_index)
+        params(2) = exchange_boundaries_test_params(num_ranks, input_board, expected_output_board, ncols, nrows, neighbours)
+
+        ! 4 Ranks
+        !  ----- -----
+        ! | 222 | 333 |
+        ! | 222 | 333 |
+        !  ----- -----
+        ! | 000 | 111 |
+        ! | 000 | 111 |
+        !  ----- -----
+        ! Shared by all ranks
+        num_ranks = 4
+        neighbours = MPI_PROC_NULL
+        ! Rank 0
+        rank                                        = 0
+        rank_index                                  = rank + 1
+        input_board(:,:,rank_index)                 = rank
+        expected_output_board(:,:,rank_index)       = rank
+        neighbours(UP,rank_index)                   = 2 ! UPward halo should be received from rank 2
+        expected_output_board(nrows+2,:,rank_index) = neighbours(UP,rank_index)
+        neighbours(RIGHT,rank_index)                = 1 ! RIGHT halo should be received from rank 1
+        expected_output_board(:,ncols+2,rank_index) = neighbours(RIGHT,rank_index)
+        ! Rank 1
+        rank                                        = 1
+        rank_index                                  = rank + 1
+        input_board(:,:,rank_index)                 = rank
+        expected_output_board(:,:,rank_index)       = rank
+        neighbours(LEFT, rank_index)                = 0 ! LEFT halo should be received from rank 0
+        expected_output_board(:,1,rank_index)       = neighbours(LEFT, rank_index)
+        neighbours(UP, rank_index)                  = 3 ! UPward halo should be received from rank 3
+        expected_output_board(nrows+2,:,rank_index) = neighbours(UP, rank_index)
+        ! Rank 2
+        rank                                        = 2
+        rank_index                                  = rank + 1
+        input_board(:,:,rank_index)                 = rank
+        expected_output_board(:,:,rank_index)       = rank
+        neighbours(DOWN, rank_index)                = 0 ! DOWNward halo should be received from rank 0
+        expected_output_board(1,:,rank_index)       = neighbours(DOWN, rank_index)
+        neighbours(RIGHT, rank_index)               = 3 ! RIGHT halo should be received from rank 3
+        expected_output_board(:,ncols+2,rank_index) = neighbours(RIGHT, rank_index)
+        ! Rank 3
+        rank                                        = 3
+        rank_index                                  = rank + 1
+        input_board(:,:,rank_index)                 = rank
+        expected_output_board(:,:,rank_index)       = rank
+        neighbours(DOWN, rank_index)                = 1 ! DOWNward halo should be received from rank 1
+        expected_output_board(1,:,rank_index)       = neighbours(DOWN, rank_index)
+        neighbours(LEFT, rank_index)                = 2 ! LEFT halo should be received from rank 2
+        expected_output_board(:,1,rank_index)       = neighbours(LEFT, rank_index)
+        params(3) = exchange_boundaries_test_params(num_ranks, input_board, expected_output_board, ncols, nrows, neighbours)
+
+    end function getParameters
+
+    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    ! Assertion functions
+    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+    !> Check for the expected output of the game_of_life::exchange_boundaries subroutine
+    @Test
+    subroutine TestExchangeBoundaries(this)
+        class(exchange_boundaries_test_case), intent(inout) :: this
+
+        integer, dimension(:,:), allocatable :: actual_board
+
+        integer :: rank_index
+        type(DomainDecomposition) :: domainDecomp
+
+        @assertTrue(allocated(this%params%expected_output_board))
+        rank_index = this%getProcessRank() + 1
+
+        domainDecomp%communicator = this%getMpiCommunicator()
+        domainDecomp%neighbours = this%params%neighbours(:,rank_index)
+
+
+        allocate(actual_board(size(this%params%input_board, 1), size(this%params%input_board, 2)))
+        actual_board = this%params%input_board(:,:,rank_index)
+
+        call exchange_boundaries(actual_board, this%params%nrows, this%params%ncols, domainDecomp)
+
+        @assertEqual(this%params%expected_output_board(2:this%params%nrows+1,2:this%params%ncols+1,rank_index), actual_board(2:this%params%nrows+1,2:this%params%ncols+1), "Unexpected centre of board")
+
+        ! For simplicity, do not check corners as these cannot be 100% known at this point due to timings of MPI messages
+        @assertEqual(this%params%expected_output_board(2:this%params%nrows+1,1,rank_index), actual_board(2:this%params%nrows+1,1), "Unexpected bottom halo")
+        @assertEqual(this%params%expected_output_board(2:this%params%nrows+1,this%params%ncols+2,rank_index), actual_board(2:this%params%nrows+1,this%params%ncols+2), "Unexpected top halo")
+        @assertEqual(this%params%expected_output_board(1,2:this%params%ncols+1,rank_index), actual_board(1,2:this%params%ncols+1), "Unexpected left halo")
+        @assertEqual(this%params%expected_output_board(this%params%nrows+2,2:this%params%ncols+1,rank_index), actual_board(this%params%nrows+2,2:this%params%ncols+1), "Unexpected right halo")
+
+        deallocate(actual_board)
+    end subroutine TestExchangeBoundaries
+
+    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    ! Constructors
+    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+    function newTest(testParameter) result(tst)
+        type(exchange_boundaries_test_case) :: tst
+        type(exchange_boundaries_test_params), intent(in) :: testParameter
+
+        tst%params = testParameter
+    end function newTest
+end module test_exchange_boundaries

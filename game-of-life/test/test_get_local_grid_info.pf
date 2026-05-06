@@ -1,0 +1,254 @@
+!> Module for testing the subroutine game_of_life::get_local_grid_info
+module test_get_local_grid_info
+    use comms, only : get_local_grid_info, DomainDecomposition, DOWN, LEFT, UP, RIGHT
+    ! allow(C121)
+    use pfunit
+    implicit none
+
+    public
+
+    !> Type to bundle inputs and expected outputs of game_of_life::get_local_grid_info
+    @testParameter
+    type, extends(MPITestParameter) :: get_local_grid_info_test_params
+        integer, allocatable :: ncols_per_rank(:), nrows_per_rank(:), coords(:,:), neighbours(:,:),col_start(:),row_start(:), &
+                                local_ncols(:), local_nrows(:)
+    end type get_local_grid_info_test_params
+
+    !> Type to define a single get_local_grid_info test case
+    @TestCase(testParameters={getParameters()}, constructor=newTest)
+    type, extends(MPITestCase) :: get_local_grid_info_test_case
+        type(get_local_grid_info_test_params) :: params
+        integer :: global_ncols, global_nrows
+        type(DomainDecomposition) :: domainDecomp
+    contains
+        procedure :: setUp
+    end type get_local_grid_info_test_case
+
+contains
+
+    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    ! State setup (Given)
+    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+    !> Setup the variables shared by each rank - global_ncols, the cartesian communicator and rank dimensions.
+    subroutine setUp(this)
+        class(get_local_grid_info_test_case), intent(inout) :: this
+
+        integer :: ierr
+
+        this%global_ncols = 31
+        this%global_nrows = 31
+
+        this%domainDecomp%dims = 0
+        call MPI_Dims_create(this%getNumProcesses(), 2, this%domainDecomp%dims, ierr)
+        call MPI_Cart_create( &
+            this%getMpiCommunicator(), 2, this%domainDecomp%dims, [.false.,.false.], .true., this%domainDecomp%communicator, ierr)
+    end subroutine setUp
+
+    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    ! Test Suites
+    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+    !> Test suite for the game_of_life::get_local_grid_info subroutine
+    function getParameters() result(params)
+        type(get_local_grid_info_test_params), allocatable :: params(:)
+
+        integer :: max_num_ranks, num_ranks, rank_index, i
+        integer, allocatable :: ncols_per_rank(:), nrows_per_rank(:), coords(:,:), neighbours(:,:),col_start(:),row_start(:), &
+                                local_ncols(:), local_nrows(:)
+
+        max_num_ranks = 4
+        allocate(params(4))
+
+        allocate(ncols_per_rank(max_num_ranks))
+        allocate(nrows_per_rank(max_num_ranks))
+        allocate(coords(2,max_num_ranks))
+        allocate(neighbours(4,max_num_ranks))
+        allocate(col_start(max_num_ranks))
+        allocate(row_start(max_num_ranks))
+        allocate(local_ncols(max_num_ranks))
+        allocate(local_nrows(max_num_ranks))
+
+        ! 1 Rank
+        !  ------------
+        ! |            |
+        ! |     1      |
+        ! |            |
+        !  ------------
+        num_ranks                  = 1
+        neighbours                 = MPI_PROC_NULL
+        rank_index                 = 1
+        coords(:, rank_index)      = [0,0]
+        col_start(rank_index)      = 1
+        row_start(rank_index)      = 1
+        ncols_per_rank(rank_index) = 31
+        nrows_per_rank(rank_index) = 31
+        local_ncols(rank_index)    = 31
+        local_nrows(rank_index)    = 31
+        ! End of 1 Rank
+        params(num_ranks) = get_local_grid_info_test_params( &
+            num_ranks, ncols_per_rank, nrows_per_rank, coords, neighbours, col_start, row_start, local_ncols, local_nrows &
+        )
+
+        ! 2 Ranks
+        !  ------------
+        ! |     1      |
+        !  ------------
+        ! |     0      |
+        !  ------------
+        ! Shared by all ranks
+        num_ranks                    = 2
+        neighbours                   = MPI_PROC_NULL
+        ncols_per_rank               = 31
+        nrows_per_rank               = 15
+        col_start                    = 1
+        local_ncols                  = 31
+        ! Rank 0
+        rank_index                   = 1
+        coords(:,rank_index)         = [0, 0]
+        row_start(rank_index)        = 1
+        neighbours(UP, rank_index)   = 1
+        local_nrows(rank_index)      = 15
+        ! Rank 1
+        rank_index                   = 2
+        coords(:,rank_index)         = [1, 0]
+        row_start(rank_index)        = 16
+        neighbours(DOWN, rank_index) = 0
+        local_nrows(rank_index)      = 16
+        ! End of 2 Ranks
+        params(num_ranks) = get_local_grid_info_test_params( &
+            num_ranks, ncols_per_rank, nrows_per_rank, coords, neighbours, col_start, row_start, local_ncols, local_nrows &
+        )
+
+        ! 3 Ranks
+        !  ------------
+        ! |     2      |
+        !  ------------
+        ! |     1      |
+        !  ------------
+        ! |     0      |
+        !  ------------
+        ! Shared by all ranks
+        num_ranks                    = 3
+        neighbours                   = MPI_PROC_NULL
+        nrows_per_rank               = 10
+        ncols_per_rank               = 31
+        col_start                    = 1
+        local_ncols                  = 31
+        ! Rank 0
+        rank_index                   = 1
+        coords(:,rank_index)         = [0, 0]
+        row_start(rank_index)        = 1
+        neighbours(UP, rank_index)   = 1
+        local_nrows(rank_index)      = 10
+        ! Rank 1
+        rank_index                   = 2
+        coords(:,rank_index)         = [1, 0]
+        row_start(rank_index)        = 11
+        neighbours(DOWN, rank_index) = 0
+        neighbours(UP, rank_index)   = 2
+        local_nrows(rank_index)      = 10
+        ! Rank 2
+        rank_index                   = 3
+        coords(:,rank_index)         = [2, 0]
+        row_start(rank_index)        = 21
+        neighbours(DOWN, rank_index) = 1
+        local_nrows(rank_index)      = 11
+        ! End of 3 Ranks
+        params(num_ranks) = get_local_grid_info_test_params( &
+            num_ranks, ncols_per_rank, nrows_per_rank, coords, neighbours, col_start, row_start, local_ncols, local_nrows &
+        )
+
+        ! 4 Ranks
+        !  ------ ------
+        ! |   2  |   3  |
+        !  ------ ------
+        ! |   0  |   1  |
+        !  ------ ------
+        ! Shared by all ranks
+        num_ranks                     = 4
+        neighbours                    = MPI_PROC_NULL
+        ncols_per_rank                = 15
+        nrows_per_rank                = 15
+        ! Rank 0
+        rank_index                    = 1
+        coords(:,rank_index)          = [0, 0]
+        row_start(rank_index)         = 1
+        col_start(rank_index)         = 1
+        neighbours(UP, rank_index)    = 2
+        neighbours(RIGHT, rank_index) = 1
+        local_nrows(rank_index)       = 15
+        local_ncols(rank_index)       = 15
+        ! Rank 1
+        rank_index                    = 2
+        coords(:,rank_index)          = [0, 1]
+        row_start(rank_index)         = 1
+        col_start(rank_index)         = 16
+        neighbours(LEFT, rank_index)  = 0
+        neighbours(UP, rank_index)    = 3
+        local_nrows(rank_index)       = 15
+        local_ncols(rank_index)       = 16
+        ! Rank 2
+        rank_index                    = 3
+        coords(:,rank_index)          = [1, 0]
+        row_start(rank_index)         = 16
+        col_start(rank_index)         = 1
+        neighbours(RIGHT, rank_index) = 3
+        neighbours(DOWN, rank_index)  = 0
+        local_nrows(rank_index)       = 16
+        local_ncols(rank_index)       = 15
+        ! Rank 3
+        rank_index                    = 4
+        coords(:,rank_index)          = [1, 1]
+        row_start(rank_index)         = 16
+        col_start(rank_index)         = 16
+        neighbours(LEFT, rank_index)  = 2
+        neighbours(DOWN, rank_index)  = 1
+        local_nrows(rank_index)       = 16
+        local_ncols(rank_index)       = 16
+        ! End of 4 Ranks
+        params(num_ranks) = get_local_grid_info_test_params( &
+            num_ranks, ncols_per_rank, nrows_per_rank, coords, neighbours, col_start, row_start, local_ncols, local_nrows &
+        )
+    end function getParameters
+
+    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    ! Assertion functions
+    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+    !> Check for the expected output of the game_of_life::get_local_grid_info subroutine
+    @Test
+    subroutine TestGetLocalGridInfo(this)
+        class(get_local_grid_info_test_case), intent(inout) :: this
+
+        integer :: ncols_per_rank, nrows_per_rank, coords(2),col_start,row_start, local_ncols, local_nrows, ierr
+
+        integer :: rank, rank_index
+
+        rank = this%getProcessRank()
+        rank_index = rank + 1
+
+        call get_local_grid_info(this%domainDecomp, rank, this%global_nrows, this%global_ncols, &
+            nrows_per_rank, ncols_per_rank, coords,row_start,col_start, local_nrows, local_ncols)
+
+        @assertEqual(this%params%ncols_per_rank(rank_index), ncols_per_rank, "Unexpected value for ncols_per_rank")
+        @assertEqual(this%params%nrows_per_rank(rank_index), nrows_per_rank, "Unexpected value for nrows_per_rank")
+        @assertEqual(this%params%coords(:,rank_index), coords, "Unexpected value for coords")
+        @assertEqual(this%params%neighbours(:,rank_index), this%domainDecomp%neighbours, "Unexpected value for neighbours")
+        @assertEqual(this%params%col_start(rank_index),col_start, "Unexpected value forcol_start")
+        @assertEqual(this%params%row_start(rank_index),row_start, "Unexpected value forrow_start")
+        @assertEqual(this%params%local_ncols(rank_index), local_ncols, "Unexpected value for local_ncols")
+        @assertEqual(this%params%local_nrows(rank_index), local_nrows, "Unexpected value for local_nrows")
+    end subroutine TestGetLocalGridInfo
+
+    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    ! Constructors
+    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+    function newTest(testParameter) result(tst)
+        type(get_local_grid_info_test_case) :: tst
+        type(get_local_grid_info_test_params), intent(in) :: testParameter
+
+        tst%params = testParameter
+    end function newTest
+end module test_get_local_grid_info

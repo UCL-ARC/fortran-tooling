@@ -1,0 +1,166 @@
+!> Module for testing the subroutine game_of_life::read_model_from_file
+module test_read_model_from_file
+    use io, only : read_model_from_file
+    ! allow(C121)
+    use funit
+
+    implicit none
+
+    public
+
+    !> Type to bundle inputs and expected outputs of game_of_life::read_model_from_file
+    @testParameter
+    type, extends(AbstractTestParameter) :: read_model_from_file_test_params
+        !> The input file name to be read
+        character(len=:), allocatable :: input_fname
+        !> The expected board after reading the file
+        integer, dimension(:,:), allocatable :: expected_board
+        !> The expected error message if the model is invalid
+        character(len=:), allocatable :: expected_io_error_message
+        !> Whether the model is valid or not
+        logical :: model_is_valid
+    contains
+        procedure :: toString => read_model_from_file_test_params_toString
+    end type read_model_from_file_test_params
+
+    !> Type to define a single read_model_from_file test case
+    @TestCase(testParameters={getParameters()}, constructor=newTest)
+    type, extends(ParameterizedTestCase) :: read_model_from_file_test_case
+        type(read_model_from_file_test_params) :: params
+    end type read_model_from_file_test_case
+
+contains
+
+    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    ! Test Suites
+    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+    !> Test suite for the game_of_life::read_model_from_file subroutine
+    function getParameters() result(params)
+        !> The array of test parameters
+        type(read_model_from_file_test_params), allocatable :: params(:)
+
+        integer, dimension(:,:), allocatable :: test_board
+        character(len=:), allocatable :: test_io_error_message
+
+        allocate(params(6))
+
+        allocate(test_board(31, 31))
+        test_board = 0
+
+        allocate(character(len=80) :: test_io_error_message)
+
+        params(1) = read_model_from_file_test_params( &
+            "test/models/zeros_31_31.dat", test_board, test_io_error_message, .true. &
+        )
+
+        test_io_error_message = "nrows must be a positive integer less than    100 found   1000"
+        params(2) = read_model_from_file_test_params( &
+            "test/models/empty_1000_31.dat", test_board, test_io_error_message, .false. &
+        )
+
+        test_io_error_message = "ncols must be a positive integer less than    100 found   1000"
+        params(3) = read_model_from_file_test_params( &
+            "test/models/empty_31_1000.dat", test_board, test_io_error_message, .false. &
+        )
+
+        test_io_error_message = "nrows must be a positive integer less than    100 found    -10"
+        params(4) = read_model_from_file_test_params( &
+            "test/models/empty_-10_31.dat", test_board, test_io_error_message, .false. &
+        )
+
+        test_io_error_message = "ncols must be a positive integer less than    100 found    -10"
+        params(5) = read_model_from_file_test_params( &
+            "test/models/empty_31_-10.dat", test_board, test_io_error_message, .false. &
+        )
+
+        test_io_error_message = " *** Error when opening does/not/exist.dat"
+        params(6) = read_model_from_file_test_params( &
+            "does/not/exist.dat", test_board, test_io_error_message, .false. &
+        )
+    end function getParameters
+
+    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    ! Assertion functions
+    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+    !> Check for the expected output of the game_of_life::read_model_from_file subroutine
+    @Test
+    subroutine TestCheckReadModelFromFile(this)
+        !> The current test case including inputs and expected outputs
+        class (read_model_from_file_test_case), intent(inout) :: this
+
+        integer, dimension(:,:), allocatable :: actual_board
+        character(len=:), allocatable :: actual_io_error_message
+
+        call read_model_from_file(this%params%input_fname, actual_board, actual_io_error_message)
+
+        if (this%params%model_is_valid) then
+            call VerifyCheckReadModelFromFileValidModel(this%params, actual_board, actual_io_error_message)
+        else
+            call VerifyCheckReadModelFromFileInvalidModel(this%params, actual_board, actual_io_error_message)
+        end if
+    end subroutine TestCheckReadModelFromFile
+
+    !> Check for the expected output of the game_of_life::read_model_from_file subroutine called with a valid model
+    subroutine VerifyCheckReadModelFromFileValidModel(params, actual_board, actual_io_error_message)
+        !> The test parameters for the current test case
+        class (read_model_from_file_test_params), intent(inout) :: params
+        !> The actual board returned by read_model_from_file
+        integer, dimension(:,:), allocatable, intent(in) :: actual_board
+        !> The actual error message returned by read_model_from_file
+        character(len=:), allocatable, intent(in) :: actual_io_error_message
+
+        @assertFalse(allocated(actual_io_error_message), "Expected actual_io_error_message to not be allocated")
+        @assertTrue(allocated(actual_board), "Expected actual_board to be allocated")
+        @assertEqual(params%expected_board, actual_board, "Actual and expected boards do not match")
+    end subroutine VerifyCheckReadModelFromFileValidModel
+
+    !> Check for the expected output of the game_of_life::read_model_from_file subroutine called with an invalid model
+    subroutine VerifyCheckReadModelFromFileInvalidModel(params, actual_board, actual_io_error_message)
+        !> The test parameters for the current test case
+        class (read_model_from_file_test_params), intent(inout) :: params
+        !> The actual board returned by read_model_from_file
+        integer, dimension(:,:), allocatable, intent(in) :: actual_board
+        !> The actual error message returned by read_model_from_file
+        character(len=:), allocatable, intent(in) :: actual_io_error_message
+
+        @assertTrue(allocated(actual_io_error_message), "Expected actual_io_error_message to be allocated")
+        @assertEqual(params%expected_io_error_message, actual_io_error_message, "Actual and expected error messages do not match")
+        @assertFalse(allocated(actual_board), "Expected actual_board to not be allocated")
+    end subroutine VerifyCheckReadModelFromFileInvalidModel
+
+    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    ! Constructors
+    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+    !> Constructor for read_model_from_file_test_case
+    function newTest(testParameter) result(tst)
+        !> The new test case
+        type (read_model_from_file_test_case) :: tst
+        !> The test parameters for the new test case
+        type (read_model_from_file_test_params), intent(in) :: testParameter
+
+        tst%params = testParameter
+    end function newTest
+
+    !> Converts read_model_from_file_test_params to a string for logging
+    function read_model_from_file_test_params_toString(this) result(string)
+        !> The test parameters to convert
+        class (read_model_from_file_test_params), intent(in) :: this
+        !> The resulting string representation
+        character(:), allocatable :: string
+
+        character(len=80) :: buffer
+
+        if (this%model_is_valid) then
+            write(buffer,'("Valid model",a)') &
+                this%input_fname
+        else
+            write(buffer,'("Invalid model",a)') &
+                this%input_fname
+        end if
+        string = trim(buffer)
+
+    end function read_model_from_file_test_params_toString
+end module test_read_model_from_file
