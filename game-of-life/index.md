@@ -10,7 +10,9 @@ Take a look at the [src](./game-of-life/src/) code provided. This is an MPI para
 [Conway's game of life](http://en.wikipedia.org/wiki/Conway%27s_Game_of_Life). The program reads in a data file which represents
 the starting state of the system. The system is then evolved.
 
-To build and run the src code use the following commands from within this dir.
+To build and run the src code you can use one of the following commands from within this dir.
+
+#### CMake 
 
 ```bash
 cmake -B build-cmake
@@ -18,10 +20,16 @@ cmake --build build-cmake
 mpirun -np <num_mpi_ranks> ./build-cmake/game-of-life ../models/model-1.dat # Or another data file
 ```
 
-Alternatively, this code can be built using make via the following command.
+#### Make
 
 ```bash
-PFUNIT_INCLUDE_DIR="/path/to/pfunit/install" make game_of_life
+make game_of_life
+```
+
+#### FPM
+
+```bash
+fpm build
 ```
 
 ## Tests
@@ -35,12 +43,14 @@ cmake --build build-cmake
 ctest --test-dir build-cmake --output-on-failure
 ```
 
-or with Make
+or with Make:
 
 ```bash
 PFUNIT_INCLUDE_DIR=/path/to/pfunit/install make tests
 mpirun -np <num_ranks> ./test/tests
 ```
+
+fpm does not currently support pFUnit thus we cannot build the tests using fpm.
 
 > Note: pFUnit relies on python to generate the tests and this must be available on your path as `python` (i.e. `python3` will not work)
 
