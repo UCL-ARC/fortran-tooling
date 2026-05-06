@@ -55,7 +55,7 @@ if (PFUNIT_FOUND)
 
   # find_steady_state tests
   add_pfunit_ctest (pfunit_find_steady_state_tests
-    TEST_SOURCES "${PROJECT_SOURCE_DIR}/test/test_find_steady_state.pf"
+    TEST_SOURCES "${PROJECT_SOURCE_DIR}/test/test_find_steady_state.pf" "${PROJECT_SOURCE_DIR}/test/test_read_model_from_file.pf"
     LINK_LIBRARIES sut # your application library
     MAX_PES 8
     )

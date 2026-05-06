@@ -49,7 +49,7 @@ for example, we do the following.
 
 ```f90
 !> Module for doing something cool
-!> 
+!>
 !> It does this cool thing by being good
 module cool_mod
     !...
@@ -61,7 +61,7 @@ arguments. For example,
 
 ```f90
 !> Program for doing something cool
-!> 
+!>
 !> It does this cool thing by being good
 program cool_prog
     use cool_mod
@@ -95,7 +95,7 @@ are organised following the [instructions defined in the Ford documentation](htt
 
 Essentially, there is an `index.md` at the root of our repository which allows us to specify that
 the `page_dir` Ford should use as the root of our static page hierarchy is the root of our
-repository. We do this within the header of the `README.md`. 
+repository. We do this within the header of the `README.md`.
 
 ```yaml
 page_dir: .
@@ -129,7 +129,7 @@ root of repo
 |   |-- pfunit
 |       |-- index.md (title: pFUnit)
 |-- src
-    |-- README.md 
+    |-- README.md
 ```
 
 would produce the following static page structure (notice src is ignored as it does not

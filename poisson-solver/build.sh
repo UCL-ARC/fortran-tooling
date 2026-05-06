@@ -111,9 +111,9 @@ while [ $# -gt 0 ] ; do
             shift 2
             continue
             ;;
-        *) 
-            echo "Invalid option: $1" >&2; 
-            help 
+        *)
+            echo "Invalid option: $1" >&2;
+            help
             exit 1
             ;;
     esac
@@ -152,7 +152,7 @@ then
     then
         echo "Building pFUnit requested but no root dir for pFUnit provided. Please provide a path using --pfunit-dir."
         exit 0
-    else    
+    else
         if [ -d "$pfunit_src_path" ]
         then
             pushd $pfunit_src_path > /dev/null
@@ -162,7 +162,7 @@ then
                 exit 1
             fi
             current_pfunit_version=$(git describe --exact-match --tags)
-            
+
             if [ "$current_pfunit_version" != "$pfunit_version" ]
             then
                 echo "pFUnit version $current_pfunit_version found but $pfunit_version was requested. Please switch versions or remove the existing clone."

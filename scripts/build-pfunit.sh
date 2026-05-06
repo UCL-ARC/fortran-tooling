@@ -2,11 +2,13 @@
 
 set -e
 
-PFUNIT_REMOTE_URL="https://github.com/Goddard-Fortran-Ecosystem/pFUnit.git"
+# PFUNIT_REMOTE_URL="https://github.com/Goddard-Fortran-Ecosystem/pFUnit.git"
+PFUNIT_REMOTE_URL="https://github.com/qiUip/pFUnit.git"
 PFUNIT_INSTALLED_PATH="" # Path to pFUnit/installed directory
 
 DEFAULT_PFUNIT_SRC_PATH="$(pwd)/pFUnit"
-DEFAULT_PFUNIT_VERSION="v4.12.0"
+# DEFAULT_PFUNIT_VERSION="v4.12.0"
+DEFAULT_PFUNIT_VERSION="restructured-xml"
 
 clean=false
 build=false

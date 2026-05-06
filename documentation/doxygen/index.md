@@ -8,7 +8,6 @@ title: Doxygen
 -->
 
 The [Doxygen]((https://www.doxygen.nl/)) tool is a widely-used tool for automatically generating documentation from a codebase.
-It 
 
 ## Prerequisites
 
@@ -19,6 +18,7 @@ Min reqs:
 - cmake >= 3.14
 
 For all features:
+
 - Qt >= 5.14
 - A `latex` distribution
 - [Graphvix](https://www.graphviz.org/) >= 2.38
@@ -53,11 +53,11 @@ An example subroutine would look like:
 !! @param nodal_value_of_f Nodal value of f
 !! @param file_io          Output file
 subroutine write_output_file(num_nodes,num_elements,element_to_node,coordinates,nodal_value_of_f,file_io)
-	implicit none
-	
-	integer, intent(in) :: num_nodes,num_elements,element_to_node(3,mxp),file_io
-	real, intent(in)    :: nodal_value_of_f(mxp), coordinates(2, mxp)
-	!...
+ implicit none
+
+ integer, intent(in) :: num_nodes,num_elements,element_to_node(3,mxp),file_io
+ real, intent(in)    :: nodal_value_of_f(mxp), coordinates(2, mxp)
+ !...
 end subroutine
 ```
 

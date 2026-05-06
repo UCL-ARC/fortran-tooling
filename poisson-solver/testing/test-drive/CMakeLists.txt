@@ -42,7 +42,7 @@ set(
   "main.f90"
 )
 foreach(t IN LISTS tests)
-  string(MAKE_C_IDENTIFIER ${t} t) 
+  string(MAKE_C_IDENTIFIER ${t} t)
   list(APPEND test-srcs "${PROJ_TEST_DRIVE_DIR}/test_${t}.f90")
 endforeach()
 

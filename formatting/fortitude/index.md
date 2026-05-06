@@ -15,7 +15,7 @@ A tool for installing, i.e. `pip` or `homebrew`
 
 ## Installation
 
-To install fortitude we can utilise the provided `requirements.txt` by following [the pre-commit install instructions](../../README.md#pre-commit).
+To install fortitude we can utilise the provided `requirements.txt` by following [the pre-commit install instructions](../../README.html#pre-commit).
 The [quickstart page](https://fortitude.readthedocs.io/en/stable/#quickstart) for Fortitude details multiple other ways of installing the tool.
 
 ## Usage in this repo
@@ -26,18 +26,16 @@ This repo has been formatted with Fortitude. To check this repo with Fortitude, 
 fortitude --config-file formatting/fortitude/fortitude.toml check
 ```
 
-The config file, [fortitude.toml](./fortitude.toml), we have provided in the above command contains our rules which alter the 
-[default fortitude rules](https://fortitude.readthedocs.io/en/stable/rules/). 
-
-
+The config file, [fortitude.toml](./fortitude.toml), we have provided in the above command contains our rules which alter the
+[default fortitude rules](https://fortitude.readthedocs.io/en/stable/rules/).
 
 ### pre-commit
 
-We have also integrated Fortitude with pre-commit. To set this up, follow the [instructions on the main README.md](../../README.md#pre-commit).
+We have also integrated Fortitude with pre-commit. To set this up, follow the [instructions on the developer docs](../../README.html#pre-commit).
 Once this is set up, if you then try and commit a poorly formatted Fortran file...
 
 ```sh
-$ git commit -m "Adding a bad commit"       
+$ git commit -m "Adding a bad commit"
 Fortran Tooling hooks....................................................Failed
 - hook id: fortran-tooling-hooks
 - exit code: 1
@@ -62,4 +60,4 @@ For more information about specific rules, run:
 Fortitude has helpfully alerted us to our mistake. In the above case, we have tried to use a module without specifying which bits of
 the module we require via an `only` clause. If we disagree with a rule we can investigate further by searching the rule ID, here the
 rule ID is `C121` which has the description `'use' statement missing 'only' clause` and further info can be found on the
-[Fortitude website](https://fortitude.readthedocs.io/en/stable/rules/use-all/)  
+[Fortitude website](https://fortitude.readthedocs.io/en/stable/rules/use-all/)

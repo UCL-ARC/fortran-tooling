@@ -33,16 +33,17 @@ Compilers tested: GNU Fortran (Homebrew GCC 14.2.0_1)
 | Supports testing MPI parallel code | Yes | N/A |
 | Supports testing OpenMP parallel code | No | No |
 
-
 ## Pros
 
 - Supports testing MPI parallel code
 
 ## Cons
+
 - pFUnit must be built locally before it can be used within this project
 - Due to the heavy use of F2003 object oriented features and a smattering of F2008 features, only relatively recent Fortran compilers are able to correctly build pFUnit.
 - Several unfinished features still present in the repo such as mocking.
 
 ## Resources
-- Repository: https://github.com/Goddard-Fortran-Ecosystem/pFUnit
+
+- Repository: <https://github.com/Goddard-Fortran-Ecosystem/pFUnit>
 - Webinar: [Testing Fortran Software with pFUnit](https://ideas-productivity.org/events/hpcbp-028-pfunit)

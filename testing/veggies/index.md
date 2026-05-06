@@ -7,7 +7,6 @@ title: Veggies
 @ingroup testing
 -->
 
-
 [Veggies](https://gitlab.com/everythingfunctional/veggies) is a unit testing framework for testing Fortran codes.
 It has a sister project called [Garden](https://gitlab.com/everythingfunctional/garden) which acts as the same
 testing framework but for codes which use coarray. *"The hope is that at some point in the future all compilers
@@ -35,7 +34,7 @@ Compilers tested: GNU Fortran (Homebrew GCC 14.2.0_1)
 - Main developer is very responsive and open to contibutions.
 - Integrates very well with fpm.
 
-## Cons 
+## Cons
 
 - Very few contibutors.
 - Quite complex to get started.
@@ -45,4 +44,5 @@ Compilers tested: GNU Fortran (Homebrew GCC 14.2.0_1)
 with `fpm` it is a simple as `fpm build` and then `fpm test`
 
 ## Resources
-- Repository: https://gitlab.com/everythingfunctional/veggies
+
+- Repository: <https://gitlab.com/everythingfunctional/veggies>

@@ -12,7 +12,7 @@ the starting state of the system. The system is then evolved.
 
 To build and run the src code you can use one of the following commands from within this dir.
 
-#### CMake 
+#### CMake
 
 ```bash
 cmake -B build-cmake

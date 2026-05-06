@@ -6,7 +6,6 @@ title: Developer Docs
 @page developer-docs Developer Docs
 -->
 
-
 This repository aims to improve Fortran best practices within UCL and the wider Fortran community by documenting a growing list of Fortran tools recommended by [UCL ARC](https://ucl.ac.uk/arc).
 
 ## src code
@@ -25,7 +24,7 @@ To utilise pre-commit, it must be installed locally. This can be done in several
 python3 -m venv .venv
 source .venv/bin/activate
 python -m pip install -r requirements.txt
-``` 
+```
 
 Then, from the root of the repo, you start using pre-commit by running
 
@@ -37,17 +36,16 @@ pre-commit install
 
 ### Ford docs
 
-To generate the Ford documentation locally run the command 
+To generate the Ford documentation locally run the command
 
 ```sh
-ford ford-home.md 
+ford ford-home.md
 ```
 
 This will create a folder `docs/ford-docs` within the root of the repo. Within `docs/ford-docs` there will be an
 `index.html` file. Open this file in a browser to view the generated documentation. Further
 information about how Ford is set up within this repo is provided in the generated
 documentation at `Tools->Documentation->Ford`.
-
 
 ### Doxygen docs
 
