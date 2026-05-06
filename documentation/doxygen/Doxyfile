@@ -413,3 +413,8 @@ GENERATE_LATEX         = NO
 # The default value is: YES.
 
 ENABLE_PREPROCESSING = YES
+
+# Settings required to get a navbar and sidebar to render
+DISABLE_INDEX = YES
+GENERATE_TREEVIEW = YES
+FULL_SIDEBAR = NO
