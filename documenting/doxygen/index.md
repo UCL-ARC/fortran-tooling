@@ -76,7 +76,7 @@ FILTER_PATTERNS = *.md=./docs/doxygen/format_markdown_for_doxygen.sh
 ```
 
 This causes preprocessing to be run against all `*.md` files that have been discovered and not excluded by us.
-This preprocessing is defined within [format_markdown_for_doxygen.sh](../../doxygen/format_markdown_for_doxygen.sh) which
+This preprocessing is defined within [format_markdown_for_doxygen.sh](https://github.com/UCL-ARC/fortran-tooling/tree/main/docs/doxygen/format_markdown_for_doxygen.sh) which
 removes any Ford specific configuration. For example,
 
 ```md
