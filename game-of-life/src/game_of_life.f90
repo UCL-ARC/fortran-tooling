@@ -1,3 +1,4 @@
+!> The game of life
 module game_of_life
     ! allow(C121)
     use mpi
