@@ -14,10 +14,9 @@ github: https://github.com/UCL-ARC
 linkedin: https://www.linkedin.com/company/ucl-advanced-research-computing-centre/
 website: https://www.ucl.ac.uk/advanced-research-computing/
 exclude_dir: docs
-             testing
 media_dir: docs/assets
 page_dir: .
-src_dir: src
+src_dir: game-of-life/src
 extensions: f90
             pf
 fixed_length_limit: false

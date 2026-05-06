@@ -1,0 +1,19 @@
+name = "Fortran-tooling"
+version = "0.1.0"
+license = "MIT"
+author = "Connor Aird, Mashy Green, Duncan Leggat, Ilektra Christidi, Tuomas Koskela"
+maintainer = "c.aird@ucl.ac.uk"
+copyright = "Copyright 2025, UCL ARC"
+
+[fortran]
+source-form = "free"
+implicit-external = true
+implicit-typing = true
+
+[[executable]]
+name = "game-of-life"
+source-dir = "src"
+main = "main.f90"
+
+[dependencies]
+mpi="*"
