@@ -50,7 +50,7 @@ PFUNIT_INCLUDE_DIR=/path/to/pfunit/install make tests
 mpirun -np <num_ranks> ./test/tests
 ```
 
-fpm does nto currently support pFUnit thus we cannot build the tests using fpm.
+fpm does not currently support pFUnit thus we cannot build the tests using fpm.
 
 > Note: pFUnit relies on python to generate the tests and this must be available on your path as `python` (i.e. `python3` will not work)
 
