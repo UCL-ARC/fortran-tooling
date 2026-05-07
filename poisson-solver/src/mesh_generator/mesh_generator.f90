@@ -1,6 +1,6 @@
-!> This module generates a basic square 2D traingular mesh. The
+!> This module generates a basic square 2D triangular mesh. The
 !! geometry of this mesh is kept simple by placing nodes in a
-!! regular pattern, as demonstrated below (note the arrangment
+!! regular pattern, as demonstrated below (note the arrangement
 !! of the node and element IDs).
 !!
 !! ```
@@ -140,7 +140,7 @@ contains
         file_name = "square_mesh"
         file_io = 100
 
-        ! Write outpout
+        ! Write output
         open (unit=file_io, &
         file=file_name,     &
         status="replace",   &

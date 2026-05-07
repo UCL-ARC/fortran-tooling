@@ -1,22 +1,26 @@
 # src code
 
-There are two src codes within this directory: [mesh_generator](./src/mesh_generator/) and [poisson](./src/poisson/). These are designed to work together.
+There are two src codes within this directory: [mesh_generator](./src/mesh_generator/) and [poisson](./src/poisson/). These are
+designed to work together.
 
-- `mesh_generator` generates a basic square 2D triangular mesh (see [mesh_generator.f90](./src/mesh_generator/mesh_generator.f90) for more details).
-- `poisson` is a solver which finds the solution of the steady-state heat conduction equation represented by the Poisson equation over a 2D triangular mesh (see [poisson.f90](./src/poisson/poisson.f90) for more details).
+- `mesh_generator` generates a basic square 2D triangular mesh (see [mesh_generator.f90](./src/mesh_generator/mesh_generator.f90)
+  for more details).
+- `poisson` is a solver which finds the solution of the steady-state heat conduction equation represented by the Poisson equation
+  over a 2D triangular mesh (see [poisson.f90](./src/poisson/poisson.f90) for more details).
 
-# Building
+## Building the src
 
-A bash [build.sh](./build.sh) script is provided for building all the source code and tests found in this directory. 
-Optionally, the script can also install the project dependacies.  
+A bash [build.sh](./build.sh) script is provided for building all the source code and tests found in this directory.
+Optionally, the script can also install the project dependacies.
 
-The script provides both *CMake* and *fpm* backends for building the project, which can be ran with `./build.sh --build-cmake` or `./build.sh --build-fpm` respectively.  
-Note that using the CMake backend requires a local installation of pFUnit (see more info in the CMake installation instructions).  
+The script provides both *CMake* and *fpm* backends for building the project, which can be ran with `./build.sh --build-cmake` or
+`./build.sh --build-fpm` respectively. Note that using the CMake backend requires a local installation of pFUnit (see more info in
+the CMake installation instructions).
 
 Alternatively, instructions for building the project without the script are provided below.
 Instructions for installing pFUnit using the script are also provided.
 
-## CMake
+### CMake
 
 >Note: the CMake contains some [pFUnit tests](./testing/pFUnit/) which require a local version of pFUnit to be built on your device.
 It can be installed either via the provided build.sh script or by following the installation instruction in the [pFUnit repo](https://github.com/Goddard-Fortran-Ecosystem/pFUnit).
@@ -24,8 +28,9 @@ It can be installed either via the provided build.sh script or by following the 
 To built the Poisson solver app using cmake (see [CMakeLists.txt](./CMakeLists.txt)), please run the following
 
 ```sh
-cmake -DCMAKE_PREFIX_PATH=</path/to/pfunit/installed/dir> -DBUILD_PFUNIT=ON -DBUILD_TEST_DRIVE=ON -B build-cmake 
-``` 
+cmake -DCMAKE_PREFIX_PATH=</path/to/pfunit/installed/dir> -DBUILD_PFUNIT=ON -DBUILD_TEST_DRIVE=ON -B build-cmake
+```
+
 This will create a [build](./build-cmake) directory and setup the build environment. To compile the code please run
 
 ```sh
@@ -34,7 +39,7 @@ cmake --build build-cmake
 
 This will produce executables for the two src codes, `fortran-tooling-mesh-generator` and `fortran-tooling-poisson`.
 
-## FPM
+### FPM
 
 To build the project using FPM, from the root of the repo, run
 
@@ -44,16 +49,18 @@ fpm build
 
 ## Building pFUnit
 
-The [build.sh](./build.sh) scripts provides a wrapper for simplifying the installation of pFUint.  To run the installer, execute
+The [build.sh](./build.sh) scripts provides a wrapper for simplifying the installation of pFUint. To run the installer, execute
 
 ```sh
 ./build -p --build-pfunit --pfunit-dir=<PATH_TO_PFUINT>
 ```
-where `<PATH_TO_PFUNIT>` is the **absolute** path to the local where pFUnit will be installed. Optionally, adding the flag `--test-pfunit` will test the pFUnit installation. 
 
-# Running the src
+where `<PATH_TO_PFUNIT>` is the **absolute** path to the local where pFUnit will be installed. Optionally, adding the flag
+`--test-pfunit` will test the pFUnit installation.
 
-## Mesh generator
+## Running the src
+
+### Mesh generator
 
 If you have built using CMake, you can run the mesh generator by directly calling the executable
 
@@ -62,22 +69,26 @@ If you have built using CMake, you can run the mesh generator by directly callin
 ```
 
 If you have built using FPM, you can also run the mesh generator via FPM
+
 ```sh
 fpm run mesh_generator -- <box_size> <edge_size>
 ```
 
-## Poisson solver
+### Poisson solver
+
 If you have built using CMake, you can also run the poisson solver by directly calling the executable
+
 ```sh
 ./build/fortran-tooling-poisson <path_to_mesh_file>
 ```
 
 If you have built using FPM, you can also run the mesh generator via FPM
+
 ```sh
 fpm run poisson -- <path_to_mesh_file>
 ```
 
-# Running the tests
+## Running the tests
 
 If you have built using CMake, you can run the tests by running the following from within the `build-cmake` directory.
 

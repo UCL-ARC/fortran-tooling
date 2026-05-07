@@ -15,19 +15,19 @@ module test_drive_mesh_generator
         real(kind=real64)   :: edge_size
         integer(kind=int64) :: box_size
     end type calculate_mesh_parameters_inputs
-    type :: calculate_mesh_parameters_expected_ouputs
+    type :: calculate_mesh_parameters_expected_outputs
         integer(kind=int64) :: num_edges_per_boundary, num_nodes, num_boundary_nodes, num_elements
-    end type calculate_mesh_parameters_expected_ouputs
+    end type calculate_mesh_parameters_expected_outputs
 
     !> test_calculate_mesh inputs and outputs
     type :: calculate_mesh_inputs
         integer(kind=int64) :: num_edges_per_boundary, num_nodes, num_elements, num_boundary_nodes
     end type calculate_mesh_inputs
-    type :: calculate_mesh_expected_ouputs
+    type :: calculate_mesh_expected_outputs
         integer(kind=int64), dimension(:, :), allocatable :: elements
         integer(kind=int64), dimension(:, :), allocatable :: boundary_edges
         real(kind=real64), dimension(:, :), allocatable :: nodes
-    end type calculate_mesh_expected_ouputs
+    end type calculate_mesh_expected_outputs
 contains
     !> Collect all test in this module into a single test suite
     !!
@@ -53,7 +53,7 @@ contains
         implicit none
         type(error_type), allocatable, intent(out) :: error
         type(calculate_mesh_parameters_inputs), intent(in) :: inputs
-        type(calculate_mesh_parameters_expected_ouputs), intent(in) :: expected_outputs
+        type(calculate_mesh_parameters_expected_outputs), intent(in) :: expected_outputs
 
         integer(kind=int64) :: actual_num_edges_per_boundary, actual_num_nodes,  &
                    actual_num_boundary_nodes, actual_num_elements
@@ -77,7 +77,7 @@ contains
         implicit none
         type(error_type), allocatable, intent(out) :: error
         type(calculate_mesh_parameters_inputs) :: inputs
-        type(calculate_mesh_parameters_expected_ouputs) :: expected_outputs
+        type(calculate_mesh_parameters_expected_outputs) :: expected_outputs
         ! Setup inputs
         inputs%box_size = 5
         inputs%edge_size = 1.0
@@ -96,7 +96,7 @@ contains
         implicit none
         type(error_type), allocatable, intent(out) :: error
         type(calculate_mesh_parameters_inputs) :: inputs
-        type(calculate_mesh_parameters_expected_ouputs) :: expected_outputs
+        type(calculate_mesh_parameters_expected_outputs) :: expected_outputs
         ! Setup inputs
         inputs%box_size = 10
         inputs%edge_size = 0.5
@@ -121,7 +121,7 @@ contains
         implicit none
         type(error_type), allocatable, intent(out) :: error
         type(calculate_mesh_inputs), intent(in) :: inputs
-        type(calculate_mesh_expected_ouputs), intent(in) :: expected_outputs
+        type(calculate_mesh_expected_outputs), intent(in) :: expected_outputs
 
         integer(kind=int64), dimension(3, inputs%num_elements) :: actual_elements
         integer(kind=int64), dimension(3, inputs%num_boundary_nodes) :: actual_boundary_edges
@@ -170,7 +170,7 @@ contains
         implicit none
         type(error_type), allocatable, intent(out) :: error
         type(calculate_mesh_inputs) :: inputs
-        type(calculate_mesh_expected_ouputs) :: expected_outputs
+        type(calculate_mesh_expected_outputs) :: expected_outputs
         ! Setup inputs
         inputs%num_boundary_nodes = 8
         inputs%num_edges_per_boundary = 2

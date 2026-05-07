@@ -3,7 +3,7 @@ module test_calculate_mesh_parameters
    use funit
    use mesh_generator
    implicit none
- 
+
    ! test data types
    @testParameter
    type, extends(AbstractTestParameter) :: Test_CalculateMeshParameterCase_params
@@ -16,7 +16,7 @@ module test_calculate_mesh_parameters
    contains
       procedure :: toString => CalculateMeshParameterCase_toString
    end type Test_CalculateMeshParameterCase_params
- 
+
    @TestCase(testParameters={getParameters()}, constructor=newTest)
    type, extends(ParameterizedTestCase) :: Test_CalculateMeshParameters_case
       real(kind=real64) :: edgeSize
@@ -27,9 +27,9 @@ module test_calculate_mesh_parameters
          expectedNumElements
    end type Test_CalculateMeshParameters_case
    !-------------------
- 
+
 contains
- 
+
    ! Constructors
    function newTest(testParameter) result(tst)
       type (Test_CalculateMeshParameters_case) :: tst
@@ -69,7 +69,7 @@ contains
    ! Define test parameter sets
    function getParameters() result(params)
       type (Test_CalculateMeshParameterCase_params), allocatable :: params(:)
- 
+
       params = [ &
          & Test_CalculateMeshParameterCase_params(1.0_real64, 10_int64, 10_int64, 121_int64, 40_int64, 200_int64), &
          & Test_CalculateMeshParameterCase_params(0.2_real64, 5_int64, 25_int64, 676_int64, 100_int64, 1250_int64), &
@@ -78,7 +78,7 @@ contains
 
    end function getParameters
    !-------------------
- 
+
    ! Actual tests
    @Test
    subroutine testCalculateMeshParameters(this)
@@ -99,5 +99,5 @@ contains
 
    end subroutine testCalculateMeshParameters
    !-------------------
- 
+
 end module test_calculate_mesh_parameters
