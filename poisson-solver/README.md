@@ -49,7 +49,7 @@ fpm build
 
 ## Building pFUnit
 
-The [build.sh](./build.sh) scripts provides a wrapper for simplifying the installation of pFUint.  To run the installer, execute
+The [build.sh](./build.sh) scripts provides a wrapper for simplifying the installation of pFUint. To run the installer, execute
 
 ```sh
 ./build -p --build-pfunit --pfunit-dir=<PATH_TO_PFUINT>

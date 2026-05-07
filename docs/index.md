@@ -29,7 +29,7 @@ Welcome to Fortran tooling documentation
 
 ## Auto generated docs
 
-Continue to our documentation generated with...
+Continue to our documentation generated with:
 
 - [Ford](./ford-docs/index.html)
 - [Doxygen](./doxygen-docs/html/index.html)

@@ -20,7 +20,7 @@ of how to use our recommended Fortran tools.
 early as possible. pre-commit works by running a provided set of checks every time a `git commit` is attempted.
 
 To utilise pre-commit, it must be installed locally. This can be done in several ways but the easiest is to use the provided
-`requirements.txt` via...
+`requirements.txt` via:
 
 ```sh
 python3 -m venv .venv

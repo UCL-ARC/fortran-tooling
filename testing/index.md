@@ -66,10 +66,10 @@ depending on external services).
 
 #### Stubbing
 
-Stubbing is very similar to mocking. The concept of stubbing is to have well-defined responses to procedure calls within a test
-which do not require calls to actual src code. For example, if we are want to test `functionB` which relies on some data which is
-usually returned from `functionA` which is compute intensive, we can essentially hard-code the response from `functionA` to speed
-up the test.
+Stubbing is similar to mocking. The concept of stubbing is to have well-defined responses to procedure calls within a test which
+do not require calls to actual src code. For example, if we are want to test `functionB` which relies on some data which is usually
+returned from `functionA` which is compute intensive, we can essentially hard-code the response from `functionA` to speed up the
+test.
 
 ```f90
 call stubbedFunctionA(data)    ! retrieve the hard coded data values from a stub

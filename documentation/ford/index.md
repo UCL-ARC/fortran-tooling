@@ -13,8 +13,6 @@ Originally conceived due to Doxygen's historical lack of Fortran support, FORD h
 documentation project. See [the FORD repository](https://github.com/Fortran-FOSS-Programmers/ford) for a full description of the
 features available.
 
-TODO list some of the useful bits we're interested in here/are unique from Doxygen?
-
 ## Installation
 
 Installation (and automatic handling of dependencies) can be done through pip:
@@ -116,7 +114,7 @@ If one is found, this will be added as a static page. We can add further subpage
 `.md` files within the same dir as the `index.md` discovered by Ford and again adding a
 similar header containing a title. We can also add subpages by including additional `index.md`
 files within further subdirectories and again the process repeats. For example, the following
-file structure...
+file structure:
 
 ```txt
 root of repo

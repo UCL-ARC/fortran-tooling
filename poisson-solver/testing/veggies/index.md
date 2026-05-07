@@ -30,13 +30,13 @@ Compilers tested: GNU Fortran (Homebrew GCC 14.2.0_1)
 
 ## Pros
 
-- Very clear test output with easy to read test descriptions and clear failures.
-- Main developer is very responsive and open to contibutions.
-- Integrates very well with fpm.
+- Clear test output with easy to read test descriptions and clear failures.
+- Main developer is responsive and open to contibutions.
+- Integrates well with fpm.
 
 ## Cons
 
-- Very few contributors.
+- Only one key contributor.
 - Quite complex to get started.
 
 ## Building
