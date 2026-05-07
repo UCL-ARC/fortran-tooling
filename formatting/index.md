@@ -7,7 +7,7 @@ title: Formatting
 @ingroup formatting
 -->
 
-# Candidate Tools
+## Candidate Tools
 
 | tool | description | homepage | Known issues |
 | ---- | ----------- | -------- | ------------ |

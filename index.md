@@ -6,9 +6,10 @@ title: Tools
 @page tools Tools
 -->
 
-Within these pages you will find a curated list of Fortran tools recommended by [UCL ARC](https://www.ucl.ac.uk/advanced-research-computing/).
+Within these pages you will find a curated list of Fortran tools recommended by
+[UCL ARC](https://www.ucl.ac.uk/advanced-research-computing/).
 
-# ARC Fortran projects
+## ARC Fortran projects
 
 Our expertise with these tools has been developed through collaborations with researchers on projects utilising
 Fortran, as listed below.

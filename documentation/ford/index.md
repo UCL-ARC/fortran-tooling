@@ -6,11 +6,12 @@ title: Ford
 @ingroup documentation
 -->
 
+FORtran Documenter ([FORD]((https://github.com/Fortran-FOSS-Programmers/ford))) is an automatic documentation generator designed
+for Fortran.
 
-FORtran Documenter ([FORD]((https://github.com/Fortran-FOSS-Programmers/ford))) is an automatic documentation generator designed for Fortran.
-
-Originally conceived due to Doxygen's historical lack of Fortran support, FORD has turned into a well established and feature-rich documentation project.
-See [the FORD repository](https://github.com/Fortran-FOSS-Programmers/ford) for a full description of the features available.
+Originally conceived due to Doxygen's historical lack of Fortran support, FORD has turned into a well established and feature-rich
+documentation project. See [the FORD repository](https://github.com/Fortran-FOSS-Programmers/ford) for a full description of the
+features available.
 
 TODO list some of the useful bits we're interested in here/are unique from Doxygen?
 
@@ -105,7 +106,7 @@ page_dir: .
 With this information, Ford will then search all subdirectories for an `index.md` with a
 header containing a title like so.
 
-```
+```md
 ---
 title: Tools
 ---
@@ -117,7 +118,7 @@ similar header containing a title. We can also add subpages by including additio
 files within further subdirectories and again the process repeats. For example, the following
 file structure...
 
-```
+```txt
 root of repo
 |-- index.md (title: Tools)
 |-- documentation
@@ -136,7 +137,7 @@ root of repo
 would produce the following static page structure (notice src is ignored as it does not
 contain and `index.md` with a title).
 
-```
+```txt
 Tools
 |-- Documentation
 |   |-- Doxygen

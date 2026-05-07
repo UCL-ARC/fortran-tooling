@@ -28,17 +28,20 @@ For all features:
 
 Installation is done from source via the Doxygen [download page](https://www.doxygen.nl/download.html).
 
-Download the latest version for your operating system from that page, and follow the extensive [installation instructions](https://www.doxygen.nl/manual/install.html) provided by Doxygen.
+Download the latest version for your operating system from that page, and follow the extensive
+[installation instructions](https://www.doxygen.nl/manual/install.html) provided by Doxygen.
 
 > Note: Mac users can install vie Homebrew with `brew install doxygen`
 
 ## Use
 
-The [User Manual](https://www.doxygen.nl/manual/index.html) is well documented and explains how the documentation keywords are read from docstring blocks.
+The [User Manual](https://www.doxygen.nl/manual/index.html) is well documented and explains how the documentation keywords are read
+from docstring blocks.
 
-There is a brief note on the specific comment style required for Fortran comments in the [Documenting the code](https://www.doxygen.nl/manual/docblocks.html#fortranblocks) section.
-A comment block readable by `Doxygen` begins with `!>` or `!<`, and can be continued over multiple lines with `!!` or `!>`.
-The usual Doxygen keywords then apply within these blocks.
+There is a brief note on the specific comment style required for Fortran comments in the
+[Documenting the code](https://www.doxygen.nl/manual/docblocks.html#fortranblocks) section. A comment block readable by `Doxygen`
+begins with `!>` or `!<`, and can be continued over multiple lines with `!!` or `!>`. The usual Doxygen keywords then apply within
+these blocks.
 
 An example subroutine would look like:
 
@@ -70,7 +73,7 @@ Our Doxygen configuration is defined in our [Doxyfile](./Doxyfile)
 To allow us to reuse the same markdown files for both our Ford and Doxygen documentation, we are making
 use of the preprocessing capabilities of Doxygen. In our `Doxyfile` We have specified the following config.
 
-```
+```txt
 ENABLE_PREPROCESSING = YES
 FILTER_PATTERNS = *.md=./documentation/doxygen/format_markdown_for_doxygen.sh
 ```
@@ -87,7 +90,7 @@ title: Tools
 
 and uncomments any Doxygen config blocks. For example,
 
-```
+```md
 <!-- Doxygen config
 @page doxygen Doxygen
 @ingroup documentation

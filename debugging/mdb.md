@@ -43,7 +43,8 @@ pip3 install termgraph
 
 ## Notes
 
-As part of the CONQUEST project. I (Connor Aird) tried using mdb on the UCL cluster, Myriad. I installed mdb following the above guide within an interactive session with the following modules loaded.
+As part of the CONQUEST project. I (Connor Aird) tried using mdb on the UCL cluster, Myriad. I installed mdb following the above
+guide within an interactive session with the following modules loaded.
 
 ```sh
 Currently Loaded Modulefiles:

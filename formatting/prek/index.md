@@ -21,7 +21,8 @@ To install prek follow their [installation instructions](https://prek.j178.dev/i
 
 ## Usage in this repo
 
-We utilise prek to enforce our chosen quality check rules. These rules are primarily defined in the `.pre-commit-config.yaml`. This file defines the pre-commit hooks we wish to enforce.
+We utilise prek to enforce our chosen quality check rules. These rules are primarily defined in the `.pre-commit-config.yaml`. This
+file defines the pre-commit hooks we wish to enforce.
 
 For example, we are enforce that Fortran files pass the [fortitude](../fortitude/index) linting checks:
 

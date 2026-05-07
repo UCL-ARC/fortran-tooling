@@ -6,11 +6,13 @@ title: Developer Docs
 @page developer-docs Developer Docs
 -->
 
-This repository aims to improve Fortran best practices within UCL and the wider Fortran community by documenting a growing list of Fortran tools recommended by [UCL ARC](https://ucl.ac.uk/arc).
+This repository aims to improve Fortran best practices within UCL and the wider Fortran community by documenting a growing list of
+Fortran tools recommended by [UCL ARC](https://ucl.ac.uk/arc).
 
 ## src code
 
-An implementation of [Conway's game of life](./game-of-life/) is provided as src code. We utilise this src code to provide examples of how to use our recommended Fortran tools.
+An implementation of [Conway's game of life](./game-of-life/) is provided as src code. We utilise this src code to provide examples
+of how to use our recommended Fortran tools.
 
 ## pre-commit
 

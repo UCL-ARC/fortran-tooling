@@ -7,12 +7,13 @@ title: Documentation
 @ingroup tools
 -->
 
-Building documentation from your source code has widely been used for a long time, and now commonly used tools like Doxygen work with Fortran.
+Building documentation from your source code has widely been used for a long time, and now commonly used tools like Doxygen work
+with Fortran.
 
-A number of automated documentation generation projects for Fortran have come and gone over the years, and below are documented a number of them.
-At the top of the list are the recommended and still supported documentation tools.
+A number of automated documentation generation projects for Fortran have come and gone over the years, and below are documented a
+number of them. At the top of the list are the recommended and still supported documentation tools.
 
-# Candidate Tools
+## Candidate Tools
 
 | Tool | Description | Known issues |
 | ---- | ------ | ----- |
