@@ -15,8 +15,7 @@ A tool for installing, i.e. `pip` or `homebrew`
 
 ## Installation
 
-To install fortitude we can utilise the provided `requirements.txt` by following
-[the pre-commit install instructions](../../README.html#pre-commit). The
+To install fortitude we can utilise the provided `requirements.txt` by following install instructions in the developer docs. The
 [quickstart page](https://fortitude.readthedocs.io/en/stable/#quickstart) for Fortitude details multiple other ways of installing
 the tool.
 
@@ -31,9 +30,9 @@ fortitude --config-file formatting/fortitude/fortitude.toml check
 The config file, [fortitude.toml](./fortitude.toml), we have provided in the above command contains our rules which alter the
 [default fortitude rules](https://fortitude.readthedocs.io/en/stable/rules/).
 
-### pre-commit
+### prek
 
-We have also integrated Fortitude with pre-commit. To set this up, follow the [instructions on the developer docs](../../README.html#pre-commit).
+We have also integrated Fortitude with prek. To set this up, follow the instructions in the developer docs.
 Once this is set up, if you then try and commit a poorly formatted Fortran file:
 
 ```sh
