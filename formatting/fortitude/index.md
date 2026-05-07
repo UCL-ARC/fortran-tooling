@@ -38,25 +38,26 @@ Once this is set up, if you then try and commit a poorly formatted Fortran file:
 
 ```sh
 $ git commit -m "Adding a bad commit"
-Fortran Tooling hooks....................................................Failed
-- hook id: fortran-tooling-hooks
+fortitude................................................................Failed
+- hook id: fortitude
 - exit code: 1
 
-testing/veggies/test_poisson.f90:2:5: C121 'use' statement missing 'only' clause
-  |
-1 | module veggies_poisson
-2 |     use poisson
-  |     ^^^^^^^^^^^ C121
-3 |     use veggies, only: &
-4 |             assert_equals, &
-  |
+  game-of-life/src/main.f90:10:5: C121 'use' statement missing 'only' clause
+     |
+   8 |     ! allow(C121)
+   9 |     use mpi
+  10 |     use cli
+     |     ^^^^^^^ C121
+  11 |     use game_of_life, only : check_for_steady_state, evolve_board, find_steady_state
+  12 |     use io, only : read_model_from_file
+     |
 
-fortitude: 1 files scanned.
-Number of errors: 1
+  fortitude: 1 files scanned.
+  Number of errors: 1
 
-For more information about specific rules, run:
+  For more information about specific rules, run:
 
-    fortitude explain X001,Y002,...
+      fortitude explain X001,Y002,...
 ```
 
 Fortitude has helpfully alerted us to our mistake. In the above case, we have tried to use a module without specifying which bits of
