@@ -273,7 +273,7 @@ IMAGE_PATH             = docs/assets
 # properly processed by Doxygen.
 
 # Remove `---` sections from the top of .md files before processing
-FILTER_PATTERNS = *.md=./documentation/doxygen/format_markdown_for_doxygen.sh
+FILTER_PATTERNS = *.md=./docs/doxygen/format_markdown_for_doxygen.sh
 
 # If the USE_MDFILE_AS_MAINPAGE tag refers to the name of a markdown file that
 # is part of the input, its contents will be placed on the main page
