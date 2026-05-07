@@ -4,7 +4,7 @@ title: Formatting
 
 <!-- Doxygen config
 @page formatting Formatting
-@ingroup formatting
+@ingroup tools
 -->
 
 ## Candidate Tools
@@ -15,5 +15,5 @@ title: Formatting
 | [prek](./prek/) | Tool to automate running quality check hooks before committing to git | [website](https://prek.j178.dev/) | |
 
 <!-- Doxygen config
-**Subpages**: @subpage fortitude
+**Subpages**: @subpage fortitude @subpage prek
 -->
