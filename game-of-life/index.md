@@ -12,7 +12,7 @@ the starting state of the system. The system is then evolved.
 
 To build and run the src code you can use one of the following commands from within this dir.
 
-#### CMake 
+#### CMake
 
 ```bash
 cmake -B build-cmake
@@ -52,8 +52,10 @@ mpirun -np <num_ranks> ./test/tests
 
 fpm does not currently support pFUnit thus we cannot build the tests using fpm.
 
-> Note: pFUnit relies on python to generate the tests and this must be available on your path as `python` (i.e. `python3` will not work)
+> Note: pFUnit relies on python to generate the tests and this must be available on your path as `python` (i.e. `python3` will not
+> work)
 
 ### Building pFUnit
 
-To execute the tests, the pFUnit library needs to be built locally. For convenience a [script](./scripts/build-pfunit.sh) is provided to fetch and build pFUnit. Run this script with the `-h` flag for more information.
+To execute the tests, the pFUnit library needs to be built locally. For convenience a [script](./scripts/build-pfunit.sh) is
+provided to fetch and build pFUnit. Run this script with the `-h` flag for more information.

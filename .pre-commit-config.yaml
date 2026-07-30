@@ -1,10 +1,48 @@
 ---
 repos:
   - repo: https://github.com/PlasmaFAIR/fortitude-pre-commit
-    rev : v0.7.2
+    rev : v0.8.0
     hooks:
-    # Idealy, we would not need to specify the entry point, but the fortitude cli 
-    # requires the `--config-file` option to be specified before the `check` subcommand
-    # and the pre-commit hook correctly states check in the entry.
     - id: fortitude
-      entry: fortitude --config-file formatting/fortitude/fortitude.toml check --force-exclude
+      args:
+      - --config-file=formatting/fortitude/fortitude.toml
+  - repo: https://github.com/crate-ci/typos
+    rev: v1.34.0
+    hooks:
+      - id: typos
+        args:
+          - --force-exclude
+          - --hidden
+  - repo: https://github.com/igorshubovych/markdownlint-cli
+    rev: v0.45.0
+    hooks:
+      - id: markdownlint-fix
+        args:
+          - --dot
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: check-added-large-files
+        args:
+          - --enforce-all
+          - --maxkb=1000
+        exclude: \.dic$
+      - id: check-case-conflict
+      - id: check-executables-have-shebangs
+      - id: check-merge-conflict
+      - id: check-shebang-scripts-are-executable
+      - id: destroyed-symlinks
+      - id: end-of-file-fixer
+      - id: mixed-line-ending
+        args:
+          - --fix=lf
+      - id: trailing-whitespace
+  - repo: https://github.com/errata-ai/vale
+    rev: v3.13.0
+    hooks:
+      - id: vale
+        name: vale sync
+        pass_filenames: false
+        args: [sync]
+      - id: vale
+        args: [--config=./.vale.ini]

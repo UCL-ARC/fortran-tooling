@@ -14,7 +14,7 @@ content=$(<"$input")
 
 # 1️⃣ Remove HTML comment markers around Doxygen config blocks
 #    This looks for <!-- Doxygen config ... --> and extracts the middle.
-content=$(printf "%s" "$content" | sed -E '/<!--[[:space:]]*Doxygen config[[:space:]]*$/,/-->/{ 
+content=$(printf "%s" "$content" | sed -E '/<!--[[:space:]]*Doxygen config[[:space:]]*$/,/-->/{
     /<!--/d
     /-->/d
 }' )

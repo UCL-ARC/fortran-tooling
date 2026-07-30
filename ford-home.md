@@ -5,7 +5,7 @@ favicon: docs/assets/favicon.ico
 license: mit
 project_github: https://github.com/UCL-ARC/fortran-tooling
 project_website: http://github-pages.arc.ucl.ac.uk/fortran-tooling
-summary: Recommendations and examples for Fortran tools used in UCL’s Advanced Research Computing center
+summary: Recommendations and examples for Fortran tools used in UCL’s Advanced Research Computing centre
 author: UCL, ARC
 author_description: Advanced Research Computing Centre
 author_pic: media/ucl-arc-logo.png
@@ -22,7 +22,7 @@ extensions: f90
 fixed_length_limit: false
 predocmark: >
 preprocess: false
-creation_date: %Y-%m-%d %H:%M (UTC%z)
+creation_date: (UTC%z) %Y-%m-%d %H:%M
 css: documentation/ford/css/site-wide.css
 display: public
          protected

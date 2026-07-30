@@ -6,12 +6,12 @@ title: Ford
 @ingroup documentation
 -->
 
-FORtran Documenter ([FORD]((https://github.com/Fortran-FOSS-Programmers/ford))) is an automatic documentation generator designed for Fortran.
+FORtran Documenter ([FORD]((https://github.com/Fortran-FOSS-Programmers/ford))) is an automatic documentation generator designed
+for Fortran.
 
-Originally conceived due to Doxygen's historical lack of Fortran support, FORD has turned into a well established and feature-rich documentation project.
-See [the FORD repository](https://github.com/Fortran-FOSS-Programmers/ford) for a full description of the features available.
-
-TODO list some of the useful bits we're interested in here/are unique from Doxygen?
+Originally conceived due to Doxygen's historical lack of Fortran support, FORD has turned into a well established and feature-rich
+documentation project. See [the FORD repository](https://github.com/Fortran-FOSS-Programmers/ford) for a full description of the
+features available.
 
 ## Installation
 
@@ -49,7 +49,7 @@ for example, we do the following.
 
 ```f90
 !> Module for doing something cool
-!> 
+!>
 !> It does this cool thing by being good
 module cool_mod
     !...
@@ -61,7 +61,7 @@ arguments. For example,
 
 ```f90
 !> Program for doing something cool
-!> 
+!>
 !> It does this cool thing by being good
 program cool_prog
     use cool_mod
@@ -95,7 +95,7 @@ are organised following the [instructions defined in the Ford documentation](htt
 
 Essentially, there is an `index.md` at the root of our repository which allows us to specify that
 the `page_dir` Ford should use as the root of our static page hierarchy is the root of our
-repository. We do this within the header of the `README.md`. 
+repository. We do this within the header of the `README.md`.
 
 ```yaml
 page_dir: .
@@ -104,7 +104,7 @@ page_dir: .
 With this information, Ford will then search all subdirectories for an `index.md` with a
 header containing a title like so.
 
-```
+```md
 ---
 title: Tools
 ---
@@ -114,9 +114,9 @@ If one is found, this will be added as a static page. We can add further subpage
 `.md` files within the same dir as the `index.md` discovered by Ford and again adding a
 similar header containing a title. We can also add subpages by including additional `index.md`
 files within further subdirectories and again the process repeats. For example, the following
-file structure...
+file structure:
 
-```
+```txt
 root of repo
 |-- index.md (title: Tools)
 |-- documentation
@@ -129,13 +129,13 @@ root of repo
 |   |-- pfunit
 |       |-- index.md (title: pFUnit)
 |-- src
-    |-- README.md 
+    |-- README.md
 ```
 
 would produce the following static page structure (notice src is ignored as it does not
 contain and `index.md` with a title).
 
-```
+```txt
 Tools
 |-- Documentation
 |   |-- Doxygen
