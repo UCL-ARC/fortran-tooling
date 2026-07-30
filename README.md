@@ -46,7 +46,7 @@ ford ford-home.md
 This will create a folder `docs/ford-docs` within the root of the repo. Within `docs/ford-docs` there will be an
 `index.html` file. Open this file in a browser to view the generated documentation. Further
 information about how Ford is set up within this repo is provided in the generated
-documentation at `Tools->Documentation->Ford`.
+documentation at `Tools->Documenting->Ford`.
 
 
 ### Doxygen docs
@@ -54,10 +54,10 @@ documentation at `Tools->Documentation->Ford`.
 To generate the Doxygen documentation locally run the command
 
 ```sh
-doxygen documentation/doxygen/Doxyfile
+doxygen docs/doxygen/Doxyfile
 ```
 
 This will create a folder `docs/doxygen-docs` within the root of the repo. Within `docs/doxygen-docs` there will
 be an `index.html` file. Open this file in a browser to view the generated dociumentation. Further information
 about how Doxygen is set up within this repo is provided in the generated documentation at
-`Tools->documentaion->Doxygen`.
+`Tools->Documenting->Doxygen`.

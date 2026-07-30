@@ -25,5 +25,5 @@ Fortran, as listed below.
 
 
 <!-- Doxygen config
-**Subpages:** @subpage debugging @subpage documentation @subpage formatting @subpage testing
+**Subpages:** @subpage debugging @subpage documenting @subpage formatting @subpage testing
 -->

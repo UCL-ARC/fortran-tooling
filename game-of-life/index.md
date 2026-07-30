@@ -6,7 +6,7 @@ title: Game of Life
 @page game-of-life Game of Life
 -->
 
-Take a look at the [src](./game-of-life/src/) code provided. This is an MPI parallelized implementation of
+Take a look at the [src](https://github.com/UCL-ARC/fortran-tooling/tree/main/game-of-life/src) code provided. This is an MPI parallelized implementation of
 [Conway's game of life](http://en.wikipedia.org/wiki/Conway%27s_Game_of_Life). The program reads in a data file which represents
 the starting state of the system. The system is then evolved.
 
